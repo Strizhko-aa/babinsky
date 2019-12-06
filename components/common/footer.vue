@@ -1,32 +1,26 @@
 <template lang='pug'>
 .footer
-	.footer__left.footer__copywrite(v-html='data.copywrite')
+	.footer__left.footer__copywrite © {{lastName}}, {{year}}
 	.footer__right
 		.footer__menu
-			a.footer__menu-item(v-for='(item, index) in data.items' :key='index' v-html='item.title' :href='item.href')
+			a.footer__menu-item(href='#contacts') {{ menu.contactsText }}
+			a.footer__menu-item(href='#terms') {{ menu.termsText }}
 </template>
 
 <script>
-	export default {
-		props: {
-			data: {
-				type: Object,
-				default: {
-					copywrite: '© Babinskiy, 2019',
-					items: [
-						{
-							title: 'contacts',
-							href: '#'
-						},
-						{
-							title: 'terms of privacy',
-							href: '#'
-						},
-					]
-				}
-			},
-		},
-	}
+import { mapState } from 'vuex'
+
+export default {
+  data() {
+    return {
+      year: new Date().getFullYear()
+    }
+  },
+  computed: {
+    ...mapState('author', ['lastName']),
+    ...mapState('navigation', ['menu']),
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -51,7 +45,10 @@
 		@include mobile {
 			left: vmin(20);
 			bottom: vmin(30);
-		}
+    }
+
+    animation: text-in 2s both $bezier;
+    animation-delay: 400ms;
 	}
 
 	&__right {
@@ -62,7 +59,10 @@
 
 		@include mobile {
 			display: none;
-		}
+    }
+
+    animation: text-in 2s both $bezier;
+    animation-delay: 400ms;
 	}
 
 	&__menu {

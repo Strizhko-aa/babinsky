@@ -3,25 +3,28 @@
 	.intro__inner
 		.intro__top.container
 			.intro__top-inner
-				h1.intro__title(v-html='data.title')
-				p.intro__lead(v-html='data.lead')
-			.intro__bg
+				h1.intro__title {{ fullName }}
+				p.intro__lead(v-html='lead')
+			.intro__bg(v-bind:style="background")
 		.intro__bottom
 </template>
 
 <script>
-	export default {
-		props: {
-			data: {
-				type: Array,
-				default: {
-					title: 'Alexander Babinskiy',
-					lead: 'abstract expressionism artist <br>working with acryl & oil',
-					img: 'https://placeimg.com/1920/1080/arch'
-				}
-			},
-		},
-	}
+import { mapGetters, mapState } from 'vuex'
+
+export default {
+  computed: {
+    ...mapGetters('author', ['fullName']),
+    ...mapState('author', ['lead']),
+    ...mapState('navigation', {
+      background: state => ({
+        'background-image': `url(${state.background})`,
+        'background-size': 'cover',
+        'background-position': 'center',
+      })
+    }),
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -62,6 +65,10 @@
 		width: 100%;
 		height: 100%;
 		opacity: 0.35;
+
+
+    animation: image-in 4s both;
+    animation-delay: 400ms;
 	}
 	&__title {
 		font-family: $oswald;
@@ -77,6 +84,9 @@
 			line-height: vmin(48);
 			margin: 0 0 vmin(15);
 		}
+
+    animation: text-in 2s both $bezier;
+    animation-delay: 250ms;
 	}
 	&__lead {
 		font-style: normal;
@@ -90,7 +100,10 @@
 			font-size: vmin(16);
 			line-height: vmin(20);
 			margin: 0 0 vmin(30);
-		}
+    }
+
+    animation: text-in 2s both $bezier;
+    animation-delay: 400ms;
 	}
 }
 </style>

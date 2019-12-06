@@ -1,6 +1,6 @@
 <template lang='pug'>
 .wrapper
-	section-header(:lang='lang')
+	section-header
 	nuxt
 	section-footer
 </template>
@@ -8,16 +8,16 @@
 <script>
 	import header from '@/components/common/header.vue'
 	import footer from '@/components/common/footer.vue'
+  import { mapState } from 'vuex'
+
 	export default {
 		components: {
 			'section-header': header,
 			'section-footer': footer,
 		},
-		data() {
-			return {
-				lang: 'en'
-			}
-		},
+    mounted() {
+      this.$store.dispatch('locale/getLocales')
+    }
 	}
 </script>
 

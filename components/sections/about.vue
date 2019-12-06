@@ -3,23 +3,17 @@
 	.container
 		.about__inner
 			.about__photo
-				img(:src='data.photo')
+				img(:src='photo')
 			.about__content
-				h2.about__title(v-html='data.title')
-				p.about__lead(v-html='data.lead')
+				h2.about__title(v-html='title')
+				p.about__lead(v-html='lead')
 </template>
 
 <script>
+import { mapState } from 'vuex';
 	export default {
-		props: {
-			data: {
-				type: Array,
-				default: {
-					title: 'Alexander Babinskiy',
-					lead: 'Alexander Babinskiy was born in 1964 in Moscow. He enjoyed art history in his younger years but chose a different path professionally. <br><br>After more than 25 years in journalism, communications, and PR, Babinskiy held the courage to return to his youth’s passion – painting. After spending several years’ hard work under the guidance of prominent Moscow masters, Babinskiy amassed outstanding success.',
-					photo: 'https://placeimg.com/452/515/people'
-				}
-			},
+		computed: {
+      ...mapState('about', ['title', 'lead', 'photo']),
 		},
 	}
 </script>

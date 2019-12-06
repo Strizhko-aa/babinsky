@@ -3,45 +3,23 @@
 	.container
 		.contacts__inner
 			.contacts__top
-				h2.contacts__title(v-html='data.title')
-				p.contacts__lead(v-html='data.lead')
+				h2.contacts__title(v-html='title')
+				p.contacts__lead(v-html='lead')
 			.contacts__items
-				.contacts__item(v-for='(item, index) in data.contacts' :key='index')
+				.contacts__item(v-for='(item, index) in contacts' :key='index')
 					.contacts__item-title(v-html='item.title')
 					.contacts__item-value
 						a.contacts__link(:data-type='item.type' :href='`tel:${item.value}`' v-if='item.type === "phone"') {{item.value}}
 						a.contacts__link(:data-type='item.type' :href='`mailto:${item.value}`' v-if='item.type === "email"') {{item.value}}
-						a.contacts__link(:data-type='item.type' :href='`https://www.instagram.com/${item.value}/`' v-if='item.type === "instagram"') @{{item.value}}
+						a.contacts__link(:data-type='item.type' :href='`https://www.instagram.com/${item.value}/`' v-if='item.type === "instagram"') {{item.value}}
 </template>
 
 <script>
+import { mapState } from 'vuex';
 	export default {
-		props: {
-			data: {
-				type: Array,
-				default: {
-					title: 'Contacts',
-					lead: 'I help but mention one of the greatest artists, a visionary of the evolution of painting - William Turner.',
-					contacts: [
-						{
-							type: 'phone',
-							title: 'phone:',
-							value: '+7 892 758 34 32'
-						},
-						{
-							type: 'email',
-							title: 'email:',
-							value: 'babinskiy@mail.com'
-						},
-						{
-							type: 'instagram',
-							title: 'instagram',
-							value: 'babinskiy_art'
-						},
-					]
-				}
-			},
-		},
+		computed: {
+      ...mapState('contacts', ['title', 'lead', 'contacts'])
+    }
 	}
 </script>
 

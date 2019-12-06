@@ -1,9 +1,9 @@
 {
+  "private": true,
   "name": "babinskiy",
   "version": "1.0.0",
-  "description": "My exquisite Nuxt.js project",
+  "description": "Alexander Babinskiy. Official site",
   "author": "Ivan Vinokurov",
-  "private": true,
   "scripts": {
     "dev": "nuxt",
     "build": "nuxt build",
@@ -11,20 +11,27 @@
     "generate": "nuxt generate"
   },
   "dependencies": {
-    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/axios": "^5.8.0",
     "@nuxtjs/style-resources": "^1.0.0",
-    "coffee-loader": "^0.9.0",
-    "coffeescript": "^2.4.1",
-    "fullpage-nuxt": "^0.0.3",
+    "contentful": "^7.10.0",
     "imagesloaded": "^4.1.4",
     "jquery": "^3.4.1",
     "masonry-layout": "^4.2.2",
+    "nuxt": "^2.10.2",
+    "random-obj-prop": "^2.0.0",
+    "unique-random-array": "^2.0.0",
+    "vue-markdown": "^2.2.4"
+  },
+  "browserslist": [
+    "> 5%"
+  ],
+  "devDependencies": {
+    "eslint": "^6.7.2",
+    "eslint-loader": "^3.0.2",
+    "eslint-plugin-nuxt": "^0.5.0",
     "node-sass": "^4.13.0",
-    "nuxt": "^2.0.0",
-    "nuxt-fullpage.js": "^0.0.3",
     "pug": "2.0.3",
     "pug-plain-loader": "^1.0.0",
     "sass-loader": "^8.0.0"
-  },
-  "devDependencies": {}
+  }
 }
