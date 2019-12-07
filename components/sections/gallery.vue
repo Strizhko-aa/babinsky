@@ -9,11 +9,17 @@
         .grid-sizer
         nuxt-link.gallery__item(:to='`/gallery/${index}`' v-for='(item, index) in items' :key='index' :data-index='index' :class='`box-${index}`')
           img(:src='item.img')
+      .scroll-trigger(v-observe-visibility="visibilityChanged")
 
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+
+import Vue from 'vue'
+import { ObserveVisibility } from 'vue-observe-visibility'
+
+Vue.directive('observe-visibility', ObserveVisibility)
 
 if (process.browser) {
   var Masonry = require('masonry-layout');
@@ -39,55 +45,7 @@ export default {
         items: [
 						{
 							img: 'https://placeimg.com/450/450/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/644/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/450/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/315/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/307/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/642/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/450/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/561/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/450/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/315/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/415/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/642/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/450/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/644/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/450/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/315/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/307/arch'
-						},
+						}
 					]
       }
     },
@@ -96,6 +54,11 @@ export default {
     ...mapState('gallery', ['gallery'])
   },
   methods: {
+    visibilityChanged (visible, second) {
+      if (visible) {
+        this.loadMore()
+      }
+    },
     loaded() {
       ImagesLoaded(this.selector, () => {
         this.$emit("masonry-images-loaded");
@@ -110,14 +73,25 @@ export default {
         * replace the following with code to hit
         * an endpoint to pull in more data. **/
       this.loading = true;
+      this.items.push({
+        img: 'https://placeimg.com/450/315/arch'
+      });
+      this.items.push({
+        img: 'https://placeimg.com/450/315/arch'
+      });
+      this.items.push({
+        img: 'https://placeimg.com/450/315/arch'
+      });
+        // console.log(this.$parent.$refs.fullpage)
+      console.log(this.items.length)
+      this.loading = false;
       setTimeout(e => {
-        for (var i = 0; i < 20; i++) {
-          this.items.push({
-							img: 'https://placeimg.com/450/315/arch'
-						});
-        }
-        this.loading = false;
-      }, 200);
+        fullpage_api.reBuild()
+        console.log(this.masonry)
+        this.masonry.destroy()
+        this.masonry = new Masonry(this.selector, this.options);
+        console.log('rebuild')
+      }, 3000);
       /**************************************/
 
     }
@@ -130,16 +104,6 @@ export default {
   mounted() {
     this.$store.dispatch('gallery/getGallery')
     this.loaded()
-
-    const gallery = this.$refs.gallery.parentElement
-    gallery.addEventListener('scroll', e => {
-      console.log('scroll')
-      console.log(gallery.scrollTop + gallery.clientHeight, gallery.scrollHeight)
-      if (gallery.scrollTop + gallery.clientHeight >= gallery.scrollHeight) {
-        // this.loadMore();
-
-      }
-    },false)
   }
 }
 </script>
@@ -227,5 +191,16 @@ export default {
     display: block;
     max-width: 100%;
   }
+}
+
+.scroll-trigger {
+  width: 50vw;
+  height: 50vh;
+  // background-color: transparent;
+  // background-color: red;
+  border: red 1px solid;
+  position: absolute;
+  bottom: 0;
+  pointer-events: none;
 }
 </style>

@@ -25,7 +25,8 @@
     "random-obj-prop": "^2.0.0",
     "unique-random-array": "^2.0.0",
     "vue-infinite-loading": "^2.4.4",
-    "vue-markdown": "^2.2.4"
+    "vue-markdown": "^2.2.4",
+    "vue-observe-visibility": "^0.4.6"
   },
   "browserslist": [
     "> 5%"
