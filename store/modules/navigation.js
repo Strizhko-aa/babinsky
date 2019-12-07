@@ -26,11 +26,6 @@ export const state = () => ({
         img: '#'
       },
       {
-        title: 'news',
-        href: '#news',
-        img: '#'
-      },
-      {
         title: 'contacts',
         href: '#contacts',
         img: '#'

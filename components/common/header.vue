@@ -3,7 +3,7 @@
   nuxt-link.header__logo(to="/" v-html='lastName')
   .header__langs
     .header__lang(v-for='(lang, index) in locales' :key='index' v-html='lang.slice(0, 2)' @click='changeLang(lang)' :class='{"header__lang--active": lang === locale}')
-  .header__menu(@click='openMenu()')
+  .header__menu(@click='toggleMenu()')
     .header__menu-button(v-if='!menuShow')
       span {{ menu.openText }}
     .header__menu-button(v-else)
@@ -13,7 +13,7 @@
   .header__menu-wrapper(:class='{"header__menu-wrapper--active": menuWrapper}')
     .header__menu-top(:class='{"header__menu-top--active": menuShow}')
       .header__menu-items
-        .header__menu-item(v-for='(item, index) in menu.items' :key='index' v-html='item.title')
+        a.header__menu-item(v-for='(item, index) in menu.items' :key='index' v-html='item.title' :href='item.href' @click='toggleMenu()')
     .header__menu-bottom(:class='{"header__menu-bottom--active": menuShow}')
 </template>
 
@@ -28,7 +28,7 @@ export default {
     }
   },
   methods: {
-    openMenu() {
+    toggleMenu() {
       this.menuShow = !this.menuShow;
       if (this.menuShow) {
         this.menuWrapper = true
@@ -95,6 +95,10 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
+
+    @include mobile {
+      display: none;
+    }
   }
 
   &__lang {
@@ -285,10 +289,12 @@ export default {
       color: #FFFFFF;
       transition: all 150ms ease;
       cursor: pointer;
+      text-decoration: none;
 
       &:hover {
         letter-spacing: vw(12.8);
-        transform: translateX(vw(6.4))
+        transform: translateX(vw(6.4));
+        text-decoration: none;
       }
     }
   }

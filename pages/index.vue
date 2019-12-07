@@ -2,11 +2,11 @@
 //- .fullpage-container
   //- full-page(:options="options" id="fullpage")
 .foobar
-  section-intro.section(data-anchor="intro")
-  section-gallery.section(data-anchor="gallery")
-  section-about.section(data-anchor="about")
-  //- section-news
-  section-contacts.section(data-anchor="contacts")
+  section-intro.section#main
+  section-gallery.section#gallery
+  section-about.section#about
+  //- section-news.section#news
+  section-contacts.section#contacts
 </template>
 
 <script>
