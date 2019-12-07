@@ -5,18 +5,24 @@
       .gallery__top
         h2.gallery__title(v-html='galleryName')
         .gallery__photographer <span>Photo by:</span> Matvey Sysoev
-      .gallery__items
-        .grid-sizer
-        nuxt-link.gallery__item(:to='`/gallery/${item.sys.id}`' v-for='(item, index) in gallery' :key='index' :data-index='index' :class='`box-${index}`')
+      .grid-wrap
+        .grid-wrap
+        nuxt-link.grid-elem(:to='`/gallery/${item.sys.id}`' v-for='(item, index) in gallery' :key='index' :data-index='index' :class='`box-${index}`')
           img(:src='item.fields.image_small.fields.file.url')
+      .scroll-trigger(v-observe-visibility="visibilityChanged")
 
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex';
 
+import Vue from 'vue'
+import { ObserveVisibility } from 'vue-observe-visibility'
+
+Vue.directive('observe-visibility', ObserveVisibility)
+
 if (process.browser) {
-  var Masonry = require('masonry-layout');
+  // var Masonry = require('masonry-layout');
   var ImagesLoaded = require('imagesloaded');
 }
 
@@ -26,12 +32,12 @@ export default {
         loadCount: 9,
         selector: ".gallery__items",
         loading: false,
-        options: {
-          columnWidth: ".grid-sizer",
-          percentPosition: true,
-          itemSelector: ".gallery__item",
-        },
-        masonry: null,
+        // options: {
+        //   columnWidth: ".grid-sizer",
+        //   percentPosition: true,
+        //   itemSelector: ".gallery__item",
+        // },
+        // masonry: null,
       }
     },
   computed: {
@@ -39,20 +45,33 @@ export default {
     ...mapState('gallery', ['gallery'])
   },
   methods: {
-    loaded() {
-      ImagesLoaded(this.selector, () => {
-        this.$emit("masonry-images-loaded");
-        // activate mansonry grid
-        this.masonry = new Masonry(this.selector, this.options);
-        this.$emit("masonry-loaded", this.masonry);
-      });
+    visibilityChanged (visible, second) {
+      // if (visible) {
+      //   this.loadMore()
+      // }
     },
-  },
-  watch: {
-    data() {
-      this.loaded();
+    loadMore() {
+
+      /** This is only for this demo, you could
+        * replace the following with code to hit
+        * an endpoint to pull in more data. **/
+      this.loading = true;
+        // console.log(this.$parent.$refs.fullpage)
+      console.log(this.items.length)
+      this.loading = false;
+      setTimeout(e => {
+        fullpage_api.reBuild()
+        console.log('rebuild')
+      }, 3000);
+      /**************************************/
+
     }
   },
+  // watch: {
+  //   data() {
+  //     this.loaded();
+  //   }
+  // },
   mounted() {
     const store = this.$store
     const self = this
@@ -60,16 +79,20 @@ export default {
     this.$root.context.app.contentful.getEntries({
       content_type: 'picture',
       locale: store.state.locale.locale,
-      order: 'fields.rating'
+      order: 'fields.rating',
+      // skip: 0,
+      // limit: 5
     }).then((pictures) => {
-      return store.dispatch('gallery/putGallery', pictures)
-    }).then(_ => {
-      self.loaded()
+      store.dispatch('gallery/putGallery', pictures)
+      setTimeout(() => {
+        fullpage_api.reBuild()
+      }, 1500);
+      setTimeout(() => {
+        fullpage_api.reBuild()
+      }, 2000);
     }).catch(err => {
       console.error(err)
     })
-
-    this.loaded()
   }
 }
 </script>
@@ -156,5 +179,34 @@ export default {
     display: block;
     max-width: 100%;
   }
+}
+
+.scroll-trigger {
+  width: 50vw;
+  height: 50vh;
+  background-color: transparent;
+  // background-color: red;
+  // border: red 1px solid;
+  position: absolute;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.grid-wrap {
+    column-count: auto;
+    column-gap: 20px;
+    column-width: 500px;
+}
+.grid-elem {
+    display: inline-block;
+    margin: 0 0 10px;
+    width: 100%;
+    position: relative;
+}
+
+.grid-elem img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 2px;
 }
 </style>

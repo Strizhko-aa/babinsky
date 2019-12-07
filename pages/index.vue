@@ -1,12 +1,20 @@
 <template lang='pug'>
+.fullpage-container
+  no-ssr
+    full-page(:options="options" ref="fullpage")
+      section-intro.section(data-anchor="intro")
+      section-gallery.section(data-anchor="gallery")
+      section-about.section(data-anchor="about")
+      //- section-news.section#news
+      section-contacts.section(data-anchor="contacts")
 //- .fullpage-container
   //- full-page(:options="options" id="fullpage")
-.foobar
-  section-intro.section#intro
-  section-gallery.section#gallery
-  section-about.section#about
-  //- section-news.section#news
-  section-contacts.section#contacts
+//- .foobar
+//-   section-intro.section#intro
+//-   section-gallery.section#gallery
+//-   section-about.section#about
+//-   //- section-news.section#news
+//-   section-contacts.section#contacts
 </template>
 
 <script>
@@ -15,6 +23,10 @@ import gallery from '~/components/sections/gallery.vue'
 import about from '~/components/sections/about.vue'
 // import news from '~/components/sections/news.vue'
 import contacts from '~/components/sections/contacts.vue'
+
+if (process.browser) {
+	require('fullpage.js/vendors/scrolloverflow')
+}
 
 
 export default {
@@ -70,8 +82,20 @@ export default {
         // anchors: ['gallery',],
         anchors: ['intro', 'gallery', 'about', 'contacts'],
         scrollOverflow: true,
+        // scrollOverflowOptions: {
+        //   probeType: 3,
+        //   scrollBar: true,
+        //   scrollbars: true,
+        //   mouseWheel: true,
+        //   interactiveScrollbars: true,
+        //   shrinkScrollbars: 'scale',
+        //   // fadeScrollbars: true,
+        //   bounceEasing: 'elastic', 
+        //   bounceTime: 1200,
+        // },
         fadingEffect: true,
         controlArrows: false,
+        licenseKey: '00122C31-74D341B7-81D0999A-E51563F7',
         onLeave: function(origin, destination, direction) {
           if(origin.index == 0 && direction =='down'){
             self.$store.commit('navigation/SET_DARK_THEME')
@@ -87,8 +111,17 @@ export default {
       }
     }
   },
+  // mounted() {
+  //   this.$store.dispatch('author/getAuthor')
+  //   this.$store.dispatch('navigation/getNavigation')
+  //   this.$store.dispatch('about/getAbout')
+  //   this.$store.dispatch('contacts/getContacts')
+  // },
 }
 </script>
 
 <style>
+.fp-scroller {
+  transition-duration: 600ms !important;
+}
 </style>

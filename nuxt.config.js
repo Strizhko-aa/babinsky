@@ -51,7 +51,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/contentful.js',
+    '~/plugins/contentful',
+    { src: '~/plugins/fullpage', mode: 'client' },
     '~/plugins/i18n.js'
   ],
   /*
