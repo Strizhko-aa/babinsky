@@ -69,6 +69,7 @@ export default {
     '@nuxtjs/style-resources',
     // 'fullpage-nuxt',
     // 'nuxt-fullpage.js',
+    '@nuxtjs/netlify-files',
   ],
 
   styleResources: {
@@ -101,6 +102,9 @@ export default {
       require('autoprefixer')()
     ],
 
+  },
+  generate: {
+    fallback: true
   },
 
   /*

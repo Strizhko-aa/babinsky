@@ -3,15 +3,19 @@
 	.container
 		.work__inner
 			.work__left
-				h1.work__title {{data.title}}
+				h1.work__title {{ picture.fields.name }}
 				.work__meta
-					.work__meta-item(v-for='(item, index) in data.options')
-						.work__meta-title(v-if='item.title') {{item.title}}:
-						.work__meta-value(v-html='item.value')
+					.work__meta-item
+						.work__meta-title(v-if='picture.fields.size') {{ $t('size') }}:
+						.work__meta-value(v-html='picture.fields.size')
+						.work__meta-title(v-if='picture.fields.description')
+						.work__meta-value(v-html='picture.fields.description')
+						.work__meta-title(v-if='picture.fields.date') {{ $t('year') }}:
+						.work__meta-value(v-html='picture.fields.date')
 			.work__center
 				.work__zoom
-					img.work__small(:src='data.small')
-					img.work__origin(:src='data.origin')
+					img.work__small(:src='picture.fields.image_medium.fields.file.url')
+					img.work__origin(:src='picture.fields.image_large.fields.file.url')
 			.work__right
 </template>
 
@@ -43,61 +47,40 @@
       this.$store.commit('navigation/SET_DARK_THEME')
     },
     async asyncData(context) {
-      return context.app.contentful.getLocales()
+      await context.app.contentful.getLocales()
         .then(({items}) => {
           return context.store.dispatch('locale/putLocales', items)
         }).catch((err) => {
           console.log("error", err);
         })
+
+      const picture = context.store.state.gallery.gallery_obj[context.route.params.id]
+
+      if (!picture) {
+        const store = context.store
+
+        return context.app.contentful.getEntries({
+          content_type: 'picture',
+          locale: context.store.state.locale.locale,
+          order: 'fields.rating'
+        }).then((pictures) => {
+          return context.store.dispatch('gallery/putGallery', pictures)
+        }).then(() => {
+          return {
+            picture: context.store.state.gallery.gallery_obj[context.route.params.id]
+          }
+        }).catch(err => {
+          context.error(err)
+        })
+      }
+
+      return {
+        picture: picture
+      }
     },
 		mounted () {
       this.workHover();
-      if (!this.picture) {
-        const store = this.$store
-        const id = this.$route.params.id
-
-        this.$root.context.app.contentful.getEntry(id, {
-          content_type: 'picture',
-          locale: store.state.locale.locale,
-          order: 'fields.rating'
-        }).then((pictures) => {
-          return store.dispatch('gallery/putGallery', pictures)
-        }).catch(err => {
-          console.error(err)
-        })
-      }
     },
-    computed: {
-      ...mapState('gallery', {
-          picture: function (state) {
-            return state.gallery_obj[this.$route.params.id]
-          }
-        })
-    },
-		props: {
-			data: {
-				type: Array,
-				default: {
-					title: 'tOPP',
-					options: [
-						{
-							title: 'size',
-							value: '110 x 130'
-						},
-						{
-							title: null,
-							value: 'acrylic & mixed media <br>on canvas'
-						},
-						{
-							title: 'year',
-							value: '2019'
-						},
-					],
-					small: 'https://placeimg.com/940/727/arch',
-					origin: 'https://placeimg.com/1880/1454/arch',
-				}
-			},
-		},
 	}
 </script>
 

@@ -74,6 +74,8 @@ export default {
   // },
   mounted() {
     const store = this.$store
+    const self = this
+
     this.$root.context.app.contentful.getEntries({
       content_type: 'picture',
       locale: store.state.locale.locale,
