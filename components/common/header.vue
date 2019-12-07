@@ -1,5 +1,5 @@
 <template lang='pug'>
-.header
+.header(:class='{"header--dark": darkTheme}')
   nuxt-link.header__logo(to="/" v-html='lastName')
   .header__langs
     .header__lang(v-for='(lang, index) in locales' :key='index' v-html='lang.slice(0, 2)' @click='changeLang(lang)' :class='{"header__lang--active": lang === locale}')
@@ -44,7 +44,7 @@ export default {
   computed: {
     ...mapState('locale', ['locales', 'locale']),
     ...mapState('author', ['lastName']),
-    ...mapState('navigation', ['menu'])
+    ...mapState('navigation', ['menu', 'darkTheme'])
   }
 }
 </script>

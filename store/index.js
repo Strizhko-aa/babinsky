@@ -7,7 +7,7 @@ import about from './modules/about';
 import contacts from './modules/contacts';
 import gallery from './modules/gallery';
 
-import langChangerPlugin from '../plugins/lang_changer'
+import langChangerPlugin from '../plugins/langChanger'
 
 const createStore = () => {
   return new Vuex.Store({

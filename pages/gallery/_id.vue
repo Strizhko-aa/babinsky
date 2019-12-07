@@ -16,30 +16,64 @@
 </template>
 
 <script>
-	import $ from 'jquery';
+  import $ from 'jquery';
+  import { mapState } from 'vuex';
+
 	export default {
 		methods: {
 			workHover() {
 				$('.work__zoom').on( "mousemove", function( event ) {
 					var zoomHeight = $('.work__origin').outerHeight() - $(this).outerHeight();
 					var zoomWidth = $('.work__origin').outerWidth() - $(this).outerWidth();
-					
+
 					var top = 	( ( $(this).offset().top - event.pageY ) * ( zoomHeight / $(this).outerHeight() ) ) - $(this).outerHeight();
 					var left =  ( ( $(this).offset().left - event.pageX ) * parseInt( zoomWidth / $(this).outerWidth() ) ) - $(this).outerWidth();
 
 					var translate = left+"px,"+top+"px";
-					
+
 					$('.work__origin').css({
 							"-webkit-transform":"translate("+translate+")",
 							"-ms-transform":"translate("+translate+")",
 							"transform":"translate("+translate+")"
 					});
 				});
-			}
-		},
+      }
+    },
+    beforeMount() {
+      this.$store.commit('navigation/SET_DARK_THEME')
+    },
+    async asyncData(context) {
+      return context.app.contentful.getLocales()
+        .then(({items}) => {
+          return context.store.dispatch('locale/putLocales', items)
+        }).catch((err) => {
+          console.log("error", err);
+        })
+    },
 		mounted () {
-			this.workHover();
-		},
+      this.workHover();
+      if (!this.picture) {
+        const store = this.$store
+        const id = this.$route.params.id
+
+        this.$root.context.app.contentful.getEntry(id, {
+          content_type: 'picture',
+          locale: store.state.locale.locale,
+          order: 'fields.rating'
+        }).then((pictures) => {
+          return store.dispatch('gallery/putGallery', pictures)
+        }).catch(err => {
+          console.error(err)
+        })
+      }
+    },
+    computed: {
+      ...mapState('gallery', {
+          picture: function (state) {
+            return state.gallery_obj[this.$route.params.id]
+          }
+        })
+    },
 		props: {
 			data: {
 				type: Array,

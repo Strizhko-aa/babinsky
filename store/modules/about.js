@@ -1,5 +1,3 @@
-import {createClient} from '../../plugins/contentful';
-const contentfulClient = createClient();
 
 export const state = {
   title: 'Alexander Babinskiy',
@@ -16,15 +14,8 @@ export const mutations = {
 };
 
 export const actions = {
-  getAbout({commit, state, rootState}) {
-    contentfulClient.getEntry(process.env.CTF_ABOUT_ID, {
-      content_type: 'about',
-      locale: rootState.locale.locale,
-    }).then((about) => {
-      commit('SET_ABOUT', about['fields'])
-    }).catch((err) => {
-      console.error("error", err);
-    });
+  async putAbout({commit}, about) {
+    commit('SET_ABOUT', about['fields'])
   }
 };
 

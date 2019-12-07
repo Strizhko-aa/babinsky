@@ -52,7 +52,8 @@ export default {
   */
   plugins: [
     '~/plugins/contentful',
-    { src: '~/plugins/fullpage', mode: 'client' }
+    { src: '~/plugins/fullpage', mode: 'client' },
+    '~/plugins/i18n.js'
   ],
   /*
   ** Nuxt.js dev-modules

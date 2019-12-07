@@ -5,10 +5,10 @@
       .gallery__top
         h2.gallery__title(v-html='galleryName')
         .gallery__photographer <span>Photo by:</span> Matvey Sysoev
-      .gallery__items
-        .grid-sizer
-        nuxt-link.gallery__item(:to='`/gallery/${index}`' v-for='(item, index) in items' :key='index' :data-index='index' :class='`box-${index}`')
-          img(:src='item.img')
+      .grid-wrap
+        .grid-wrap
+        nuxt-link.grid-elem(:to='`/gallery/${item.sys.id}`' v-for='(item, index) in gallery' :key='index' :data-index='index' :class='`box-${index}`')
+          img(:src='item.fields.image_small.fields.file.url')
       .scroll-trigger(v-observe-visibility="visibilityChanged")
 
 </template>
@@ -22,7 +22,7 @@ import { ObserveVisibility } from 'vue-observe-visibility'
 Vue.directive('observe-visibility', ObserveVisibility)
 
 if (process.browser) {
-  var Masonry = require('masonry-layout');
+  // var Masonry = require('masonry-layout');
   var ImagesLoaded = require('imagesloaded');
 }
 
@@ -32,21 +32,12 @@ export default {
         loadCount: 9,
         selector: ".gallery__items",
         loading: false,
-        options: {
-          columnWidth: ".grid-sizer",
-          percentPosition: true,
-          itemSelector: ".gallery__item",
-          stagger: 30,
-          // nicer reveal transition
-          visibleStyle: { transform: 'translateY(0)', opacity: 1 },
-          hiddenStyle: { transform: 'translateY(100px)', opacity: 0 },
-        },
-        masonry: null,
-        items: [
-						{
-							img: 'https://placeimg.com/450/450/arch'
-						}
-					]
+        // options: {
+        //   columnWidth: ".grid-sizer",
+        //   percentPosition: true,
+        //   itemSelector: ".gallery__item",
+        // },
+        // masonry: null,
       }
     },
   computed: {
@@ -61,35 +52,23 @@ export default {
     },
     loaded() {
       ImagesLoaded(this.selector, () => {
-        this.$emit("masonry-images-loaded");
+        // this.$emit("masonry-images-loaded");
         // activate mansonry grid
-        this.masonry = new Masonry(this.selector, this.options);
-        this.$emit("masonry-loaded", this.masonry);
+        // this.masonry = new Masonry(this.selector, this.options);
+        // this.$emit("masonry-loaded", this.masonry);
       });
     },
-    loadMore () {
+    loadMore() {
 
       /** This is only for this demo, you could
         * replace the following with code to hit
         * an endpoint to pull in more data. **/
       this.loading = true;
-      this.items.push({
-        img: 'https://placeimg.com/450/315/arch'
-      });
-      this.items.push({
-        img: 'https://placeimg.com/450/315/arch'
-      });
-      this.items.push({
-        img: 'https://placeimg.com/450/315/arch'
-      });
         // console.log(this.$parent.$refs.fullpage)
       console.log(this.items.length)
       this.loading = false;
       setTimeout(e => {
         fullpage_api.reBuild()
-        console.log(this.masonry)
-        this.masonry.destroy()
-        this.masonry = new Masonry(this.selector, this.options);
         console.log('rebuild')
       }, 3000);
       /**************************************/
@@ -102,7 +81,17 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('gallery/getGallery')
+    const store = this.$store
+    this.$root.context.app.contentful.getEntries({
+      content_type: 'picture',
+      locale: store.state.locale.locale,
+      order: 'fields.rating'
+    }).then((pictures) => {
+      return store.dispatch('gallery/putGallery', pictures)
+    }).catch(err => {
+      console.error(err)
+    })
+
     this.loaded()
   }
 }
@@ -166,22 +155,21 @@ export default {
     cursor: pointer;
   }
 }
-.page-load-status {
-  display: none; /* hidden by default */
-  padding-top: 20px;
-  border-top: 1px solid #DDD;
-  text-align: center;
-  color: #777;
-}
 </style>
 
 <style lang="scss">
 .grid-sizer {
-  width: 33.3333%;
+  width: calc(33.33333% - 80px / 3);
 }
 .gallery__item {
   float: left;
-  width: 33.3333%;
+  width: calc(33.33333% - 80px / 3);
+  margin-right: 40px;
+  margin-bottom: 40px;
+
+  &:nth-child(3n+1) {
+    margin-right: 0;
+  }
 
   @include mobile {
     width: 100%;
@@ -202,5 +190,23 @@ export default {
   position: absolute;
   bottom: 0;
   pointer-events: none;
+}
+
+.grid-wrap {
+    column-count: auto;
+    column-gap: 20px;
+    column-width: 500px;
+}
+.grid-elem {
+    display: inline-block;
+    margin: 0 0 10px;
+    width: 100%;
+    position: relative;
+}
+
+.grid-elem img {
+    width: 100%;
+    object-fit: cover;
+    border-radius: 2px;
 }
 </style>

@@ -1,7 +1,5 @@
-import {createClient} from '../../plugins/contentful';
-const getRandom = require('unique-random-array');
 
-const contentfulClient = createClient();
+const getRandom = require('unique-random-array');
 
 export const state = () => ({
   menu: {
@@ -32,7 +30,8 @@ export const state = () => ({
       }
     ]
   },
-  background: require("~/assets/img/hero.jpg")
+  background: require("~/assets/img/hero.jpg"),
+  darkTheme: false
 })
 
 export const getters = {
@@ -60,24 +59,18 @@ export const mutations = {
     state.background = data
   },
   SET_DARK_THEME (state) {
-
+    state.darkTheme = true
   },
   REMOVE_DARK_THEME (state) {
+    state.darkTheme = false
   }
 }
 
 export const actions = {
-  getNavigation({commit, rootState}) {
-    contentfulClient.getEntry(process.env.CTF_NAVIGATION_ID, {
-      content_type: 'navigation',
-      locale: rootState.locale.locale,
-    }).then((nav) => {
-      commit('SET_MENU', nav['fields'])
-      // const randomBackground = getRandom(nav['backgrounds'])()['fields']['file']['url']
-      // commit('CHANGE_BACKGOUND', randomBackground)
-    }).catch((err) => {
-      console.error("error", err);
-    });
+  async putNavigation({commit}, nav) {
+    commit('SET_MENU', nav['fields'])
+    // const randomBackground = getRandom(nav['backgrounds'])()['fields']['file']['url']
+    // commit('CHANGE_BACKGOUND', randomBackground)
   }
 };
 

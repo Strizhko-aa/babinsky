@@ -1,12 +1,20 @@
 <template lang='pug'>
 .fullpage-container
   no-ssr
-    full-page(:options="options" id="fullpage" ref="fullpage")
+    full-page(:options="options" ref="fullpage")
       section-intro.section(data-anchor="intro")
       section-gallery.section(data-anchor="gallery")
       section-about.section(data-anchor="about")
       //- section-news.section#news
-      section-contacts.section(data-anchor="contacts")
+      section-contacts.section#contacts(data-anchor="contacts")
+//- .fullpage-container
+  //- full-page(:options="options" id="fullpage")
+//- .foobar
+//-   section-intro.section#intro
+//-   section-gallery.section#gallery
+//-   section-about.section#about
+//-   //- section-news.section#news
+//-   section-contacts.section#contacts
 </template>
 
 <script>
@@ -29,11 +37,43 @@ export default {
       // 'section-news': news,
       'section-contacts': contacts,
   },
-  mounted() {
-    this.$store.dispatch('author/getAuthor')
-    this.$store.dispatch('navigation/getNavigation')
-    this.$store.dispatch('about/getAbout')
-    this.$store.dispatch('contacts/getContacts')
+  async asyncData(context) {
+    const contentful = context.app.contentful
+
+    await contentful.getLocales()
+      .then(({items}) => {
+        return context.store.dispatch('locale/putLocales', items)
+      })
+
+    return Promise.allSettled([
+        contentful.getEntry(process.env.CTF_AUTHOR_ID, {
+          content_type: 'author',
+          locale: context.store.state.locale.locale,
+        }).then((author) => {
+          return context.store.dispatch('author/putAuthor', author)
+        }),
+        contentful.getEntry(process.env.CTF_NAVIGATION_ID, {
+          content_type: 'navigation',
+          locale: context.store.state.locale.locale,
+        }).then((nav) => {
+          return context.store.dispatch('navigation/putNavigation', nav)
+        }),
+        contentful.getEntry(process.env.CTF_ABOUT_ID, {
+          content_type: 'about',
+          locale: context.store.state.locale.locale,
+        }).then((about) => {
+          return context.store.dispatch('about/putAbout', about)
+        }),
+        contentful.getEntry(process.env.CTF_CONTACTS_ID, {
+          content_type: 'contacts',
+          locale: context.store.state.locale.locale
+        }).then((contacts) => {
+          return context.store.dispatch('contacts/putContacts', contacts)
+        })
+      ]).then((results) => {
+        console.dir(results)
+        return {}
+      })
   },
   data() {
     const self = this
@@ -72,6 +112,12 @@ export default {
       }
     }
   },
+  // mounted() {
+  //   this.$store.dispatch('author/getAuthor')
+  //   this.$store.dispatch('navigation/getNavigation')
+  //   this.$store.dispatch('about/getAbout')
+  //   this.$store.dispatch('contacts/getContacts')
+  // },
 }
 </script>
 
