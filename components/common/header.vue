@@ -39,6 +39,7 @@ export default {
     },
     changeLang(locale) {
       this.$store.commit('locale/SET_LANG', locale)
+      this.$i18n.setLocale(locale)
     }
   },
   computed: {

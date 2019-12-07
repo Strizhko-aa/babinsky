@@ -3,7 +3,7 @@
 	.footer__left.footer__copywrite © {{lastName}}, {{year}}
 	.footer__right
 		.footer__menu
-			a.footer__menu-item(href='#contacts') {{ menu.contactsText }}
+			a.footer__menu-item(href='/#contacts') {{ menu.contactsText }}
 			a.footer__menu-item(href='#terms') {{ menu.termsText }}
 </template>
 

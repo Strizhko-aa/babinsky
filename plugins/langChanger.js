@@ -5,25 +5,25 @@ export default function langChangerPlugin () {
       if (mutation.type === 'locale/SET_LANG') {
         if (prelocale != state.locale.locale) {
           Promise.allSettled([
-            contentful.getEntry(process.env.CTF_AUTHOR_ID, {
+            store.contentful.getEntry(process.env.CTF_AUTHOR_ID, {
               content_type: 'author',
               locale: store.state.locale.locale,
             }).then((author) => {
               return store.dispatch('author/putAuthor', author)
             }),
-            contentful.getEntry(process.env.CTF_NAVIGATION_ID, {
+            store.contentful.getEntry(process.env.CTF_NAVIGATION_ID, {
               content_type: 'navigation',
               locale: store.state.locale.locale,
             }).then((nav) => {
               return store.dispatch('navigation/putNavigation', nav)
             }),
-            contentful.getEntry(process.env.CTF_ABOUT_ID, {
+            store.contentful.getEntry(process.env.CTF_ABOUT_ID, {
               content_type: 'about',
               locale: store.state.locale.locale,
             }).then((about) => {
               return store.dispatch('about/putAbout', about)
             }),
-            contentful.getEntry(process.env.CTF_CONTACTS_ID, {
+            store.contentful.getEntry(process.env.CTF_CONTACTS_ID, {
               content_type: 'contacts',
               locale: store.state.locale.locale
             }).then((contacts) => {

@@ -47,23 +47,6 @@ export default {
         this.$emit("masonry-loaded", this.masonry);
       });
     },
-    loadMore() {
-
-      /** This is only for this demo, you could
-        * replace the following with code to hit
-        * an endpoint to pull in more data. **/
-      this.loading = true;
-      setTimeout(e => {
-        for (var i = 0; i < 20; i++) {
-          this.items.push({
-							img: 'https://placeimg.com/450/315/arch'
-						});
-        }
-        this.loading = false;
-      }, 200);
-      /**************************************/
-
-    }
   },
   watch: {
     data() {
@@ -72,27 +55,21 @@ export default {
   },
   mounted() {
     const store = this.$store
+    const self = this
+
     this.$root.context.app.contentful.getEntries({
       content_type: 'picture',
       locale: store.state.locale.locale,
       order: 'fields.rating'
     }).then((pictures) => {
       return store.dispatch('gallery/putGallery', pictures)
+    }).then(_ => {
+      self.loaded()
     }).catch(err => {
       console.error(err)
     })
 
     this.loaded()
-
-    // const gallery = this.$refs.gallery.parentElement
-    // gallery.addEventListener('scroll', e => {
-    //   console.log('scroll')
-    //   console.log(gallery.scrollTop + gallery.clientHeight, gallery.scrollHeight)
-    //   if (gallery.scrollTop + gallery.clientHeight >= gallery.scrollHeight) {
-    //     // this.loadMore();
-
-    //   }
-    // },false)
   }
 }
 </script>

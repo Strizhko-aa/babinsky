@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.8.0",
+    "@nuxtjs/netlify-files": "^1.0.0",
     "@nuxtjs/style-resources": "^1.0.0",
     "contentful": "^7.10.0",
     "fullpage-nuxt": "^0.0.3",
