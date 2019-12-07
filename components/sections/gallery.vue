@@ -7,8 +7,8 @@
         .gallery__photographer <span>Photo by:</span> Matvey Sysoev
       .gallery__items
         .grid-sizer
-        nuxt-link.gallery__item(:to='`/gallery/${index}`' v-for='(item, index) in items' :key='index' :data-index='index' :class='`box-${index}`')
-          img(:src='item.img')
+        nuxt-link.gallery__item(:to='`/gallery/${item.sys.id}`' v-for='(item, index) in gallery' :key='index' :data-index='index' :class='`box-${index}`')
+          img(:src='item.fields.image_small.fields.file.url')
 
 </template>
 
@@ -30,65 +30,8 @@ export default {
           columnWidth: ".grid-sizer",
           percentPosition: true,
           itemSelector: ".gallery__item",
-          stagger: 30,
-          // nicer reveal transition
-          visibleStyle: { transform: 'translateY(0)', opacity: 1 },
-          hiddenStyle: { transform: 'translateY(100px)', opacity: 0 },
         },
         masonry: null,
-        items: [
-						{
-							img: 'https://placeimg.com/450/450/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/644/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/450/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/315/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/307/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/642/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/450/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/561/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/450/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/315/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/415/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/642/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/450/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/644/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/450/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/315/arch'
-						},
-						{
-							img: 'https://placeimg.com/450/307/arch'
-						},
-					]
       }
     },
   computed: {
@@ -104,7 +47,7 @@ export default {
         this.$emit("masonry-loaded", this.masonry);
       });
     },
-    loadMore () {
+    loadMore() {
 
       /** This is only for this demo, you could
         * replace the following with code to hit
@@ -128,18 +71,28 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('gallery/getGallery')
+    const store = this.$store
+    this.$root.context.app.contentful.getEntries({
+      content_type: 'picture',
+      locale: store.state.locale.locale,
+      order: 'fields.rating'
+    }).then((pictures) => {
+      return store.dispatch('gallery/putGallery', pictures)
+    }).catch(err => {
+      console.error(err)
+    })
+
     this.loaded()
 
-    const gallery = this.$refs.gallery.parentElement
-    gallery.addEventListener('scroll', e => {
-      console.log('scroll')
-      console.log(gallery.scrollTop + gallery.clientHeight, gallery.scrollHeight)
-      if (gallery.scrollTop + gallery.clientHeight >= gallery.scrollHeight) {
-        // this.loadMore();
+    // const gallery = this.$refs.gallery.parentElement
+    // gallery.addEventListener('scroll', e => {
+    //   console.log('scroll')
+    //   console.log(gallery.scrollTop + gallery.clientHeight, gallery.scrollHeight)
+    //   if (gallery.scrollTop + gallery.clientHeight >= gallery.scrollHeight) {
+    //     // this.loadMore();
 
-      }
-    },false)
+    //   }
+    // },false)
   }
 }
 </script>
@@ -202,22 +155,21 @@ export default {
     cursor: pointer;
   }
 }
-.page-load-status {
-  display: none; /* hidden by default */
-  padding-top: 20px;
-  border-top: 1px solid #DDD;
-  text-align: center;
-  color: #777;
-}
 </style>
 
 <style lang="scss">
 .grid-sizer {
-  width: 33.3333%;
+  width: calc(33.33333% - 80px / 3);
 }
 .gallery__item {
   float: left;
-  width: 33.3333%;
+  width: calc(33.33333% - 80px / 3);
+  margin-right: 40px;
+  margin-bottom: 40px;
+
+  &:nth-child(3n+1) {
+    margin-right: 0;
+  }
 
   @include mobile {
     width: 100%;

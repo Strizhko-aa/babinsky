@@ -51,7 +51,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/contentful',
+    '~/plugins/contentful.js',
+    '~/plugins/i18n.js'
   ],
   /*
   ** Nuxt.js dev-modules

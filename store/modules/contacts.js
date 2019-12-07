@@ -1,5 +1,3 @@
-import {createClient} from '../../plugins/contentful';
-const contentfulClient = createClient();
 
 export const state = {
   title: 'Contacts',
@@ -34,15 +32,8 @@ export const mutations = {
 };
 
 export const actions = {
-  getContacts({commit, state, rootState}) {
-    contentfulClient.getEntry(process.env.CTF_CONTACTS_ID, {
-      content_type: 'contacts',
-      locale: rootState.locale.locale
-    }).then((contacts) => {
-      commit('SET_CONTACTS', contacts['fields'])
-    }).catch((err) => {
-      console.error("error", err);
-    });
+  async putContacts({commit}, contacts) {
+    commit('SET_CONTACTS', contacts['fields'])
   }
 };
 

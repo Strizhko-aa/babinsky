@@ -1,5 +1,3 @@
-import {createClient} from '../../plugins/contentful';
-const contentfulClient = createClient();
 
 export const state = {
   gallery: [],
@@ -20,16 +18,8 @@ export const mutations = {
 };
 
 export const actions = {
-  getGallery({commit, state, rootState}) {
-    contentfulClient.getEntries({
-      content_type: 'picture',
-      locale: rootState.locale.locale,
-      order: 'fields.rating'
-    }).then((pictures) => {
-      commit('UPDATE_PICTURES', pictures['items'])
-    }).catch((err) => {
-      console.error("error", err);
-    });
+  async putGallery({commit}, pictures) {
+    commit('UPDATE_PICTURES', pictures['items'])
   }
 };
 

@@ -1,5 +1,3 @@
-import {createClient} from '../../plugins/contentful';
-const contentfulClient = createClient();
 
 export const state = {
   firstName: 'Alexander',
@@ -20,15 +18,8 @@ export const mutations = {
 };
 
 export const actions = {
-  getAuthor({commit, state, rootState}) {
-    contentfulClient.getEntry(process.env.CTF_AUTHOR_ID, {
-      content_type: 'author',
-      locale: rootState.locale.locale,
-    }).then((author) => {
-      commit('SET_AUTHOR', author['fields'])
-    }).catch((err) => {
-      console.error("error", err);
-    });
+  async putAuthor({commit}, author) {
+    commit('SET_AUTHOR', author['fields'])
   }
 };
 

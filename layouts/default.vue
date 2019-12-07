@@ -1,8 +1,8 @@
 <template lang='pug'>
 .wrapper
-	section-header
+	//- section-header
 	nuxt
-	section-footer
+	//- section-footer
 </template>
 
 <script>
@@ -15,9 +15,6 @@
 			'section-header': header,
 			'section-footer': footer,
 		},
-    mounted() {
-      this.$store.dispatch('locale/getLocales')
-    }
 	}
 </script>
 

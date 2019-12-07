@@ -1,5 +1,3 @@
-import {createClient} from '../../plugins/contentful';
-const contentfulClient = createClient();
 
 export const state = () => ({
   locales: ['en-US'],
@@ -20,16 +18,11 @@ export const mutations = {
 }
 
 export const actions = {
-  getLocales({commit, state}) {
-    contentfulClient.getLocales()
-      .then(({items}) => {
-        for (let locale of items) {
-          commit('ADD_LANG', locale['code'])
-        }
-        commit('SET_LANG', state.locales[0])
-      }).catch((err) => {
-        console.log("error", err);
-      });
+  async putLocales({commit, state}, items) {
+    for (let locale of items) {
+      commit('ADD_LANG', locale['code'])
+    }
+    commit('SET_LANG', state.locales[0])
   }
 };
 
