@@ -40,6 +40,17 @@ export const state = () => ({
   background: require("~/assets/img/hero.jpg")
 })
 
+export const getters = {
+  galleryName: state => {
+    for (let item of state.menu.items) {
+      if (item.href == '#gallery') {
+        return item.title[0].toUpperCase() + item.title.slice(1)
+      }
+    }
+    return 'Gallery'
+  }
+}
+
 export const mutations = {
   SET_MENU (state, nav) {
     state.menu = {
@@ -52,6 +63,11 @@ export const mutations = {
   },
   CHANGE_BACKGOUND (state, data) {
     state.background = data
+  },
+  SET_DARK_THEME (state) {
+
+  },
+  REMOVE_DARK_THEME (state) {
   }
 }
 
@@ -72,6 +88,7 @@ export const actions = {
 
 export default {
   state,
+  getters,
   mutations,
   actions,
 };

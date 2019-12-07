@@ -8,6 +8,7 @@ export default function langChangerPlugin () {
           store.dispatch('navigation/getNavigation')
           store.dispatch('about/getAbout')
           store.dispatch('contacts/getContacts')
+          store.dispatch('gallery/getGallery')
           prelocale = state.locale.locale
         }
       }

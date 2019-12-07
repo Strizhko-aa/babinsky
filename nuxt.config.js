@@ -41,7 +41,7 @@ export default {
   /*
   ** Customize the progress-bar color
   */
-  loading: { color: '#fff' },
+  loading: { color: '#e3572e' },
   /*
   ** Global CSS
   */
@@ -51,7 +51,7 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/contentful'
+    '~/plugins/contentful',
   ],
   /*
   ** Nuxt.js dev-modules
@@ -63,9 +63,12 @@ export default {
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-	'@nuxtjs/axios',
-	'@nuxtjs/style-resources'
+    '@nuxtjs/axios',
+    '@nuxtjs/style-resources',
+    // 'fullpage-nuxt',
+    // 'nuxt-fullpage.js',
   ],
+
   styleResources: {
     scss: [
       './assets/scss/*.scss',
@@ -94,7 +97,8 @@ export default {
 
     postcss: [
       require('autoprefixer')()
-    ]
+    ],
+
   },
 
   /*

@@ -5,6 +5,7 @@ import locale from './modules/locale';
 import navigation from './modules/navigation';
 import about from './modules/about';
 import contacts from './modules/contacts';
+import gallery from './modules/gallery';
 
 import langChangerPlugin from '../plugins/lang_changer'
 
@@ -15,7 +16,8 @@ const createStore = () => {
       author: { ...author, namespaced: true },
       navigation: { ...navigation, namespaced: true },
       about: { ...about, namespaced: true },
-      contacts: { ...contacts, namespaced: true }
+      contacts: { ...contacts, namespaced: true },
+      gallery: { ...gallery, namespaced: true },
     },
     strict: false,
     plugins: [langChangerPlugin()]
