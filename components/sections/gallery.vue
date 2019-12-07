@@ -46,17 +46,9 @@ export default {
   },
   methods: {
     visibilityChanged (visible, second) {
-      if (visible) {
-        this.loadMore()
-      }
-    },
-    loaded() {
-      ImagesLoaded(this.selector, () => {
-        // this.$emit("masonry-images-loaded");
-        // activate mansonry grid
-        // this.masonry = new Masonry(this.selector, this.options);
-        // this.$emit("masonry-loaded", this.masonry);
-      });
+      // if (visible) {
+      //   this.loadMore()
+      // }
     },
     loadMore() {
 
@@ -75,24 +67,30 @@ export default {
 
     }
   },
-  watch: {
-    data() {
-      this.loaded();
-    }
-  },
+  // watch: {
+  //   data() {
+  //     this.loaded();
+  //   }
+  // },
   mounted() {
     const store = this.$store
     this.$root.context.app.contentful.getEntries({
       content_type: 'picture',
       locale: store.state.locale.locale,
-      order: 'fields.rating'
+      order: 'fields.rating',
+      // skip: 0,
+      // limit: 5
     }).then((pictures) => {
-      return store.dispatch('gallery/putGallery', pictures)
+      store.dispatch('gallery/putGallery', pictures)
+      setTimeout(() => {
+        fullpage_api.reBuild()
+      }, 1500);
+      setTimeout(() => {
+        fullpage_api.reBuild()
+      }, 2000);
     }).catch(err => {
       console.error(err)
     })
-
-    this.loaded()
   }
 }
 </script>
@@ -184,9 +182,9 @@ export default {
 .scroll-trigger {
   width: 50vw;
   height: 50vh;
-  // background-color: transparent;
+  background-color: transparent;
   // background-color: red;
-  border: red 1px solid;
+  // border: red 1px solid;
   position: absolute;
   bottom: 0;
   pointer-events: none;

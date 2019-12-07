@@ -6,7 +6,7 @@
       section-gallery.section(data-anchor="gallery")
       section-about.section(data-anchor="about")
       //- section-news.section#news
-      section-contacts.section#contacts(data-anchor="contacts")
+      section-contacts.section(data-anchor="contacts")
 //- .fullpage-container
   //- full-page(:options="options" id="fullpage")
 //- .foobar
@@ -82,18 +82,17 @@ export default {
         // anchors: ['gallery',],
         anchors: ['intro', 'gallery', 'about', 'contacts'],
         scrollOverflow: true,
-        scrollOverflowReset: true,
-        scrollOverflowOptions: {
-          probeType: 3,
-          scrollBar: true,
-          scrollbars: true,
-          mouseWheel: true,
-          interactiveScrollbars: true,
-          shrinkScrollbars: 'scale',
-          fadeScrollbars: true,
-          bounceEasing: 'elastic', 
-          bounceTime: 1200,
-        },
+        // scrollOverflowOptions: {
+        //   probeType: 3,
+        //   scrollBar: true,
+        //   scrollbars: true,
+        //   mouseWheel: true,
+        //   interactiveScrollbars: true,
+        //   shrinkScrollbars: 'scale',
+        //   // fadeScrollbars: true,
+        //   bounceEasing: 'elastic', 
+        //   bounceTime: 1200,
+        // },
         fadingEffect: true,
         controlArrows: false,
         licenseKey: '00122C31-74D341B7-81D0999A-E51563F7',
