@@ -1,30 +1,56 @@
-<template lang='pug'>
-.fullpage-container
-  no-ssr
-    full-page(:options="options" ref="fullpage")
-      section-intro.section(data-anchor="main")
-      section-gallery.section(data-anchor="gallery")
-      section-about.section(data-anchor="about")
-      section-contacts.section(data-anchor="contacts")
+<template>
+<div class="fullpage-container">
+  <no-ssr>
+    <div class="content-wrapper" id="content-wrapper" >
+      <div id="wrap-main" class="section-wrap" v-on:wheel='onWheel($event, 0)'>
+        <div class="sup-wrap">
+          <div class="wrap-start" v-observe-visibility="currentItem === 0 ? topScrollAllow : false"></div>
+          <section-intro class="section" id="main" data-anchor="main"></section-intro>
+          <div class="wrap-end" v-observe-visibility="currentItem === 0 ? botScrollAllow : false"></div>
+        </div>
+      </div>
+      <div id="wrap-gallery" class="section-wrap" v-on:wheel='onWheel($event, 1)'>
+        <div class="sup-wrap">
+          <div class="wrap-start" v-observe-visibility="currentItem === 1 ? topScrollAllow : false"></div>
+          <section-gallery class="section" id="gallery" data-anchor="gallery"></section-gallery>
+          <div class="wrap-end" v-observe-visibility="currentItem === 1 ? botScrollAllow : false"></div>
+        </div>
+      </div>
+      <div id="wrap-about" class="section-wrap" v-on:wheel='onWheel($event, 2)'>
+        <div class="sup-wrap">
+          <div class="wrap-start" v-observe-visibility="currentItem === 2 ? topScrollAllow : false"></div>
+          <section-about class="section" id="about" data-anchor="about"></section-about>
+          <div class="wrap-end" v-observe-visibility="currentItem === 2 ? botScrollAllow : false"></div>
+        </div>
+      </div>
+      <div id="wrap-contacts" class="section-wrap" v-on:wheel='onWheel($event, 3)'>
+        <div class="sup-wrap">
+          <div class="wrap-start" v-observe-visibility="currentItem === 3 ? topScrollAllow : false"></div>
+          <section-contacts class="section" id="contacts" data-anchor="contacts"></section-contacts>
+          <div class="wrap-end" v-observe-visibility="currentItem === 3 ? botScrollAllow : false"></div>
+        </div>
+      </div>
+    </div>
+  </no-ssr>
+</div>
 </template>
 
 <script>
+import Vue from 'vue'
+
 import intro from '~/components/sections/intro.vue'
 import gallery from '~/components/sections/gallery.vue'
 import about from '~/components/sections/about.vue'
-// import news from '~/components/sections/news.vue'
 import contacts from '~/components/sections/contacts.vue'
+import { ObserveVisibility } from 'vue-observe-visibility'
 
-if (process.browser) {
-	require('fullpage.js/vendors/scrolloverflow')
-}
+Vue.directive('observe-visibility', ObserveVisibility)
 
 export default {
   components: {
       'section-intro': intro,
       'section-gallery': gallery,
       'section-about': about,
-      // 'section-news': news,
       'section-contacts': contacts,
   },
   async asyncData(context) {
@@ -66,58 +92,94 @@ export default {
       })
   },
   data() {
-    const self = this
     return {
-      options: {
-        anchors: ['main', 'gallery', 'about', 'contacts'],
-        scrollOverflow: true,
-        scrollOverflowOptions: {
-          // probeType: 3,
-          // scrollBar: true,
-          // scrollbars: true,
-          // mouseWheel: true,
-          // interactiveScrollbars: true,
-          // shrinkScrollbars: 'scale',
-          // // fadeScrollbars: true,
-          // bounceEasing: 'elastic',
-          // bounceTime: 1200,
-        },
-        fadingEffect: true,
-        // controlArrows: false,
-        licenseKey: '00122C31-74D341B7-81D0999A-E51563F7',
-        onLeave: function(origin, destination, direction) {
-          if(origin.index == 0 && direction =='down'){
-            self.$store.commit('navigation/SET_DARK_THEME')
-            self.$store.commit('navigation/HIDE_FOOTER')
-          } else if(origin.index == 1 && direction == 'up'){
-            self.$store.commit('navigation/REMOVE_DARK_THEME')
-            self.$store.commit('navigation/SHOW_FOOTER')
-          }
-
-          if (origin.index == 1 && direction == 'down') {
-            self.$store.commit('navigation/SHOW_FOOTER')
-          } else if (origin.index == 2 && direction == 'up') {
-            self.$store.commit('navigation/HIDE_FOOTER')
-          }
-
-        },
-        afterRender: function(origin, destination, direction){
-          self.$store.commit('navigation/REMOVE_DARK_THEME')
-          if(origin.index > 0) {
-            self.$store.commit('navigation/SET_DARK_THEME')
-          }
-          if (origin.index == 1) {
-            self.$store.commit('navigation/HIDE_FOOTER')
-          }
-        }
-      }
+      currentItem: 0,
+      scrollTopAllow: false,
+      scrollBotAllow: false,
+      elemList: [
+          'wrap-main',
+          'wrap-gallery',
+          'wrap-about',
+          'wrap-contacts'
+      ],
     }
   },
+  methods: {
+    topScrollAllow (visible, _) {
+      this.scrollTopAllow = false
+      if (visible) {
+        this.scrollTopAllow = true
+      }
+      console.log('top', visible, this.currentItem)
+    },
+    botScrollAllow (visible, _) {
+      this.scrollBotAllow = false
+      if (visible) {
+        this.scrollBotAllow = true
+      }
+      console.log('bot', visible, this.currentItem)
+    },
+    onWheel (e, index) {
+      // if (this.scrollAllow) {
+      //   var currentPage = document.getElementById(this.elemList[index])
+      //   currentPage.scroll()
+      // } else {
+      if ( e.deltaY > 0 ) {
+        if (this.scrollBotAllow) {
+          this.currentItem = (index < this.elemList.length - 1) ? index + 1 : index
+          this.toPage(this.elemList[this.currentItem])
+        } else {
+          var currentPage = document.getElementById(this.elemList[index])
+          currentPage.scroll()
+        }
+      } else {
+        if (this.scrollTopAllow) {
+          this.currentItem = (index > 0) ? index - 1 : index
+          this.toPage(this.elemList[this.currentItem])
+        } else {
+          var currentPage = document.getElementById(this.elemList[index])
+          currentPage.scroll()
+        }
+      }
+    }, 
+    toPage(id) {
+      var page = document.getElementById(id)
+      var self = this
+      setTimeout(function () {
+        this.scrollBotAllow = false
+        this.scrollTopAllow = false
+      }, 700) 
+      page.scrollIntoView({behavior: "smooth"})
+    },
+  }
 }
 </script>
 
 <style>
-.fp-scroller {
-  transition-duration: 600ms !important;
+.section-wrap {
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.sup-wrap {
+  position: relative;
+}
+.wrap-start{
+  width: 100%;
+  height: 1px;
+  background-color: blue;
+  position: absolute;
+  top: 0px;
+  left: 0;
+  z-index: 99;
+}
+.wrap-end{
+  width: 100%;
+  height: 1px;
+  background-color: palevioletred;
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  z-index: 99;
 }
 </style>

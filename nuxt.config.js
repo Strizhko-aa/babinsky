@@ -52,7 +52,6 @@ export default {
   */
   plugins: [
     '~/plugins/contentful',
-    { src: '~/plugins/fullpage', mode: 'client' },
     { src: '~/plugins/reloadClear', mode: 'client' },
     '~/plugins/i18n.js'
   ],

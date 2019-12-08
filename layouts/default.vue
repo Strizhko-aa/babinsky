@@ -20,9 +20,10 @@
 
 <style lang='scss'>
 body {
-	overflow-x: hidden;
+	overflow: hidden;
 }
 html {
+	overflow: hidden;
   font-family: $montserrat;
   font-size: 16px;
   word-spacing: 1px;

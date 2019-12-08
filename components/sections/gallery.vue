@@ -56,7 +56,7 @@ export default {
         const self = this
         setTimeout(() => {
           ImagesLoaded(self.selector, () => {
-            fullpage_api.reBuild()
+            // fullpage_api.reBuild()
             self.loading = false;
           });
         }, 1000)
@@ -84,6 +84,7 @@ export default {
 
 <style lang="scss" scoped>
 .gallery {
+  height: auto;
   &__inner {
     padding: vw(190) vw(122);
 
