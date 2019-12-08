@@ -258,6 +258,7 @@
 	}
 	.pic {
 		width: 100%;
+		height: auto;
 	}
 	.bottom-space {
 		height: vmin(70);

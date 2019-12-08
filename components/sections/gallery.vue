@@ -181,7 +181,7 @@ export default {
     column-count: 3;
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 20px;
-    column-width: 500px;
+    column-width: 400px;
 }
 .grid-elem {
     display: inline-block;
