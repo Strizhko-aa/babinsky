@@ -4,7 +4,7 @@ export default function langChangerPlugin () {
     store.subscribe((mutation, state) => {
       if (mutation.type === 'locale/SET_LANG') {
         if (prelocale != state.locale.locale) {
-          Promise.allSettled([
+          Promise.all([
             store.contentful.getEntry(process.env.CTF_AUTHOR_ID, {
               content_type: 'author',
               locale: store.state.locale.locale,

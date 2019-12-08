@@ -19,7 +19,6 @@ if (process.browser) {
 	require('fullpage.js/vendors/scrolloverflow')
 }
 
-
 export default {
   components: {
       'section-intro': intro,
@@ -36,7 +35,7 @@ export default {
         return context.store.dispatch('locale/putLocales', items)
       })
 
-    return Promise.allSettled([
+    return Promise.all([
         contentful.getEntry(process.env.CTF_AUTHOR_ID, {
           content_type: 'author',
           locale: context.store.state.locale.locale,
@@ -84,7 +83,7 @@ export default {
           // bounceTime: 1200,
         },
         fadingEffect: true,
-        controlArrows: false,
+        // controlArrows: false,
         licenseKey: '00122C31-74D341B7-81D0999A-E51563F7',
         onLeave: function(origin, destination, direction) {
           if(origin.index == 0 && direction =='down'){

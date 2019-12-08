@@ -69,7 +69,7 @@
       if (!picture) {
         const store = context.store
 
-        return Promise.allSettled([
+        return Promise.all([
           context.app.contentful.getEntries({
             content_type: 'picture',
             locale: context.store.state.locale.locale,
@@ -111,7 +111,7 @@
 	&__inner {
 		display: grid;
 		grid-template-columns: 1fr vw(940) 1fr;
-		grid-template-rows: 50px 50px 500px 300px 50px;
+		// grid-template-rows: 50px 50px 500px 300px 50px;
 		grid-template: "topSpace topSpace topSpace"
 									 "leftName picture rightTopSpace"
 									 "leftNav picture rightNav"
@@ -234,21 +234,23 @@
 @include mobile {
 	.container {
 		display: block;
+		// width: 90vw;
 	}
 	.container:first-child {
 		grid-area: 1 / 1 / 3 / 2;
 	}
 	.work__inner {
-		width: 90%;
+		// width: 90vw;
 		display: grid;
 		grid-template-columns: 1fr 1fr 1fr;
-		grid-auto-rows: auto;
+		// grid-auto-rows: auto;
 		grid-template: "topSpace topSpace topSpace"
 									 "picture picture picture"
-									 "leftNav rightBotSpace rightNav"
+									 "leftNav leftNav rightNav"
 									 "leftName leftName leftName"
 									 "leftDesc leftDesc leftDesc"
-									 "bottomSpace rightTopSpace rightTopSpace"!important;
+									 "rightBotSpace rightBotSpace rightBotSpace"
+									 "bottomSpace bottomSpace bottomSpace";
 	}
 	.left-name, .left-decr {
 		padding-left: 20px;
