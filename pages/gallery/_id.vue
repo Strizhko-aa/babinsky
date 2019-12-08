@@ -45,6 +45,7 @@
     },
     beforeMount() {
       this.$store.commit('navigation/SET_DARK_THEME')
+      this.$store.commit('navigation/SHOW_FOOTER')
     },
     async asyncData(context) {
       await context.app.contentful.getLocales()
