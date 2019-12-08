@@ -36,6 +36,7 @@ export default {
         if (this.darkTheme) {
           this.backDark = true
         }
+
         this.$store.commit('navigation/REMOVE_DARK_THEME')
         this.menuWrapper = true
       } else {
@@ -49,6 +50,7 @@ export default {
       }
     },
     changeLang(locale) {
+      this.$i18n.locale = locale
       this.$store.commit('locale/SET_LANG', locale)
     }
   },

@@ -87,7 +87,6 @@ export default {
         controlArrows: false,
         licenseKey: '00122C31-74D341B7-81D0999A-E51563F7',
         onLeave: function(origin, destination, direction) {
-          console.log('ksalgnsv')
           if(origin.index == 0 && direction =='down'){
             self.$store.commit('navigation/SET_DARK_THEME')
             self.$store.commit('navigation/HIDE_FOOTER')
