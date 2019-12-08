@@ -45,25 +45,28 @@ export default {
       }
     },
     loadMore() {
-      this.loading = true;
-      for (let i = this.loadCount; i < this.gallery.length, i < this.loadCount + 5; ++i) {
-        this.items.push(this.gallery[i])
-      }
+      if (!this.loading) {
+        this.loading = true;
+        for (let i = this.loadCount; i < this.gallery.length, i < this.loadCount + 5; ++i) {
+          this.items.push(this.gallery[i])
+        }
 
-      this.loadCount += 5
-      setTimeout(() => {
-        ImagesLoaded(this.selector, () => {
-          fullpage_api.reBuild()
-          this.loading = false;
-        });
-      }, 1000)
+        this.loadCount += 5
+
+        const self = this
+        setTimeout(() => {
+          ImagesLoaded(self.selector, () => {
+            fullpage_api.reBuild()
+            self.loading = false;
+          });
+        }, 1000)
+      }
     }
   },
   mounted() {
     const store = this.$store
     const self = this
 
-    this.loading = true;
     this.$root.context.app.contentful.getEntries({
       content_type: 'picture',
       locale: store.state.locale.locale,
