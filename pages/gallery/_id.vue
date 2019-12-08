@@ -1,22 +1,56 @@
 <template lang='pug'>
 .work
 	.container
+		//- .work__inner
+		//- 	//- .work__left
+		//- 	h1.work__title {{ picture.fields.name }}
+		//- 	.work__meta
+		//- 		.work__meta-item
+		//- 			.work__meta-title(v-if='picture.fields.size') {{ $t('size') }}:
+		//- 			.work__meta-value(v-html='picture.fields.size')
+		//- 			.work__meta-title(v-if='picture.fields.description')
+		//- 			.work__meta-value(v-html='picture.fields.description')
+		//- 			.work__meta-title(v-if='picture.fields.date') {{ $t('year') }}:
+		//- 			.work__meta-value(v-html='picture.fields.date')
+		//- 	//- .work__center
+		//- 	.work__zoom
+		//- 		img.work__small(:src='picture.fields.image_medium.fields.file.url')
+		//- 		img.work__origin(:src='picture.fields.image_large.fields.file.url')
+		//- 	.work__right
 		.work__inner
-			.work__left
+			.top-space
+			.left-name
 				h1.work__title {{ picture.fields.name }}
-				.work__meta
-					.work__meta-item
-						.work__meta-title(v-if='picture.fields.size') {{ $t('size') }}:
-						.work__meta-value(v-html='picture.fields.size')
-						.work__meta-title(v-if='picture.fields.description')
-						.work__meta-value(v-html='picture.fields.description')
-						.work__meta-title(v-if='picture.fields.date') {{ $t('year') }}:
-						.work__meta-value(v-html='picture.fields.date')
-			.work__center
-				.work__zoom
-					img.work__small(:src='picture.fields.image_medium.fields.file.url')
-					img.work__origin(:src='picture.fields.image_large.fields.file.url')
-			.work__right
+			.pic
+				img.work__small(:src='picture.fields.image_medium.fields.file.url')
+				img.work__origin(:src='picture.fields.image_large.fields.file.url')
+			.right-top-space
+			.left-nav leftNav
+			.right-nav right-nav
+			.left-decr
+				.work__meta-item
+					.work__meta-title(v-if='picture.fields.size') {{ $t('size') }}:
+					.work__meta-value(v-html='picture.fields.size')
+					.work__meta-title(v-if='picture.fields.description')
+					.work__meta-value(v-html='picture.fields.description')
+					.work__meta-title(v-if='picture.fields.date') {{ $t('year') }}:
+					.work__meta-value(v-html='picture.fields.date')
+			.right-bottom-space rightBotSpace
+			.bottom-space
+			//- h1.work__title {{ picture.fields.name }}
+			//- .work__meta
+				//- .work__meta-item
+				//- 	.work__meta-title(v-if='picture.fields.size') {{ $t('size') }}:
+				//- 	.work__meta-value(v-html='picture.fields.size')
+				//- 	.work__meta-title(v-if='picture.fields.description')
+				//- 	.work__meta-value(v-html='picture.fields.description')
+				//- 	.work__meta-title(v-if='picture.fields.date') {{ $t('year') }}:
+				//- 	.work__meta-value(v-html='picture.fields.date')
+			//- //- .work__center
+			//- .work__zoom
+			//- 	img.work__small(:src='picture.fields.image_medium.fields.file.url')
+			//- 	img.work__origin(:src='picture.fields.image_large.fields.file.url')
+			//- .work__right
 </template>
 
 <script>
@@ -98,10 +132,16 @@
 	height: 100vh;
 	max-height: 100vh;
 	padding: vw(190) 0 vw(160);
+
 	&__inner {
 		display: grid;
 		grid-template-columns: 1fr vw(940) 1fr;
-		grid-template-rows: 1fr;
+		grid-template-rows: 50px 50px 500px 300px 50px;
+		grid-template: "topSpace topSpace topSpace"
+									 "leftName picture rightTopSpace"
+									 "leftNav picture rightNav"
+									 "leftDesc picture rightBotSpace"
+									 "bottomSpace bottomSpace bottomSpace";
 		grid-column-gap: vw(40);
 		grid-row-gap: 0;
 	}
@@ -165,5 +205,35 @@
 	.container {
 		height: 100%;
 	}
+}
+.top-space {
+	grid-area: topSpace;
+}
+.left-space {
+	grid-area: leftName;
+}
+.pic {
+	grid-area: picture;
+	background-color: green;
+	height: fit-content;
+	display: flex;
+}
+.right-top-space {
+	grid-area: rightTopSpace;
+}
+.left-nav {
+	grid-area: leftNav;
+}
+.right-nav {
+	grid-area: rightNav;
+}
+.left-decr {
+	grid-area: leftDesc;
+}
+.right-bottom-space {
+	grid-area: rightBotSpace;
+}
+.bottom-space {
+	grid-area: bottomSpace;
 }
 </style>
