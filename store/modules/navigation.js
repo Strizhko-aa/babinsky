@@ -10,22 +10,22 @@ export const state = () => ({
     items: [
       {
         title: 'main',
-        href: '#main',
+        href: '/#main',
         img: '#'
       },
       {
         title: 'gallery',
-        href: '#gallery',
+        href: '/#gallery',
         img: '#'
       },
       {
         title: 'about',
-        href: '#about',
+        href: '/#about',
         img: '#'
       },
       {
         title: 'contacts',
-        href: '#contacts',
+        href: '/#contacts',
         img: '#'
       }
     ]
