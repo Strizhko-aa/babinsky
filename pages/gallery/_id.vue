@@ -1,32 +1,21 @@
 <template lang='pug'>
 .work
 	.container
-		//- .work__inner
-		//- 	//- .work__left
-		//- 	h1.work__title {{ picture.fields.name }}
-		//- 	.work__meta
-		//- 		.work__meta-item
-		//- 			.work__meta-title(v-if='picture.fields.size') {{ $t('size') }}:
-		//- 			.work__meta-value(v-html='picture.fields.size')
-		//- 			.work__meta-title(v-if='picture.fields.description')
-		//- 			.work__meta-value(v-html='picture.fields.description')
-		//- 			.work__meta-title(v-if='picture.fields.date') {{ $t('year') }}:
-		//- 			.work__meta-value(v-html='picture.fields.date')
-		//- 	//- .work__center
-		//- 	.work__zoom
-		//- 		img.work__small(:src='picture.fields.image_medium.fields.file.url')
-		//- 		img.work__origin(:src='picture.fields.image_large.fields.file.url')
-		//- 	.work__right
 		.work__inner
 			.top-space
 			.left-name
 				h1.work__title {{ picture.fields.name }}
 			.pic
-				img.work__small(:src='picture.fields.image_medium.fields.file.url')
-				img.work__origin(:src='picture.fields.image_large.fields.file.url')
+				.work__zoom
+					img.work__small(:src='picture.fields.image_medium.fields.file.url')
+					img.work__origin(:src='picture.fields.image_large.fields.file.url')
 			.right-top-space
-			.left-nav leftNav
-			.right-nav right-nav
+			.left-nav
+				img(src='~assets/img/arrow-left.svg')
+				.nav-text previous work
+			.right-nav
+				.nav-text next work
+				img(src='~assets/img/arrow-left.svg')
 			.left-decr
 				.work__meta-item
 					.work__meta-title(v-if='picture.fields.size') {{ $t('size') }}:
@@ -35,22 +24,8 @@
 					.work__meta-value(v-html='picture.fields.description')
 					.work__meta-title(v-if='picture.fields.date') {{ $t('year') }}:
 					.work__meta-value(v-html='picture.fields.date')
-			.right-bottom-space rightBotSpace
+			.right-bottom-space
 			.bottom-space
-			//- h1.work__title {{ picture.fields.name }}
-			//- .work__meta
-				//- .work__meta-item
-				//- 	.work__meta-title(v-if='picture.fields.size') {{ $t('size') }}:
-				//- 	.work__meta-value(v-html='picture.fields.size')
-				//- 	.work__meta-title(v-if='picture.fields.description')
-				//- 	.work__meta-value(v-html='picture.fields.description')
-				//- 	.work__meta-title(v-if='picture.fields.date') {{ $t('year') }}:
-				//- 	.work__meta-value(v-html='picture.fields.date')
-			//- //- .work__center
-			//- .work__zoom
-			//- 	img.work__small(:src='picture.fields.image_medium.fields.file.url')
-			//- 	img.work__origin(:src='picture.fields.image_large.fields.file.url')
-			//- .work__right
 </template>
 
 <script>
@@ -200,31 +175,90 @@
 .top-space {
 	grid-area: topSpace;
 }
-.left-space {
+.left-name {
 	grid-area: leftName;
 }
 .pic {
 	grid-area: picture;
-	background-color: green;
 	height: fit-content;
 	display: flex;
+	justify-content: center;
 }
 .right-top-space {
 	grid-area: rightTopSpace;
 }
 .left-nav {
 	grid-area: leftNav;
+	display: flex;
+	align-items: center;
 }
 .right-nav {
 	grid-area: rightNav;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
 }
 .left-decr {
 	grid-area: leftDesc;
+	display: flex;
+	align-items: flex-end;
 }
 .right-bottom-space {
 	grid-area: rightBotSpace;
 }
 .bottom-space {
 	grid-area: bottomSpace;
+}
+.left-nav {
+	padding-left: 20px;
+}
+.right-nav {
+	padding-right: 20px;
+}
+.right-nav img {
+	transform: rotate(180deg);
+}
+.nav-text {
+	font-weight: 500;
+	padding: 10px;
+}
+@include mobile {
+	.container {
+		display: block;
+	}
+	.container:first-child {
+		grid-area: 1 / 1 / 3 / 2;
+	}
+	.work__inner {
+		width: 100%;
+		display: grid;
+		grid-template-columns: 1fr 50% 1fr;
+		grid-auto-rows: auto;
+		grid-template: "topSpace topSpace topSpace"
+									 "picture picture picture"
+									 "leftNav rightBotSpace rightNav"
+									 "leftName leftName leftName"
+									 "leftDesc leftDesc leftDesc"
+									 "bottomSpace rightTopSpace rightTopSpace"!important;
+	}
+	.left-name, .left-decr {
+		padding-left: 20px;
+	}
+	.top-space {
+		height: vmin(44);
+	}
+	.pic {
+		width: 100%;
+	}
+	.bottom-space {
+		height: vmin(70);
+	}
+	.left-nav, .right-nav {
+		padding-top: 20px;
+		padding-bottom: 20px;
+	}
+	.nav-text {
+		color: #C4C4C4;
+	}
 }
 </style>

@@ -193,7 +193,8 @@ export default {
 }
 
 .grid-wrap {
-    column-count: auto;
+    column-count: 3;
+    grid-template-columns: 1fr 1fr 1fr;
     column-gap: 20px;
     column-width: 500px;
 }
