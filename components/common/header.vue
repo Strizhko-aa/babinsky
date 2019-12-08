@@ -25,17 +25,25 @@ export default {
   data() {
     return {
       menuShow: false,
-      menuWrapper: false
+      menuWrapper: false,
+      backDark: false
     }
   },
   methods: {
     toggleMenu() {
       this.menuShow = !this.menuShow;
       if (this.menuShow) {
+        if (this.darkTheme) {
+          this.backDark = true
+        }
         this.$store.commit('navigation/REMOVE_DARK_THEME')
         this.menuWrapper = true
       } else {
-        this.$store.commit('navigation/SET_DARK_THEME')
+        if (this.backDark) {
+          this.$store.commit('navigation/SET_DARK_THEME')
+          this.backDark = false
+        }
+
         let self = this
         setTimeout(function() { self.menuWrapper = false }, 400)
       }

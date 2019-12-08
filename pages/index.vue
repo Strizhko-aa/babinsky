@@ -2,7 +2,7 @@
 .fullpage-container
   no-ssr
     full-page(:options="options" ref="fullpage")
-      section-intro.section(data-anchor="intro")
+      section-intro.section(data-anchor="main")
       section-gallery.section(data-anchor="gallery")
       section-about.section(data-anchor="about")
       section-contacts.section(data-anchor="contacts")
@@ -70,7 +70,7 @@ export default {
     const self = this
     return {
       options: {
-        anchors: ['intro', 'gallery', 'about', 'contacts'],
+        anchors: ['main', 'gallery', 'about', 'contacts'],
         scrollOverflow: true,
         scrollOverflowOptions: {
           // probeType: 3,
