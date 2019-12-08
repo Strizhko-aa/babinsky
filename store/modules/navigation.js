@@ -10,28 +10,29 @@ export const state = () => ({
     items: [
       {
         title: 'main',
-        href: '#main',
+        href: '/#main',
         img: '#'
       },
       {
         title: 'gallery',
-        href: '#gallery',
+        href: '/#gallery',
         img: '#'
       },
       {
         title: 'about',
-        href: '#about',
+        href: '/#about',
         img: '#'
       },
       {
         title: 'contacts',
-        href: '#contacts',
+        href: '/#contacts',
         img: '#'
       }
     ]
   },
   background: require("~/assets/img/hero.jpg"),
-  darkTheme: false
+  darkTheme: false,
+  showFooter: true
 })
 
 export const getters = {
@@ -63,6 +64,12 @@ export const mutations = {
   },
   REMOVE_DARK_THEME (state) {
     state.darkTheme = false
+  },
+  HIDE_FOOTER (state) {
+    state.showFooter = false
+  },
+  SHOW_FOOTER (state) {
+    state.showFooter = true
   }
 }
 

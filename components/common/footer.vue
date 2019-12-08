@@ -1,5 +1,5 @@
 <template lang='pug'>
-.footer
+.footer(:class='{"footer--dark": darkTheme}' v-if='showFooter')
 	.footer__left.footer__copywrite © {{lastName}}, {{year}}
 	.footer__right
 		.footer__menu
@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     ...mapState('author', ['lastName']),
-    ...mapState('navigation', ['menu']),
+    ...mapState('navigation', ['menu', 'showFooter', 'darkTheme']),
   }
 }
 </script>
@@ -40,7 +40,8 @@ export default {
 		position: fixed;
 		left: vw(122);
 		bottom: vw(58);
-		z-index: 99999;
+    z-index: 99999;
+    color: #C4C4C4;
 
 		@include mobile {
 			left: vmin(20);
@@ -56,6 +57,7 @@ export default {
 		right: vw(122);
 		bottom: vw(58);
 		z-index: 99999;
+    color: #0D0D0D;
 
 		@include mobile {
 			display: none;
@@ -71,12 +73,28 @@ export default {
 
 		&-item {
 			text-decoration: none;
-			color: #C4C4C4;
+			color: #ffffff;
 
 			&:not(:last-child) {
 				margin: 0 vw(50) 0 0;
 			}
 		}
 	}
+}
+</style>
+
+
+<style lang="scss">
+.footer {
+  &--dark {
+    .footer__right {
+      .footer__menu-item {
+        color: #0D0D0D;
+      }
+    }
+    .footer__left {
+      color: #999999;
+    }
+  }
 }
 </style>

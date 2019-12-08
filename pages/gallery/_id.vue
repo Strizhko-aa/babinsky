@@ -54,6 +54,7 @@
     },
     beforeMount() {
       this.$store.commit('navigation/SET_DARK_THEME')
+      this.$store.commit('navigation/SHOW_FOOTER')
     },
     async asyncData(context) {
       await context.app.contentful.getLocales()
@@ -68,13 +69,21 @@
       if (!picture) {
         const store = context.store
 
-        return context.app.contentful.getEntries({
-          content_type: 'picture',
-          locale: context.store.state.locale.locale,
-          order: 'fields.rating'
-        }).then((pictures) => {
-          return context.store.dispatch('gallery/putGallery', pictures)
-        }).then(() => {
+        return Promise.allSettled([
+          context.app.contentful.getEntries({
+            content_type: 'picture',
+            locale: context.store.state.locale.locale,
+            order: 'fields.rating'
+          }).then((pictures) => {
+            return context.store.dispatch('gallery/putGallery', pictures)
+          }),
+          context.app.contentful.getEntry(process.env.CTF_NAVIGATION_ID, {
+            content_type: 'navigation',
+            locale: context.store.state.locale.locale,
+          }).then((nav) => {
+            return context.store.dispatch('navigation/putNavigation', nav)
+          })
+        ]).then(() => {
           return {
             picture: context.store.state.gallery.gallery_obj[context.route.params.id]
           }

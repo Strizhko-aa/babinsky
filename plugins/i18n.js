@@ -10,6 +10,9 @@ export default ({ app, store }) => {
     messages: {
       'en-US': require('~/locales/en-US.js'),
       'ru-RU': require('~/locales/ru-RU.js')
+    },
+    detectBrowserLanguage: {
+      useCookie: true,
     }
   })
 }
