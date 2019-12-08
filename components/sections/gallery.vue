@@ -7,7 +7,7 @@
         .gallery__photographer <span>Photo by:</span> Matvey Sysoev
       .grid-wrap
         .grid-wrap
-        nuxt-link.grid-elem(:to='`/gallery/${item.sys.id}`' v-for='(item, index) in gallery' :key='index' :data-index='index' :class='`box-${index}`')
+        nuxt-link.grid-elem(:to='`/gallery/${item.sys.id}`' v-for='(item, index) in items' :key='index' :data-index='index' :class='`box-${index}`')
           img(:src='item.fields.image_small.fields.file.url')
       .scroll-trigger(v-observe-visibility="visibilityChanged")
 
@@ -22,22 +22,16 @@ import { ObserveVisibility } from 'vue-observe-visibility'
 Vue.directive('observe-visibility', ObserveVisibility)
 
 if (process.browser) {
-  // var Masonry = require('masonry-layout');
   var ImagesLoaded = require('imagesloaded');
 }
 
 export default {
   data() {
     return {
-        loadCount: 9,
+        loadCount: 0,
         selector: ".gallery__items",
         loading: false,
-        // options: {
-        //   columnWidth: ".grid-sizer",
-        //   percentPosition: true,
-        //   itemSelector: ".gallery__item",
-        // },
-        // masonry: null,
+        items: []
       }
     },
   computed: {
@@ -46,50 +40,37 @@ export default {
   },
   methods: {
     visibilityChanged (visible, second) {
-      // if (visible) {
-      //   this.loadMore()
-      // }
+      if (visible && (this.loadCount < this.gallery.length)) {
+        this.loadMore()
+      }
     },
     loadMore() {
-
-      /** This is only for this demo, you could
-        * replace the following with code to hit
-        * an endpoint to pull in more data. **/
       this.loading = true;
-        // console.log(this.$parent.$refs.fullpage)
-      console.log(this.items.length)
-      this.loading = false;
-      setTimeout(e => {
-        fullpage_api.reBuild()
-        console.log('rebuild')
-      }, 3000);
-      /**************************************/
+      for (let i = this.loadCount; i < this.gallery.length, i < this.loadCount + 5; ++i) {
+        this.items.push(this.gallery[i])
+      }
 
+      this.loadCount += 5
+
+      ImagesLoaded(this.selector, () => {
+        fullpage_api.reBuild()
+        this.loading = false;
+      });
     }
   },
-  // watch: {
-  //   data() {
-  //     this.loaded();
-  //   }
-  // },
   mounted() {
     const store = this.$store
     const self = this
 
+    this.loading = true;
     this.$root.context.app.contentful.getEntries({
       content_type: 'picture',
       locale: store.state.locale.locale,
       order: 'fields.rating',
-      // skip: 0,
-      // limit: 5
     }).then((pictures) => {
-      store.dispatch('gallery/putGallery', pictures)
-      setTimeout(() => {
-        fullpage_api.reBuild()
-      }, 1500);
-      setTimeout(() => {
-        fullpage_api.reBuild()
-      }, 2000);
+      return store.dispatch('gallery/putGallery', pictures)
+    }).then(() => {
+      self.loadMore()
     }).catch(err => {
       console.error(err)
     })
