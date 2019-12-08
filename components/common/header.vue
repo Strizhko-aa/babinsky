@@ -1,20 +1,21 @@
 <template lang='pug'>
 .header(:class='{"header--dark": darkTheme}')
-  nuxt-link.header__logo(to="/" v-html='lastName')
-  .header__langs
-    .header__lang(v-for='(lang, index) in locales' :key='index' v-html='lang.slice(0, 2)' @click='changeLang(lang)' :class='{"header__lang--active": lang === locale}')
-  .header__menu(@click='toggleMenu()')
-    .header__menu-button(v-if='!menuShow')
-      span {{ menu.openText }}
-    .header__menu-button(v-else)
-      span {{ menu.closeText }}
-    .header__menu-icon
-      .header__menu-icon-item(:class='{"header__menu-icon-item--active": menuShow}')
-  .header__menu-wrapper(:class='{"header__menu-wrapper--active": menuWrapper}')
-    .header__menu-top(:class='{"header__menu-top--active": menuShow}')
-      .header__menu-items
-        a.header__menu-item(v-for='(item, index) in menu.items' :key='index' v-html='item.title' :href='item.href' @click='toggleMenu()')
-    .header__menu-bottom(:class='{"header__menu-bottom--active": menuShow}')
+  .header__border
+    nuxt-link.header__logo(to="/" v-html='lastName')
+    .header__langs
+      .header__lang(v-for='(lang, index) in locales' :key='index' v-html='lang.slice(0, 2)' @click='changeLang(lang)' :class='{"header__lang--active": lang === locale}')
+    .header__menu(@click='toggleMenu()')
+      .header__menu-button(v-if='!menuShow')
+        span {{ menu.openText }}
+      .header__menu-button(v-else)
+        span {{ menu.closeText }}
+      .header__menu-icon
+        .header__menu-icon-item(:class='{"header__menu-icon-item--active": menuShow}')
+    .header__menu-wrapper(:class='{"header__menu-wrapper--active": menuWrapper}')
+      .header__menu-top(:class='{"header__menu-top--active": menuShow}')
+        .header__menu-items
+          a.header__menu-item(v-for='(item, index) in menu.items' :key='index' v-html='item.title' :href='item.href' @click='toggleMenu()')
+      .header__menu-bottom(:class='{"header__menu-bottom--active": menuShow}')
 </template>
 
 <script>
@@ -31,8 +32,10 @@ export default {
     toggleMenu() {
       this.menuShow = !this.menuShow;
       if (this.menuShow) {
+        this.$store.commit('navigation/REMOVE_DARK_THEME')
         this.menuWrapper = true
       } else {
+        this.$store.commit('navigation/SET_DARK_THEME')
         let self = this
         setTimeout(function() { self.menuWrapper = false }, 400)
       }
@@ -52,26 +55,32 @@ export default {
 <style lang="scss" scoped>
 .header {
   position: fixed;
-  left: vw(122);
-  right: vw(122);
-  top: vw(60);
-  display: grid;
-  grid-template-columns: vw(150) 1fr vw(150);
-  grid-template-rows: auto;
-  grid-column-gap: vw(50);
-  grid-row-gap: 0px;
-  padding: 0 0 vw(20);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  padding: vw(60) vw(122) 0 vw(122);
+  width: 100%;
   z-index: 999;
-  transition: border-color 500ms ease;
 
   @include mobile {
-    left: vmin(20);
-    right: vmin(20);
-    top: vmin(20);
-    grid-template-columns: 1fr 1fr;
-    grid-column-gap: vmin(20);
-    padding: 0 0 vmin(20);
+    padding: vmin(20) vmin(20) 0 vmin(20);
+  }
+
+  &__border {
+    display: grid;
+    grid-template-columns: vw(150) 1fr vw(150);
+    grid-template-rows: auto;
+    grid-column-gap: vw(50);
+    grid-row-gap: 0px;
+
+    padding-bottom: 20px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    transition: border-color 500ms ease;
+
+    width: 100%;
+
+    @include mobile {
+      grid-template-columns: 1fr 1fr;
+      grid-column-gap: vmin(20);
+    }
   }
 
   &__logo {
@@ -277,7 +286,7 @@ export default {
       flex-direction: column;
       align-items: center;
       justify-content: flex-end;
-      padding: 0 0 vh(78);
+      padding: 0 0 vh(156);
     }
     &-item {
       font-family: $oswald;
@@ -305,19 +314,26 @@ export default {
 .header {
   &--dark {
     border-color: #0d0d0d33!important;
+    background-color: #ffffff;
+    transition: background-color 1s $bezier;
+
     .header {
+      &__border {
+        border-bottom: 1px solid rgba(13, 13, 13, 0.2);
+      }
+
       &__logo {
         color: #0D0D0D;
       }
       &__lang {
-        color: #0D0D0D;
+        color: #999999;
 
         &:not(:last-child)::after {
           color: #0D0D0D;
         }
 
         &--active {
-          color: #999999;
+          color: #0D0D0D;
         }
       }
       &__menu {

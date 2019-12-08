@@ -31,7 +31,8 @@ export const state = () => ({
     ]
   },
   background: require("~/assets/img/hero.jpg"),
-  darkTheme: false
+  darkTheme: false,
+  showFooter: true
 })
 
 export const getters = {
@@ -63,6 +64,12 @@ export const mutations = {
   },
   REMOVE_DARK_THEME (state) {
     state.darkTheme = false
+  },
+  HIDE_FOOTER (state) {
+    state.showFooter = false
+  },
+  SHOW_FOOTER (state) {
+    state.showFooter = true
   }
 }
 

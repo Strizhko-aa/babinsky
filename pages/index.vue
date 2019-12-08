@@ -5,16 +5,7 @@
       section-intro.section(data-anchor="intro")
       section-gallery.section(data-anchor="gallery")
       section-about.section(data-anchor="about")
-      //- section-news.section#news
       section-contacts.section(data-anchor="contacts")
-//- .fullpage-container
-  //- full-page(:options="options" id="fullpage")
-//- .foobar
-//-   section-intro.section#intro
-//-   section-gallery.section#gallery
-//-   section-about.section#about
-//-   //- section-news.section#news
-//-   section-contacts.section#contacts
 </template>
 
 <script>
@@ -79,44 +70,49 @@ export default {
     const self = this
     return {
       options: {
-        // anchors: ['gallery',],
         anchors: ['intro', 'gallery', 'about', 'contacts'],
         scrollOverflow: true,
-        // scrollOverflowOptions: {
-        //   probeType: 3,
-        //   scrollBar: true,
-        //   scrollbars: true,
-        //   mouseWheel: true,
-        //   interactiveScrollbars: true,
-        //   shrinkScrollbars: 'scale',
-        //   // fadeScrollbars: true,
-        //   bounceEasing: 'elastic', 
-        //   bounceTime: 1200,
-        // },
+        scrollOverflowOptions: {
+          // probeType: 3,
+          // scrollBar: true,
+          // scrollbars: true,
+          // mouseWheel: true,
+          // interactiveScrollbars: true,
+          // shrinkScrollbars: 'scale',
+          // // fadeScrollbars: true,
+          // bounceEasing: 'elastic',
+          // bounceTime: 1200,
+        },
         fadingEffect: true,
         controlArrows: false,
         licenseKey: '00122C31-74D341B7-81D0999A-E51563F7',
         onLeave: function(origin, destination, direction) {
           if(origin.index == 0 && direction =='down'){
             self.$store.commit('navigation/SET_DARK_THEME')
+            self.$store.commit('navigation/HIDE_FOOTER')
           } else if(origin.index == 1 && direction == 'up'){
             self.$store.commit('navigation/REMOVE_DARK_THEME')
+            self.$store.commit('navigation/SHOW_FOOTER')
           }
+
+          if (origin.index == 1 && direction == 'down') {
+            self.$store.commit('navigation/SHOW_FOOTER')
+          } else if (origin.index == 2 && direction == 'up') {
+            self.$store.commit('navigation/HIDE_FOOTER')
+          }
+
         },
         afterRender: function(origin, destination, direction){
-          if(origin.index == 0) {
+          if(origin.index > 0) {
             self.$store.commit('navigation/SET_DARK_THEME')
+          }
+          if (origin.index == 1) {
+            self.$store.commit('navigation/HIDE_FOOTER')
           }
         }
       }
     }
   },
-  // mounted() {
-  //   this.$store.dispatch('author/getAuthor')
-  //   this.$store.dispatch('navigation/getNavigation')
-  //   this.$store.dispatch('about/getAbout')
-  //   this.$store.dispatch('contacts/getContacts')
-  // },
 }
 </script>
 
