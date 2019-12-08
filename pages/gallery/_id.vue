@@ -239,9 +239,9 @@
 		grid-area: 1 / 1 / 3 / 2;
 	}
 	.work__inner {
-		width: 100%;
+		width: 90%;
 		display: grid;
-		grid-template-columns: 1fr 50% 1fr;
+		grid-template-columns: 1fr 1fr 1fr;
 		grid-auto-rows: auto;
 		grid-template: "topSpace topSpace topSpace"
 									 "picture picture picture"
