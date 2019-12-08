@@ -51,11 +51,12 @@ export default {
       }
 
       this.loadCount += 5
-
-      ImagesLoaded(this.selector, () => {
-        fullpage_api.reBuild()
-        this.loading = false;
-      });
+      setTimeout(() => {
+        ImagesLoaded(this.selector, () => {
+          fullpage_api.reBuild()
+          this.loading = false;
+        });
+      }, 1000)
     }
   },
   mounted() {
