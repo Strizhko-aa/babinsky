@@ -14,7 +14,7 @@
     .header__menu-wrapper(:class='{"header__menu-wrapper--active": menuWrapper}')
       .header__menu-top(:class='{"header__menu-top--active": menuShow}')
         .header__menu-items
-          a.header__menu-item(v-for='(item, index) in menu.items' :key='index' v-html='item.title' :href='item.href' @click='toggleMenu()')
+          .header__menu-item(v-for='(item, index) in menu.items' :key='index' v-html='item.title' @click='moveTo(item.href)')
       .header__menu-bottom(:class='{"header__menu-bottom--active": menuShow}')
 </template>
 
@@ -30,6 +30,12 @@ export default {
     }
   },
   methods: {
+    moveTo (link) {
+      // console.log(link)
+      this.$store.commit('navigation/PAGE_TO', link)
+      this.toggleMenu()
+    },
+
     toggleMenu() {
       this.menuShow = !this.menuShow;
       if (this.menuShow) {

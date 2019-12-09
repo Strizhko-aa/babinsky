@@ -6,9 +6,9 @@
         h2.gallery__title(v-html='galleryName')
         .gallery__photographer <span>Photo by:</span> Matvey Sysoev
       .grid-wrap
-        .grid-wrap
         nuxt-link.grid-elem(:to='`/gallery/${item.sys.id}`' v-for='(item, index) in items' :key='index' :data-index='index' :class='`box-${index}`')
           img(:src='item.fields.image_small.fields.file.url')
+        //- .skeleton-block.shine.grid-elem(v-for="index in 10" :key="index" v-show="loading")
       .scroll-trigger(v-observe-visibility="visibilityChanged")
 
 </template>
@@ -195,5 +195,32 @@ export default {
     width: 100%;
     object-fit: cover;
     border-radius: 2px;
+}
+.skeleton-block {
+  width: 100%;
+  height: 520px;
+}
+.shine {
+  background: #f6f7f8;
+  background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-repeat: no-repeat;
+  // background-size: 800px 104px; 
+  display: inline-block;
+  position: relative; 
+  
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: forwards; 
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-name: placeholderShimmer;
+  -webkit-animation-timing-function: linear;
+}
+@keyframes placeholderShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  
+  100% {
+    background-position: 468px 0; 
+  }
 }
 </style>
