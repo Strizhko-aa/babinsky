@@ -217,6 +217,9 @@
 	padding: 10px;
 }
 @include mobile {
+	.work {
+		overflow-Y: hidden;
+	}
 	.container {
 		display: block;
 		// width: 90vw;
@@ -225,14 +228,15 @@
 		grid-area: 1 / 1 / 3 / 2;
 	}
 	.work__inner {
+		overflow-y: auto;
 		display: grid;
 		grid-template: "topSpace topSpace topSpace"
 									 "picture picture picture"
 									 "leftNav . rightNav"
 									 "leftName leftName leftName"
 									 "leftDesc leftDesc leftDesc"
-									 "rightBotSpace rightBotSpace rightBotSpace"
-									 "bottomSpace bottomSpace bottomSpace" 50px / 1fr 1fr 1fr;
+									 "rightBotSpace rightBotSpace rightBotSpace" 50px
+									 "bottomSpace bottomSpace bottomSpace" 0 / 1fr 1fr 1fr;
 	}
 
 	.left-name, .left-decr {
