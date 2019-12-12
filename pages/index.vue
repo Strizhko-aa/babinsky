@@ -5,26 +5,26 @@
       <div id="wrap-main" class="section-wrap" v-on:wheel='onWheel($event, 0)'>
         <div class="sup-wrap">
           <section-intro class="section" id="main" data-anchor="main"></section-intro>
-          <div id="wrap-end-1" class="wrap-end"></div>
+          <div id="wrap-end-1" class="wrap-end" v-observe-visibility="(isVisible, entry) => visibilityChanged(isVisible, entry, 1)"></div>
         </div>
       </div>
       <div id="wrap-gallery" class="section-wrap" v-on:wheel='onWheel($event, 1)'>
         <div class="sup-wrap">
-          <div id="wrap-start-2" class="wrap-start"></div>
+          <div id="wrap-start-2" class="wrap-start" v-observe-visibility="(isVisible, entry) => visibilityChanged(isVisible, entry, 2)"></div>
           <section-gallery class="section" id="gallery" data-anchor="gallery"></section-gallery>
-          <div id="wrap-end-2" class="wrap-end"></div>
+          <div id="wrap-end-2" class="wrap-end" v-observe-visibility="(isVisible, entry) => visibilityChanged(isVisible, entry, 3)"></div>
         </div>
       </div>
       <div id="wrap-about" class="section-wrap" v-on:wheel='onWheel($event, 2)'>
         <div class="sup-wrap">
-          <div id="wrap-start-3" class="wrap-start"></div>
+          <div id="wrap-start-3" class="wrap-start" v-observe-visibility="(isVisible, entry) => visibilityChanged(isVisible, entry, 4)"></div>
           <section-about class="section" id="about" data-anchor="about"></section-about>
-          <div id="wrap-end-3" class="wrap-end"></div>
+          <div id="wrap-end-3" class="wrap-end" v-observe-visibility="(isVisible, entry) => visibilityChanged(isVisible, entry, 5)"></div>
         </div>
       </div>
       <div id="wrap-contacts" class="section-wrap" v-on:wheel='onWheel($event, 3)'>
         <div class="sup-wrap">
-          <div id="wrap-start-4" class="wrap-start"></div>
+          <div id="wrap-start-4" class="wrap-start" v-observe-visibility="(isVisible, entry) => visibilityChanged(isVisible, entry, 6)"></div>
           <section-contacts class="section" id="contacts" data-anchor="contacts"></section-contacts>
         </div>
       </div>
@@ -102,6 +102,7 @@ export default {
       scrollAboutTopAllow: true,
       scrollAboutBotAllow: true,
       scrollContactsTopAllow: true,
+      scrollBlocked: false,
       elemList: [
           'wrap-main',
           'wrap-gallery',
@@ -122,88 +123,83 @@ export default {
     }
   },
   methods: {
+    visibilityChanged (isVisible, entry, triggerIndex) {
+      if (triggerIndex == 1) {
+        console.log(triggerIndex, isVisible)
+        this.scrollMainBotAllow = isVisible
+      } else if (triggerIndex == 2) {
+        console.log(triggerIndex, isVisible)
+        this.scrollGalleryTopAllow = isVisible
+      } else if (triggerIndex == 3) {
+        console.log(triggerIndex, isVisible)
+        this.scrollGalleryBotAllow = isVisible
+      } else if (triggerIndex == 4) {
+        console.log(triggerIndex, isVisible)
+        this.scrollAboutTopAllow = isVisible
+      } else if (triggerIndex == 5) {
+        this.scrollAboutBotAllow = isVisible
+      } else if (triggerIndex == 6) {
+        this.scrollContactsTopAllow = isVisible
+      }
+    },
     onWheel (e, index) {
-      var element1Bot = document.querySelector('#wrap-end-1')
-      var position1Bot = element1Bot.getBoundingClientRect()
-      if(position1Bot.top >= window.scrollY && position1Bot.bottom <= (window.scrollY + window.innerHeight)) {
-        console.log(window.innerHeight)
-        this.scrollMainBotAllow = true
-      } else {
-        this.scrollMainBotAllow = false
+      if (this.scrollBlocked) {
+        e.preventDefault()
+        return
       }
-      var element2Top = document.querySelector('#wrap-start-2')
-      var position2Top = element2Top.getBoundingClientRect()
-      if(position2Top.top >= window.scrollY && position2Top.bottom <= (window.scrollY + window.innerHeight)) {
-        this.scrollGalleryTopAllow = true
-      } else {
-        this.scrollGalleryTopAllow = false
-      }
-      var element2Bot = document.querySelector('#wrap-end-2')
-      var position2Bot = element2Bot.getBoundingClientRect()
-      if(position2Bot.top >= window.scrollY && position2Bot.bottom <= (window.scrollY + window.innerHeight)) {
-        this.scrollGalleryBotAllow = true
-      } else {
-        this.scrollGalleryBotAllow = false
-      }
-      var element3Top = document.querySelector('#wrap-start-3')
-      var position3Top = element3Top.getBoundingClientRect()
-      if(position3Top.top >= window.scrollY && position3Top.bottom <= (window.scrollY + window.innerHeight)) {
-        this.scrollAboutTopAllow = true
-      } else {
-        this.scrollAboutTopAllow = false
-      }
-      var element3Bot = document.querySelector('#wrap-end-3')
-      var position3Bot = element3Bot.getBoundingClientRect()
-      if(position3Bot.top >= window.scrollY && position3Bot.bottom <= (window.scrollY + window.innerHeight)) {
-        this.scrollAboutBotAllow = true
-      } else {
-        this.scrollAboutBotAllow = false
-      }
-      var element4Top = document.querySelector('#wrap-start-4')
-      var position4Top = element4Top.getBoundingClientRect()
-      if(position4Top.top >= window.scrollY && position4Top.bottom <= (window.scrollY + window.innerHeight)) {
-        this.scrollContactsTopAllow = true
-      } else {
-        this.scrollContactsTopAllow = false
-      }
-
       if ( e.deltaY > 0 ) {
-        console.log(this.scrollMainBotAllow)
         console.log(this.scrollGalleryBotAllow)
-        console.log(this.scrollAboutBotAllow)
-        this.scrollBottom()
         if (this.scrollMainBotAllow) {
-          this.toPage(this.elemList[1])
+          console.log('check', this.scrollMainBotAllow)
+          this.scrollBottom()
           e.preventDefault()
           return
         } else if (this.scrollGalleryBotAllow) {
-          this.toPage(this.elemList[2])
+          console.log(2)
+          this.scrollBottom()
+          e.preventDefault()
+          return
         } else if (this.scrollAboutBotAllow) {
-          this.toPage(this.elemList[3])
+          console.log(3)
+          this.scrollBottom()
+          e.preventDefault()
+          return
         }
       } else {
         if (this.scrollGalleryTopAllow) {
-          this.toPage(this.elemList[0])
+          this.scrollTop()
+          e.preventDefault()
+          return
         } else if (this.scrollAboutTopAllow) {
-          this.toPage(this.elemList[1])
+          this.scrollTop()
+          e.preventDefault()
+          return
         } else if (this.scrollContactsTopAllow) {
-          this.toPage(this.elemList[2])
+          this.scrollTop()
+          e.preventDefault()
+          return
         }
       }
     },
-    toPage(id, force = false) {
-      var page = document.getElementById(id)
-      // page.scrollIntoView({behavior: "smooth"})
-      // console.log('i scrolling')
-      var pos = page.getBoundingClientRect()
+    scrollBottom() {
+      this.scrollBlocked = true
+      self = this
+      setTimeout(function () {
+        self.scrollBlocked = false
+      }, 700)
       window.scrollTo({
-        top: pos.top,
+        top: window.scrollY + window.innerHeight,
         behavior: "smooth"
       })
     },
-    scrollBottom() {
+    scrollTop() {
+      this.scrollBlocked = true
+      self = this
+      setTimeout(function () {
+        self.scrollBlocked = false
+      }, 700)
       window.scrollTo({
-        top: window.scrollY + window.innerHeight,
+        top: window.scrollY - window.innerHeight,
         behavior: "smooth"
       })
     }
@@ -227,7 +223,7 @@ export default {
   /* background-color: transparent; */
   position: absolute;
   pointer-events: none;
-  top: 0px;
+  top: 2px;
   left: 0;
   z-index: 99999999999999999999999999;
 }
@@ -238,7 +234,7 @@ export default {
   /* background-color: transparent; */
   position: absolute;
   pointer-events: none;
-  bottom: 0px;
+  bottom: 2px;
   left: 0;
   z-index: 9999999999999999999;
 }
