@@ -1,33 +1,31 @@
 <template>
-<div class="fullpage-container">
+<div id="main-container" class="fullpage-container">
   <no-ssr>
     <div class="content-wrapper" id="content-wrapper" >
       <div id="wrap-main" class="section-wrap" v-on:wheel='onWheel($event, 0)'>
         <div class="sup-wrap">
-          <div class="wrap-start" v-observe-visibility="topScrollAllow"></div>
           <section-intro class="section" id="main" data-anchor="main"></section-intro>
-          <div class="wrap-end" v-observe-visibility="botScrollAllow"></div>
+          <div id="wrap-end-1" class="wrap-end"></div>
         </div>
       </div>
       <div id="wrap-gallery" class="section-wrap" v-on:wheel='onWheel($event, 1)'>
         <div class="sup-wrap">
-          <div class="wrap-start" v-observe-visibility="topScrollAllow"></div>
+          <div id="wrap-start-2" class="wrap-start"></div>
           <section-gallery class="section" id="gallery" data-anchor="gallery"></section-gallery>
-          <div class="wrap-end" v-observe-visibility="botScrollAllow"></div>
+          <div id="wrap-end-2" class="wrap-end"></div>
         </div>
       </div>
       <div id="wrap-about" class="section-wrap" v-on:wheel='onWheel($event, 2)'>
         <div class="sup-wrap">
-          <div class="wrap-start" v-observe-visibility="topScrollAllow"></div>
+          <div id="wrap-start-3" class="wrap-start"></div>
           <section-about class="section" id="about" data-anchor="about"></section-about>
-          <div class="wrap-end" v-observe-visibility="botScrollAllow"></div>
+          <div id="wrap-end-3" class="wrap-end"></div>
         </div>
       </div>
       <div id="wrap-contacts" class="section-wrap" v-on:wheel='onWheel($event, 3)'>
         <div class="sup-wrap">
-          <div class="wrap-start" v-observe-visibility="topScrollAllow"></div>
+          <div id="wrap-start-4" class="wrap-start"></div>
           <section-contacts class="section" id="contacts" data-anchor="contacts"></section-contacts>
-          <div class="wrap-end" v-observe-visibility="botScrollAllow"></div>
         </div>
       </div>
     </div>
@@ -98,9 +96,12 @@ export default {
   data() {
     return {
       currentItem: 0,
-      scrollTopAllow: 0,
-      scrollBotAllow: 0,
-      scrollDisable: false,
+      scrollMainBotAllow: true,
+      scrollGalleryTopAllow: true,
+      scrollGalleryBotAllow: true,
+      scrollAboutTopAllow: true,
+      scrollAboutBotAllow: true,
+      scrollContactsTopAllow: true,
       elemList: [
           'wrap-main',
           'wrap-gallery',
@@ -121,77 +122,91 @@ export default {
     }
   },
   methods: {
-    topScrollAllow (visible, _) {
-      if (visible) {
-        setTimeout(() => {
-          this.scrollTopAllow = 1
-          // console.log('top', this.scrollTopAllow)
-        }, 100);
-      }
-    },
-    botScrollAllow (visible, _) {
-      if (visible) {
-        setTimeout(() => {
-          this.scrollBotAllow = 1
-          // console.log('bot', this.scrollBotAllow)
-        }, 100);
-      }
-    },
     onWheel (e, index) {
-      // if (this.scrollAllow) {
-      //   var currentPage = document.getElementById(this.elemList[index])
-      //   currentPage.scroll()
-      // } else {
-      if (this.scrollDisable) {
-        e.preventDefault();
-        return
+      var element1Bot = document.querySelector('#wrap-end-1')
+      var position1Bot = element1Bot.getBoundingClientRect()
+      if(position1Bot.top >= window.scrollY && position1Bot.bottom <= (window.scrollY + window.innerHeight)) {
+        console.log(window.innerHeight)
+        this.scrollMainBotAllow = true
+      } else {
+        this.scrollMainBotAllow = false
       }
+      var element2Top = document.querySelector('#wrap-start-2')
+      var position2Top = element2Top.getBoundingClientRect()
+      if(position2Top.top >= window.scrollY && position2Top.bottom <= (window.scrollY + window.innerHeight)) {
+        this.scrollGalleryTopAllow = true
+      } else {
+        this.scrollGalleryTopAllow = false
+      }
+      var element2Bot = document.querySelector('#wrap-end-2')
+      var position2Bot = element2Bot.getBoundingClientRect()
+      if(position2Bot.top >= window.scrollY && position2Bot.bottom <= (window.scrollY + window.innerHeight)) {
+        this.scrollGalleryBotAllow = true
+      } else {
+        this.scrollGalleryBotAllow = false
+      }
+      var element3Top = document.querySelector('#wrap-start-3')
+      var position3Top = element3Top.getBoundingClientRect()
+      if(position3Top.top >= window.scrollY && position3Top.bottom <= (window.scrollY + window.innerHeight)) {
+        this.scrollAboutTopAllow = true
+      } else {
+        this.scrollAboutTopAllow = false
+      }
+      var element3Bot = document.querySelector('#wrap-end-3')
+      var position3Bot = element3Bot.getBoundingClientRect()
+      if(position3Bot.top >= window.scrollY && position3Bot.bottom <= (window.scrollY + window.innerHeight)) {
+        this.scrollAboutBotAllow = true
+      } else {
+        this.scrollAboutBotAllow = false
+      }
+      var element4Top = document.querySelector('#wrap-start-4')
+      var position4Top = element4Top.getBoundingClientRect()
+      if(position4Top.top >= window.scrollY && position4Top.bottom <= (window.scrollY + window.innerHeight)) {
+        this.scrollContactsTopAllow = true
+      } else {
+        this.scrollContactsTopAllow = false
+      }
+
       if ( e.deltaY > 0 ) {
-        if (this.scrollBotAllow === 1 && this.currentItem < this.elemList.length - 1) {
-          this.scrollTopAllow = 0
-          this.scrollBotAllow = 0
-          this.currentItem = (index < this.elemList.length - 1) ? index + 1 : index
-          this.toPage(this.elemList[this.currentItem])
-        } else {
-          if (this.currentItem < this.elemList.length - 1) {
-            this.scrollTopAllow = 0
-            this.scrollBotAllow = 0
-          }
-          var currentPage = document.getElementById(this.elemList[index])
-          currentPage.scroll()
+        console.log(this.scrollMainBotAllow)
+        console.log(this.scrollGalleryBotAllow)
+        console.log(this.scrollAboutBotAllow)
+        this.scrollBottom()
+        if (this.scrollMainBotAllow) {
+          this.toPage(this.elemList[1])
+          e.preventDefault()
+          return
+        } else if (this.scrollGalleryBotAllow) {
+          this.toPage(this.elemList[2])
+        } else if (this.scrollAboutBotAllow) {
+          this.toPage(this.elemList[3])
         }
       } else {
-        if (this.scrollTopAllow === 1 && this.currentItem > 0) {
-          this.scrollTopAllow = 0
-          this.scrollBotAllow = 0
-          this.currentItem = (index > 0) ? index - 1 : index
-          this.toPage(this.elemList[this.currentItem])
-        } else {
-          if (this.currentItem > 0) {
-            this.scrollTopAllow = 0
-            this.scrollBotAllow = 0
-          }
-          var currentPage = document.getElementById(this.elemList[index])
-          currentPage.scroll()
+        if (this.scrollGalleryTopAllow) {
+          this.toPage(this.elemList[0])
+        } else if (this.scrollAboutTopAllow) {
+          this.toPage(this.elemList[1])
+        } else if (this.scrollContactsTopAllow) {
+          this.toPage(this.elemList[2])
         }
       }
     },
     toPage(id, force = false) {
-      if (force) {
-        this.scrollTopAllow = 0
-        this.scrollBotAllow = 0
-      }
       var page = document.getElementById(id)
-      var self = this
-      this.scrollDisable = true
-      // console.log('start')
-      setTimeout(function () {
-        self.scrollDisable = false
-        // console.log('end')
-      }, 600)
-      page.scrollIntoView({behavior: "smooth"})
+      // page.scrollIntoView({behavior: "smooth"})
       // console.log('i scrolling')
+      var pos = page.getBoundingClientRect()
+      window.scrollTo({
+        top: pos.top,
+        behavior: "smooth"
+      })
     },
+    scrollBottom() {
+      window.scrollTo({
+        top: window.scrollY + window.innerHeight,
+        behavior: "smooth"
+      })
+    }
   }
 }
 </script>
@@ -207,23 +222,23 @@ export default {
 }
 .wrap-start{
   width: 100%;
-  height: 1px;
-  /* background-color: blue; */
-  background-color: transparent;
+  height: 100px;
+  background-color: blue;
+  /* background-color: transparent; */
   position: absolute;
   pointer-events: none;
-  top: 10px;
+  top: 0px;
   left: 0;
   z-index: 99999999999999999999999999;
 }
 .wrap-end{
   width: 100%;
-  height: 1px;
-  /* background-color: palevioletred; */
-  background-color: transparent;
+  height: 100px;
+  background-color: palevioletred;
+  /* background-color: transparent; */
   position: absolute;
   pointer-events: none;
-  bottom: 10px;
+  bottom: 0px;
   left: 0;
   z-index: 9999999999999999999;
 }
