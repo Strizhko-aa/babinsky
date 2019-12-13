@@ -10,22 +10,22 @@ export const state = () => ({
     items: [
       {
         title: 'main',
-        href: 'wrap-main',
+        href: '#main',
         img: '#'
       },
       {
         title: 'gallery',
-        href: 'wrap-gallery',
+        href: '#gallery',
         img: '#'
       },
       {
         title: 'about',
-        href: 'wrap-about',
+        href: '#about',
         img: '#'
       },
       {
         title: 'contacts',
-        href: 'wrap-contacts',
+        href: '#contacts',
         img: '#'
       }
     ]
@@ -33,7 +33,7 @@ export const state = () => ({
   background: require("~/assets/img/hero.jpg"),
   darkTheme: false,
   showFooter: true,
-  pageToLink: -999
+  // pageToLink: -999
 })
 
 export const getters = {
@@ -57,9 +57,9 @@ export const mutations = {
       items: nav['navigation']
     }
   },
-  PAGE_TO (state, link) {
-    state.pageToLink = link
-  },
+  // PAGE_TO (state, link) {
+  //   state.pageToLink = link
+  // },
   CHANGE_BACKGOUND (state, data) {
     state.background = data
   },

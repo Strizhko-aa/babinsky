@@ -15,7 +15,7 @@ export default function langChangerPlugin () {
               content_type: 'navigation',
               locale: store.state.locale.locale,
             }).then((nav) => {
-              console.log(nav)
+              // console.log(nav)
               return store.dispatch('navigation/putNavigation', nav)
             }),
             store.contentful.getEntry(process.env.CTF_ABOUT_ID, {
@@ -28,11 +28,13 @@ export default function langChangerPlugin () {
               content_type: 'contacts',
               locale: store.state.locale.locale
             }).then((contacts) => {
-              console.log(contacts)
+              // console.log(contacts)
               return store.dispatch('contacts/putContacts', contacts)
             })
           ])
-          .then(results => {console.log(results)})
+          .then(results => {
+            // console.log(results)
+          })
           .catch((err) => {
             console.log("error", err);
           })

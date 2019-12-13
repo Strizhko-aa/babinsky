@@ -32,7 +32,7 @@ export default {
 
     await contentful.getLocales()
       .then(({items}) => {
-        return context.store.dispatch('locale/putLocales', items)
+        context.store.dispatch('locale/putLocales', items)
       })
 
     return Promise.all([
@@ -63,6 +63,13 @@ export default {
       ]).then((results) => {
         return {}
       })
+  },
+  beforeMount () {
+    let _locale = localStorage.getItem('locale')
+
+    if (_locale !== null) {
+      this.$store.commit('locale/SET_LANG', _locale)
+    }
   },
   data() {
     const self = this

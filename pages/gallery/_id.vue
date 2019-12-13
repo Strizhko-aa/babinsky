@@ -5,16 +5,16 @@
 			.top-space
 			.left-name
 				h1.work__title {{ picture.fields.name }}
-			.pic
+			.pic.fadeIn
 				.work__zoom
 					img.work__small(:src='picture.fields.image_medium.fields.file.url')
 					img.work__origin(:src='picture.fields.image_large.fields.file.url')
 			.right-top-space
 			.left-nav(@click="linkTo('prev')")
 				img(src='~assets/img/arrow-left.svg')
-				.nav-text previous work
+				.nav-text {{ localeComp === 'ru-RU' ? 'Предыдущая' : 'previous work'}}
 			.right-nav(@click="linkTo('next')")
-				.nav-text next work
+				.nav-text {{ localeComp === 'ru-RU' ? 'Следующая' : 'next work'}}
 				img(src='~assets/img/arrow-left.svg')
 			.left-decr
 				.work__meta-item
@@ -37,6 +37,11 @@
 			return {
 				picturesUrls: [],
 				pictureIndex: null
+			}
+		},
+		computed: {
+			localeComp () {
+				return this.$store.state.locale.locale
 			}
 		},
 		methods: {
@@ -99,7 +104,6 @@
 					// let picId = context.store.state.gallery.gallery_obj[context.route.params.id]
 					let _picId = window.location.pathname
 					let _picIndex = picUrlsFromRequest.indexOf(_picId)
-					console.log(_picIndex)
 					localStorage.setItem('currentPicture', _picIndex)
 					return _picIndex
 				}
@@ -123,49 +127,72 @@
 						this.pictureIndex--
 					}
 				}
-				console.log(this.pictureIndex)
-				console.log(this.picturesUrls[this.pictureIndex])
 				window.location.href = this.picturesUrls[this.pictureIndex]
 			}
     },
     beforeMount() {
+			let _locale = localStorage.getItem('locale')
+
+			if (_locale !== null) {
+				this.$store.commit('locale/SET_LANG', _locale)
+			}
+
       this.$store.commit('navigation/SET_DARK_THEME')
 			this.$store.commit('navigation/SHOW_FOOTER')
+
 			this.getPicturesUrlsFromStore().then(picUrlsFromRequest => {
 				this.picturesUrls = picUrlsFromRequest
 				this.pictureIndex = this.getPictureIndex(picUrlsFromRequest)
 			})
-    },
+		},
+		created() {
+			// console.log('before create')
+			// console.log(this.localeComp)
+			// if (this.localeComp === 'ru-RU') {
+			// 	this.$root.context.app.contentful.getEntries({
+			// 		content_type: 'picture',
+      //       locale: 'ru-RU',
+      //       order: 'fields.rating'
+			// 	}).then((pictures) => {
+			// 		this.$store.dispatch('gallery/putGallery', pictures)
+			// 	})
+			// }
+		},
+
     async asyncData(context) {
+			// console.log(context.req)
+
       await context.app.contentful.getLocales()
         .then(({items}) => {
-          return context.store.dispatch('locale/putLocales', items)
+					context.store.dispatch('locale/putLocales', items)
         }).catch((err) => {
           console.log("error", err);
         })
 
 			const picture = context.store.state.gallery.gallery_obj[context.route.params.id]
-			// console.log(picture)
+			console.log(context.route.params)
 
       if (!picture) {
-        const store = context.store
+				const store = context.store
+				// console.log(context.store.state.locale.locale)
 
         return Promise.all([
           context.app.contentful.getEntries({
             content_type: 'picture',
             locale: context.store.state.locale.locale,
+            // locale: 'ru-RU',
             order: 'fields.rating'
           }).then((pictures) => {
-						console.log(pictures)
             return context.store.dispatch('gallery/putGallery', pictures)
-          }),
+					}),
           context.app.contentful.getEntry(process.env.CTF_NAVIGATION_ID, {
             content_type: 'navigation',
-            locale: context.store.state.locale.locale,
+						locale: context.store.state.locale.locale,
           }).then((nav) => {
             return context.store.dispatch('navigation/putNavigation', nav)
           })
         ]).then(() => {
+					// console.log(context.store.state.gallery.gallery_obj[context.route.params.id])
           return {
             picture: context.store.state.gallery.gallery_obj[context.route.params.id]
           }
@@ -346,6 +373,17 @@
 	}
 	.nav-text {
 		color: #C4C4C4;
+	}
+}
+.fadeIn {
+	animation: fadeIn 1s ease-in;
+}
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
 	}
 }
 </style>

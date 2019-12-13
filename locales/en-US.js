@@ -1,4 +1,6 @@
 
 export default {
-  "title": "Babinskiy"
+  "title": "Babinskiy",
+  "size": "size",
+  "year": "year"
 }

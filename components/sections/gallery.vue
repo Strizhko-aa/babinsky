@@ -4,7 +4,7 @@
     .gallery__inner
       .gallery__top
         h2.gallery__title(v-html='galleryName')
-        .gallery__photographer <span>Photo by:</span> Matvey Sysoev
+        .gallery__photographer <span>{{ PhotoBy.desctiption }}:</span> {{ PhotoBy.name }}
       .grid-wrap
         .grid-sizer
         .gutter-sizer
@@ -36,12 +36,20 @@ export default {
         loading: false,
         items: [],
         msnry: null,
-        imgLoad: null
+        imgLoad: null,
+        regExpRus: new RegExp('[а-яА-ЯёЁ]')
       }
     },
   computed: {
     ...mapGetters('navigation', ['galleryName']),
-    ...mapState('gallery', ['gallery'])
+    ...mapState('gallery', ['gallery']),
+    PhotoBy () {
+      if (this.regExpRus.test(this.galleryName[0]) || this.regExpRus.test(this.galleryName[1])) {
+        return {desctiption: 'Фотограф', name: 'Матвей Сысоев'}
+      } else {
+        return {desctiption: 'Photo By', name: 'Matvey Sysoev'}
+      }
+    }
   },
   methods: {
     visibilityChanged (visible, second) {
