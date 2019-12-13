@@ -100,7 +100,7 @@ export default {
           }
 
           if (origin.index == 1 && direction == 'down') {
-            self.$store.commit('navigation/SHOW_FOOTER')
+            // self.$store.commit('navigation/SHOW_FOOTER')
           } else if (origin.index == 2 && direction == 'up') {
             self.$store.commit('navigation/HIDE_FOOTER')
           }

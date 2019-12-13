@@ -5,10 +5,11 @@
 			.top-space
 			.left-name
 				h1.work__title {{ picture.fields.name }}
-			.pic.fadeIn
-				.work__zoom
-					img.work__small(:src='picture.fields.image_medium.fields.file.url')
-					img.work__origin(:src='picture.fields.image_large.fields.file.url')
+			.pic
+				.pic-content
+					.work__zoom
+						img.work__small(:src='picture.fields.image_medium.fields.file.url')
+						img.work__origin(:src='picture.fields.image_large.fields.file.url')
 			.right-top-space
 			.left-nav(@click="linkTo('prev')")
 				img(src='~assets/img/arrow-left.svg')
@@ -51,7 +52,8 @@
 					var zoomWidth = $('.work__origin').outerWidth() - $(this).outerWidth();
 
 					var top = 	( ( $(this).offset().top - event.pageY ) * ( zoomHeight / $(this).outerHeight() ) ) - $(this).outerHeight();
-					var left =  ( ( $(this).offset().left - event.pageX ) * parseInt( zoomWidth / $(this).outerWidth() ) ) - $(this).outerWidth();
+					var left =  ( ( $(this).offset().left - event.pageX ) * ( zoomWidth / $(this).outerWidth() ) ) - $(this).outerWidth();
+					console.log(left);
 
 					var translate = left+"px,"+top+"px";
 
@@ -249,6 +251,7 @@
 		position: relative;
 		display: inline-block;
 		overflow: hidden;
+		max-width: 90%;
 
 		&:hover {
 			.work__origin {
@@ -259,7 +262,7 @@
 	&__small {
 		display: block;
 		max-height: 67.31481481481481vh;
-		// max-width: 100%;
+		max-width: 100%;
 	}
 	&__origin {
 		position: absolute;
@@ -282,9 +285,17 @@
 	grid-area: leftName;
 }
 .pic {
+	width: 100%;
+	height: 67.31481481481481vh;
 	grid-area: picture;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.pic-content {
 	height: fit-content;
 	display: flex;
+	align-items: center;
 	justify-content: center;
 }
 .right-top-space {
@@ -357,6 +368,10 @@
 		height: vmin(44);
 	}
 	.pic {
+		width: 100%;
+		height: auto; 
+	}
+	.pic-content {
 		width: 100%;
 		height: auto;
 	}
