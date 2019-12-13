@@ -11,10 +11,10 @@
 						img.work__small(:src='picture.fields.image_medium.fields.file.url')
 						img.work__origin(:src='picture.fields.image_large.fields.file.url')
 			.right-top-space
-			.left-nav
+			.left-nav(@click="linkTo('prev')")
 				img(src='~assets/img/arrow-left.svg')
 				.nav-text previous work
-			.right-nav
+			.right-nav(@click="linkTo('next')")
 				.nav-text next work
 				img(src='~assets/img/arrow-left.svg')
 			.left-decr
@@ -34,6 +34,12 @@
   import { mapState } from 'vuex';
 
 	export default {
+		data () {
+			return {
+				picturesUrls: [],
+				pictureIndex: null
+			}
+		},
 		methods: {
 			workHover() {
 				$('.work__zoom').on( "mousemove", function( event ) {
@@ -52,11 +58,85 @@
 							"transform":"translate("+translate+")"
 					});
 				});
-      }
+			},
+
+			getPicturesUrlsFromStore () {
+				return new Promise(resolve => {
+					let _urls = localStorage.getItem('picturesUrls')
+	
+					if (_urls !== null) { // если значения уже есть из основной страницы
+						resolve(_urls.split(','))
+					} else { // если значений нет, то запрашиваем
+						const store = this.$store
+	
+						this.$root.context.app.contentful.getEntries({
+							content_type: 'picture',
+							locale: store.state.locale.locale,
+							order: 'fields.rating',
+						}).then((pictures) => {
+							this.pushPicturesUrlsToLocalStore(pictures)
+	
+							let _newUrls = localStorage.getItem('picturesUrls')
+							resolve(_newUrls.split(','))
+						})
+					}
+				})
+			},
+
+			pushPicturesUrlsToLocalStore (pictures) {
+				if (pictures.items.length > 0) {
+					let _picturesUrls = []
+					for (let i = 0; i < pictures.items.length; i++) {
+						_picturesUrls.push('/gallery/' + pictures.items[i].sys.id)
+					}
+					localStorage.setItem('picturesUrls', _picturesUrls)
+				}
+			},
+
+			getPictureIndex (picUrlsFromRequest) {
+				let _index = localStorage.getItem('currentPicture')
+				if (_index !== null) {
+					return Number(_index)
+				} else {
+					// let picId = context.store.state.gallery.gallery_obj[context.route.params.id]
+					let _picId = window.location.pathname
+					let _picIndex = picUrlsFromRequest.indexOf(_picId)
+					console.log(_picIndex)
+					localStorage.setItem('currentPicture', _picIndex)
+					return _picIndex
+				}
+			},
+
+			linkTo (page) {
+				if (page === 'next') { // если след картина
+					if (this.pictureIndex + 1 > this.picturesUrls.length - 1) { // если выходит за край массива, то первую иначе следующую
+						localStorage.setItem('currentPicture', 1)
+						this.pictureIndex = 1
+					} else {
+						localStorage.setItem('currentPicture', this.pictureIndex + 1)
+						this.pictureIndex++
+					}
+				} else if (page === 'prev') { // если предыдущую
+					if (this.pictureIndex - 1 < 0) { // если уходим за край начала, то последнюю
+						localStorage.setItem('currentPicture', this.picturesUrls.length - 1)
+						this.pictureIndex = this.picturesUrls.length - 1
+					} else {
+						localStorage.setItem('currentPicture', this.pictureIndex - 1)
+						this.pictureIndex--
+					}
+				}
+				console.log(this.pictureIndex)
+				console.log(this.picturesUrls[this.pictureIndex])
+				window.location.href = this.picturesUrls[this.pictureIndex]
+			}
     },
     beforeMount() {
       this.$store.commit('navigation/SET_DARK_THEME')
-      this.$store.commit('navigation/SHOW_FOOTER')
+			this.$store.commit('navigation/SHOW_FOOTER')
+			this.getPicturesUrlsFromStore().then(picUrlsFromRequest => {
+				this.picturesUrls = picUrlsFromRequest
+				this.pictureIndex = this.getPictureIndex(picUrlsFromRequest)
+			})
     },
     async asyncData(context) {
       await context.app.contentful.getLocales()
@@ -66,7 +146,8 @@
           console.log("error", err);
         })
 
-      const picture = context.store.state.gallery.gallery_obj[context.route.params.id]
+			const picture = context.store.state.gallery.gallery_obj[context.route.params.id]
+			// console.log(picture)
 
       if (!picture) {
         const store = context.store
@@ -77,6 +158,7 @@
             locale: context.store.state.locale.locale,
             order: 'fields.rating'
           }).then((pictures) => {
+						console.log(pictures)
             return context.store.dispatch('gallery/putGallery', pictures)
           }),
           context.app.contentful.getEntry(process.env.CTF_NAVIGATION_ID, {
@@ -97,9 +179,9 @@
       return {
         picture: picture
       }
-    },
+		},
 		mounted () {
-      this.workHover();
+			this.workHover();
     },
 	}
 </script>
@@ -196,12 +278,14 @@
 	grid-area: leftNav;
 	display: flex;
 	align-items: center;
+	cursor: pointer;
 }
 .right-nav {
 	grid-area: rightNav;
 	display: flex;
 	justify-content: flex-end;
 	align-items: center;
+	cursor: pointer;
 }
 .left-decr {
 	grid-area: leftDesc;
