@@ -208,13 +208,18 @@ export default {
 </style>
 
 <style lang="scss">
-.grid-sizer, .grid-elem {
-  width: calc(33.33333% - 40px);
-  margin-bottom: 40px;
-}
-
 .gutter-sizer {
-  width: 40px;
+  width: 2%;
+  @include mobile {
+      width: 0;
+    }
+}
+.grid-sizer, .grid-elem {
+  width: 32%;
+  margin-bottom: 20px;
+  @include mobile {
+      width: 100%;
+    }
 }
 
 .grid-wrap {
