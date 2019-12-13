@@ -104,33 +104,18 @@
 
 <style lang="scss" scoped>
 .work {
-	height: 100vh;
-	max-height: 100vh;
+	overflow-Y: auto;
+	// max-height: 100vh;
 	padding: vw(190) 0 vw(160);
 
 	&__inner {
 		display: grid;
-		grid-template-columns: 1fr vw(940) 1fr;
-		// grid-template-rows: 50px 50px 500px 300px 50px;
 		grid-template: "topSpace topSpace topSpace"
 									 "leftName picture rightTopSpace"
 									 "leftNav picture rightNav"
 									 "leftDesc picture rightBotSpace"
 									 "bottomSpace bottomSpace bottomSpace";
-		grid-column-gap: vw(40);
 		grid-row-gap: 0;
-	}
-	&__left {
-		display: grid;
-		grid-template-columns: 1fr;
-		grid-template-rows: 1fr auto;
-		grid-column-gap: 0;
-		grid-row-gap: vw(40);
-	}
-	&__center {
-		display: flex;
-		justify-content: center;
-		align-items: center;
 	}
 	&__meta {
 		&-item {
@@ -177,9 +162,9 @@
 		cursor: pointer;
 		z-index: 1;
 	}
-	.container {
-		height: 100%;
-	}
+	// .container {
+	// 	height: 100%;
+	// }
 }
 .top-space {
 	grid-area: topSpace;
@@ -232,6 +217,9 @@
 	padding: 10px;
 }
 @include mobile {
+	.work {
+		overflow-Y: hidden;
+	}
 	.container {
 		display: block;
 		// width: 90vw;
@@ -240,18 +228,17 @@
 		grid-area: 1 / 1 / 3 / 2;
 	}
 	.work__inner {
-		// width: 90vw;
+		overflow-y: auto;
 		display: grid;
-		grid-template-columns: 1fr 1fr 1fr;
-		// grid-auto-rows: auto;
 		grid-template: "topSpace topSpace topSpace"
 									 "picture picture picture"
-									 "leftNav leftNav rightNav"
+									 "leftNav . rightNav"
 									 "leftName leftName leftName"
 									 "leftDesc leftDesc leftDesc"
-									 "rightBotSpace rightBotSpace rightBotSpace"
-									 "bottomSpace bottomSpace bottomSpace";
+									 "rightBotSpace rightBotSpace rightBotSpace" 50px
+									 "bottomSpace bottomSpace bottomSpace" 0 / 1fr 1fr 1fr;
 	}
+
 	.left-name, .left-decr {
 		padding-left: 20px;
 	}
@@ -259,6 +246,10 @@
 		height: vmin(44);
 	}
 	.pic {
+		width: 100%;
+		height: auto;
+	}
+	.pic img {
 		width: 100%;
 		height: auto;
 	}

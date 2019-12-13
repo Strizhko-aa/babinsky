@@ -6,9 +6,11 @@
         h2.gallery__title(v-html='galleryName')
         .gallery__photographer <span>Photo by:</span> Matvey Sysoev
       .grid-wrap
-        .grid-wrap
-        nuxt-link.grid-elem(:to='`/gallery/${item.sys.id}`' v-for='(item, index) in items' :key='index' :data-index='index' :class='`box-${index}`')
-          img(:src='item.fields.image_small.fields.file.url')
+        .grid-sizer
+        .gutter-sizer
+        //- nuxt-link.grid-elem(:to='`/gallery/${item.sys.id}`' v-for='(item, index) in items' :key='index' :data-index='index' :class='`box-${index}`')
+        //-   img.load-image-trigger(:src='item.fields.image_small.fields.file.url')
+        //- .skeleton-block.shine.grid-elem(v-for="index in 5" :key="'skeleton' + index" v-show="loading")
       .scroll-trigger(v-observe-visibility="visibilityChanged")
 
 </template>
@@ -22,6 +24,7 @@ import { ObserveVisibility } from 'vue-observe-visibility'
 Vue.directive('observe-visibility', ObserveVisibility)
 
 if (process.browser) {
+  var Masonry = require('masonry-layout');
   var ImagesLoaded = require('imagesloaded');
 }
 
@@ -29,9 +32,11 @@ export default {
   data() {
     return {
         loadCount: 0,
-        selector: ".gallery__items",
+        selector: ".load-trigger",
         loading: false,
-        items: []
+        items: [],
+        msnry: null,
+        imgLoad: null
       }
     },
   computed: {
@@ -44,28 +49,86 @@ export default {
         this.loadMore()
       }
     },
-    loadMore() {
+    loadMore () {
       if (!this.loading) {
         this.loading = true;
-        for (let i = this.loadCount; i < this.gallery.length, i < this.loadCount + 5; ++i) {
-          this.items.push(this.gallery[i])
+
+        let _picturesFragment = document.createDocumentFragment() // фрагмент DOM в котором будут изображения
+        let _picturesElems = [] // массив с этими же элементами для того чтобы скормить его Masonry
+
+        for (let i = this.loadCount; i < this.gallery.length, i < this.loadCount + 5; ++i) { // 5 изображений
+
+          let _picture = document.createElement('a') // внешний блок - ссылка чтобы кликалось
+          _picture.href = '/gallery/' + this.gallery[i].sys.id
+          _picture.className = 'grid-elem'
+
+          let _imgWrapper = document.createElement('div') // внутри внешнего блока будет враппер для изображения, на нем будет скелетон, пока изобрадение не загрузится
+          _imgWrapper.className = 'shine skeleton-block' // средний размер картины и анимация загрузки
+
+          let _img = new Image() // само изображение
+          _img.className = 'load-image-trigger' // нужен для отслеживания загрузки изображения этот же класс делает 100% прозрачности, пока картина не загрузится
+          _img.src = this.gallery[i].fields.image_small.fields.file.url
+
+          _imgWrapper.appendChild(_img)
+          _picture.appendChild(_imgWrapper)
+          _picturesFragment.appendChild(_picture)
+          _picturesElems.push(_picture)
+          // итого 5 таких блоков
+          // <a class="grid-elem" href="ссылка на подробный просмртр пикчи">
+          //   <div class="shine skeleton-block">
+          //     <img class="load-image-trigger" src="ссылка на маленькое изображение">
+          //   </div>
+          // </a>
         }
 
-        this.loadCount += 5
+        let grid = document.querySelector('.grid-wrap')
 
-        const self = this
-        setTimeout(() => {
-          ImagesLoaded(self.selector, () => {
-            fullpage_api.reBuild()
-            self.loading = false;
-          });
-        }, 1000)
+        grid.appendChild(_picturesFragment) // засовывем наши блоки в DOM дерево
+        this.msnry.appended(_picturesElems) // засовывем наши блоки в мансори
+        this.msnry.layout() // после чего ровняем блоки
+
+        this.initImageLoad() // инициализируем чекер загрузки изображений, в нем же убираются не нужные классы и меняется флаг загрузки
+
+        this.loadCount += 5
       }
+    },
+
+    initMsnry () {
+      this.msnry = new Masonry('.grid-wrap', { // где там наша сетка
+        itemSelector: '.grid-elem', // что там является её элементами
+        columnWidth: '.grid-sizer', // размер заданный через css
+        percentPosition: true, // чтобы размер был в процентах
+        gutter: '.gutter-sizer' // отступ между картинами
+      })
+    },
+
+    onProgress (e, image) {
+      // console.log(image.isLoaded)
+      if (image.isLoaded) { // если изображение загрузилось(обычно onProgress вызывается, когда оно загрузилось, а не в его процессе)
+        image.img.classList.remove('load-image-trigger') // убраем класс для отслеживания загрузки и стопроцентную прозрачность элемента
+        image.img.parentElement.classList.remove('shine') // убираем скелетон
+        image.img.parentElement.classList.remove('skeleton-block') // убираем скелетон
+      }
+    },
+
+    onDone (e, e2) {
+      this.msnry.layout() // подравнять сетку
+      this.loading = false // загрузка закончена
+    },
+
+    initImageLoad () {
+      this.imgLoad = ImagesLoaded('.load-image-trigger')
+      this.imgLoad.on('progress', this.onProgress) // загрузилось/зафйлилось хоть одно изображение
+      this.imgLoad.on('done', this.onDone) // загрузились все пять изображений
     }
   },
-  mounted() {
+
+  mounted () {
     const store = this.$store
     const self = this
+
+    this.initMsnry()
+    this.initImageLoad()
 
     this.$root.context.app.contentful.getEntries({
       content_type: 'picture',
@@ -84,8 +147,9 @@ export default {
 
 <style lang="scss" scoped>
 .gallery {
+  height: auto;
   &__inner {
-    padding: vw(190) vw(122);
+    padding: vw(190) vw(122) vw(500);
 
     @include mobile {
       padding: vmin(106) 0 vmin(130);
@@ -118,24 +182,24 @@ export default {
       color: #999999;
     }
   }
-  &__items {
-    // margin: 0 vw(-40) 0 vw(-40);
-    // columns: 3 vw(450);
-    // column-gap: vw(40);
-    // display: flex;
-    // flex-wrap: wrap;
-    // justify-content: space-between;
+  // &__items {
+  //   margin: 0 vw(-40) 0 vw(-40);
+  //   columns: 3 vw(450);
+  //   column-gap: vw(40);
+  //   display: flex;
+  //   flex-wrap: wrap;
+  //   justify-content: space-between;
 
-    @include mobile {
+  //   @include mobile {
 
-    }
+  //   }
 
-    &:after {
-      content: '';
-      display: block;
-      clear: both;
-    }
-  }
+  //   &:after {
+  //     content: '';
+  //     display: block;
+  //     clear: both;
+  //   }
+  // }
   &__item {
     cursor: pointer;
   }
@@ -143,27 +207,24 @@ export default {
 </style>
 
 <style lang="scss">
-.grid-sizer {
-  width: calc(33.33333% - 80px / 3);
-}
-.gallery__item {
-  float: left;
-  width: calc(33.33333% - 80px / 3);
-  margin-right: 40px;
+.grid-sizer, .grid-elem {
+  width: calc(33.33333% - 40px);
   margin-bottom: 40px;
+}
 
-  &:nth-child(3n+1) {
-    margin-right: 0;
-  }
+.gutter-sizer {
+  width: 40px;
+}
 
-  @include mobile {
-    width: 100%;
-  }
+.grid-wrap {
+  width: 100%;
+}
 
-  img {
-    display: block;
-    max-width: 100%;
-  }
+.grid-elem img {
+  // max-width: 400px;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 2px;
 }
 
 .scroll-trigger {
@@ -177,22 +238,37 @@ export default {
   pointer-events: none;
 }
 
-.grid-wrap {
-    column-count: 3;
-    grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 20px;
-    column-width: 400px;
-}
-.grid-elem {
-    display: inline-block;
-    margin: 0 0 10px;
-    width: 100%;
-    position: relative;
+.load-image-trigger {
+  // display: none;
+  opacity: 0;
+  transition: all;
 }
 
-.grid-elem img {
-    width: 100%;
-    object-fit: cover;
-    border-radius: 2px;
+.skeleton-block {
+  width: 100%;
+  min-height: 520px;
+}
+.shine {
+  background: #f6f7f8;
+  background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+  background-repeat: no-repeat;
+  // background-size: 800px 104px; 
+  display: inline-block;
+  position: relative; 
+  
+  -webkit-animation-duration: 1s;
+  -webkit-animation-fill-mode: forwards; 
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-name: placeholderShimmer;
+  -webkit-animation-timing-function: linear;
+}
+@keyframes placeholderShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  
+  100% {
+    background-position: 468px 0; 
+  }
 }
 </style>

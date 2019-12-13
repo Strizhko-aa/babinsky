@@ -10,6 +10,10 @@ const ctfConfig = getConfigForKeys([
 
 export default {
   mode: 'universal',
+  server: {
+    port: 8000, // default: 3000
+    host: '0.0.0.0' // default: localhost
+  },
   /*
   ** Headers of the page
   */
@@ -52,7 +56,6 @@ export default {
   */
   plugins: [
     '~/plugins/contentful',
-    { src: '~/plugins/fullpage', mode: 'client' },
     { src: '~/plugins/reloadClear', mode: 'client' },
     '~/plugins/i18n.js'
   ],
@@ -88,16 +91,16 @@ export default {
     /*
     ** Run ESLINT on save
     */
-    extend (config, ctx) {
-      if (ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
-      }
-    },
+    // extend (config, ctx) {
+    //   if (ctx.isClient) {
+    //     config.module.rules.push({
+    //       enforce: 'pre',
+    //       test: /\.(js|vue)$/,
+    //       loader: 'eslint-loader',
+    //       exclude: /(node_modules)/
+    //     })
+    //   }
+    // },
 
     postcss: [
       require('autoprefixer')()
