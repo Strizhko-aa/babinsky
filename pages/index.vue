@@ -86,8 +86,8 @@ export default {
           content_type: 'contacts',
           locale: context.store.state.locale.locale
         }).then((contacts) => {
-          console.log('get contants')
-          console.log(contacts)
+          // console.log('get contants')
+          // console.log(contacts)
           return context.store.dispatch('contacts/putContacts', contacts)
         })
       ]).then((results) => {

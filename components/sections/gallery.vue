@@ -56,10 +56,15 @@ export default {
         let _picturesFragment = document.createDocumentFragment() // фрагмент DOM в котором будут изображения
         let _picturesElems = [] // массив с этими же элементами для того чтобы скормить его Masonry
 
-        for (let i = this.loadCount; i < this.gallery.length, i < this.loadCount + 5; ++i) { // 5 изображений
+        for (let i = this.loadCount; i < this.gallery.length && i < this.loadCount + 5; i++) { // 5 изображений
 
-          let _picture = document.createElement('a') // внешний блок - ссылка чтобы кликалось
-          _picture.href = '/gallery/' + this.gallery[i].sys.id
+          let _picture = document.createElement('div') // внешний блок
+          let _pictureUrl = '/gallery/' + this.gallery[i].sys.id // чтобы значение стало строкой и при клике не зависило от this.gallery[i]
+          let _index = i
+          _picture.onclick = function () {
+            localStorage.setItem('currentPicture', _index)
+            window.location.href = _pictureUrl
+          }
           _picture.className = 'grid-elem'
 
           let _imgWrapper = document.createElement('div') // внутри внешнего блока будет враппер для изображения, на нем будет скелетон, пока изобрадение не загрузится
@@ -74,11 +79,11 @@ export default {
           _picturesFragment.appendChild(_picture)
           _picturesElems.push(_picture)
           // итого 5 таких блоков
-          // <a class="grid-elem" href="ссылка на подробный просмртр пикчи">
+          // <div class="grid-elem" href="ссылка на подробный просмртр пикчи">
           //   <div class="shine skeleton-block">
           //     <img class="load-image-trigger" src="ссылка на маленькое изображение">
           //   </div>
-          // </a>
+          // </div>
         }
 
         let grid = document.querySelector('.grid-wrap')
@@ -120,6 +125,16 @@ export default {
       this.imgLoad = ImagesLoaded('.load-image-trigger')
       this.imgLoad.on('progress', this.onProgress) // загрузилось/зафйлилось хоть одно изображение
       this.imgLoad.on('done', this.onDone) // загрузились все пять изображений
+    },
+
+    pushPicturesUrlsToLocalStore (pictures) {
+      if (pictures.items.length > 0 && localStorage.getItem('picturesUrls') === null) { // и хранилище не заполнено
+        let _picturesUrls = []
+        for (let i = 0; i < pictures.items.length; i++) {
+          _picturesUrls.push('/gallery/' + pictures.items[i].sys.id)
+        }
+        localStorage.setItem('picturesUrls', _picturesUrls)
+      }
     }
   },
 
@@ -135,6 +150,7 @@ export default {
       locale: store.state.locale.locale,
       order: 'fields.rating',
     }).then((pictures) => {
+      this.pushPicturesUrlsToLocalStore(pictures)
       return store.dispatch('gallery/putGallery', pictures)
     }).then(() => {
       self.loadMore()
@@ -182,24 +198,6 @@ export default {
       color: #999999;
     }
   }
-  // &__items {
-  //   margin: 0 vw(-40) 0 vw(-40);
-  //   columns: 3 vw(450);
-  //   column-gap: vw(40);
-  //   display: flex;
-  //   flex-wrap: wrap;
-  //   justify-content: space-between;
-
-  //   @include mobile {
-
-  //   }
-
-  //   &:after {
-  //     content: '';
-  //     display: block;
-  //     clear: both;
-  //   }
-  // }
   &__item {
     cursor: pointer;
   }
@@ -221,25 +219,22 @@ export default {
 }
 
 .grid-elem img {
-  // max-width: 400px;
   width: 100%;
   object-fit: cover;
   border-radius: 2px;
+  cursor: pointer;
 }
 
 .scroll-trigger {
   width: 50vw;
   height: 50vh;
   background-color: transparent;
-  // background-color: red;
-  // border: red 1px solid;
   position: absolute;
   bottom: 0;
   pointer-events: none;
 }
 
 .load-image-trigger {
-  // display: none;
   opacity: 0;
   transition: all;
 }
