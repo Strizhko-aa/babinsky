@@ -117,6 +117,7 @@ export default {
     },
 
     onDone (e, e2) {
+      fullpage_api.reBuild()
       this.msnry.layout() // подравнять сетку
       this.loading = false // загрузка закончена
     },
