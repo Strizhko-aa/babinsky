@@ -26,18 +26,18 @@ import { mapState } from 'vuex';
 		grid-template-rows: auto;
 		grid-column-gap: vw(165);
 		grid-row-gap: 0px;
-		align-items: center;
-		padding: 0 vw(245);
+		padding: vw(245) vw(245) vw(345) vw(245);
 
 		@include mobile {
 			grid-template-columns: 1fr;
 			grid-template-rows: auto auto;
-			padding: vmin(75) 0 vmin(93);
+			padding: vmin(106) 0 vmin(93);
 			grid-column-gap: 0;
 			grid-row-gap: vmin(30);
 		}
 	}
 	&__photo {
+		margin-top: 100px;
 		@include mobile {
 			margin: 0 vmin(-20);
 		}
