@@ -350,7 +350,6 @@
 		grid-area: 1 / 1 / 3 / 2;
 	}
 	.work__inner {
-		overflow-y: auto;
 		display: grid;
 		grid-template: "topSpace topSpace topSpace"
 									 "picture picture picture"
@@ -365,7 +364,7 @@
 		padding-left: 20px;
 	}
 	.top-space {
-		height: vmin(44);
+		height: vmin(64);
 	}
 	.pic {
 		width: 100%;
