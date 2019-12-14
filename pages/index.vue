@@ -46,6 +46,7 @@ export default {
           content_type: 'navigation',
           locale: context.store.state.locale.locale,
         }).then((nav) => {
+          console.log(nav)
           return context.store.dispatch('navigation/putNavigation', nav)
         }),
         contentful.getEntry(process.env.CTF_ABOUT_ID, {
@@ -58,7 +59,6 @@ export default {
           content_type: 'contacts',
           locale: context.store.state.locale.locale
         }).then((contacts) => {
-          console.log('fucking contacts')
           return context.store.dispatch('contacts/putContacts', contacts)
         })
       ]).then((results) => {
