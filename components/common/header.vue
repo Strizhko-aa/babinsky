@@ -88,7 +88,7 @@ export default {
     padding-bottom: 20px;
 
     border-bottom: 1px solid rgba(255, 255, 255, 0.4);
-    transition: border-color 500ms ease;
+    // transition: border-color 500ms ease;
 
     width: 100%;
 
@@ -107,7 +107,7 @@ export default {
     line-height: 36px;
     color: #FFFFFF;
     text-decoration: none;
-    transition: color 500ms ease;
+    // transition: color 500ms ease;
 
     @include mobile {
       font-size: vmin(24);
@@ -164,7 +164,7 @@ export default {
       font-size: 18px;
       line-height: 1;
       color: #FFFFFF;
-      transition: color 500ms ease;
+      // transition: color 500ms ease;
 
       @include mobile {
         font-size: vmin(18);
@@ -194,7 +194,7 @@ export default {
         position: absolute;
         top: calc(50% - 1px);
         transform-origin: center;
-        transition: transform 150ms ease, background 500ms ease;
+        // transition: transform 150ms ease, background 500ms ease;
 
         @include mobile {
           width: vmin(24);
@@ -210,7 +210,7 @@ export default {
           position: absolute;
           top: vw(-10);
           transform-origin: center;
-          transition: background 500ms ease;
+          // transition: background 500ms ease;
 
           @include mobile {
             width: vmin(24);
@@ -227,7 +227,7 @@ export default {
           position: absolute;
           bottom: vw(-10);
           transform-origin: center;
-          transition: background 500ms ease;
+          // transition: background 500ms ease;
 
           @include mobile {
             width: vmin(24);
@@ -264,7 +264,7 @@ export default {
       z-index: -2;
       display: grid;
       grid-template-columns: 1fr;
-      grid-template-rows: 1fr vh(270);
+      grid-template-rows: 75vh 25vh;
       grid-column-gap: 0px;
       grid-row-gap: 0px;
       visibility: hidden;
@@ -315,7 +315,7 @@ export default {
       line-height: vh(110);
       text-align: center;
       color: #FFFFFF;
-      transition: all 150ms ease;
+      // transition: all 150ms ease;
       cursor: pointer;
       text-decoration: none;
 
