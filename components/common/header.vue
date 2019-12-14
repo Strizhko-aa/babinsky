@@ -14,7 +14,7 @@
     .header__menu-wrapper(:class='{"header__menu-wrapper--active": menuWrapper}')
       .header__menu-top(:class='{"header__menu-top--active": menuShow}')
         .header__menu-items
-          a.header__menu-item(v-for='(item, index) in menu.items' :key='index' v-html='item.title' :href='item.href' @click='toggleMenu()')
+          a.header__menu-item(v-for='(item, index) in menu.items' :key='index' v-html='item.title' :href='item.href' @click='toggleMenu()' v-bind:style="{'background-image': `url(${backgroundUrl})`}")
           #mobile-langs.header__langs
             .header__lang(v-for='(lang, index) in locales' :key='index' v-html='lang.slice(0, 2)' @click='changeLang(lang)' :class='{"header__lang--active": lang === locale}')
       .header__menu-bottom(:class='{"header__menu-bottom--active": menuShow}')
@@ -62,7 +62,8 @@ export default {
   computed: {
     ...mapState('locale', ['locales', 'locale']),
     ...mapState('author', ['lastName']),
-    ...mapState('navigation', ['menu', 'darkTheme'])
+    ...mapState('navigation', ['menu', 'darkTheme']),
+    ...mapState('intro', ['backgroundUrl'])
   }
 }
 </script>
@@ -302,6 +303,7 @@ export default {
       align-items: center;
       justify-content: flex-end;
       padding: 0 0 vh(156);
+      background-color: #E3572E;
 
       @include mobile {
         padding: 0 0 vh(106);
@@ -315,17 +317,23 @@ export default {
       line-height: vh(110);
       text-align: center;
       color: #FFFFFF;
-      transition: all 70ms ease;
+      transition: all 100ms ease;
       cursor: pointer;
       text-decoration: none;
       display: flex;
       justify-content: center;
       align-items: center;
+      background-size: 0px 0px;
+      // background-position: center;
+      background-color: #E3572E;
 
       &:hover {
         letter-spacing: vw(50.8);
         transform: translateX(vw(25.4));
         text-decoration: none;
+        background-size: 0px 0px;
+        // background-image: none;
+        background-color: #E3572E;
       }
 
       &::before{
@@ -335,17 +343,18 @@ export default {
         opacity: 0;
         left: 50%;
         top: 50%;
-        background-image: url('~assets/img/hero.jpg');
-        background-size: cover;
         position: absolute;
         z-index: -1;
         pointer-events: none;
+        background-size: 0px 0px;
+        background-color: #E3572E;
       }
 
       &:hover::before{
-        transition: 0.04s;
-        transition-delay: 0.03s;
+        transition: 0.05s;
+        transition-delay: 0.05s;
         content: '';
+        background-image: inherit;
         width: vw(200);
         height: vw(200);
         opacity: 1;
@@ -353,11 +362,11 @@ export default {
         top: 50%;
         margin-left: vw(-125.4);
         margin-top: vw(-95);
-        background-image: url('~assets/img/hero.jpg');
         background-size: cover;
         position: absolute;
         z-index: -1;
         pointer-events: none;
+        background-color: #E3572E;
       }
     }
   }
