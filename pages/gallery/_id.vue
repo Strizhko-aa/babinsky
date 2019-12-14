@@ -13,11 +13,11 @@ no-ssr
 							img.work__origin(:src='pictureLocal.fields.image_large.fields.file.url')
 				.right-top-space
 				.left-nav(@click="linkTo('prev')")
-					img(src='~assets/img/arrow-left.svg')
+					img(src='~assets/img/arrow-right.svg')
 					.nav-text {{ localeComp === 'ru-RU' ? 'Предыдущая' : 'previous work'}}
 				.right-nav(@click="linkTo('next')")
 					.nav-text {{ localeComp === 'ru-RU' ? 'Следующая' : 'next work'}}
-					img(src='~assets/img/arrow-left.svg')
+					img(src='~assets/img/arrow-right.svg')
 				.left-decr
 					.work__meta-item
 						.work__meta-title(v-if='pictureLocal.fields.size') {{ localeComp === 'ru-RU' ? 'размер' : 'size' }}:
@@ -181,14 +181,19 @@ no-ssr
 						}).then((pictures) => {
 							return this.$store.dispatch('gallery/putGallery', pictures)
 						}),
-						// this.$root.context.app.contentful.getEntries(process.env.CTF_NAVIGATION_ID, {
-						// 	content_type: 'navigation',
-						// 	locale: this.$store.state.locale.locale,
-						// }).then((nav) => {
-						// 	return this.$store.dispatch('navigation/putNavigation', nav)
-						// })
+						this.$root.context.app.contentful.getEntries({
+							content_type: 'author',
+							locale: this.$store.state.locale.locale,
+						}).then((author) => {
+							return this.$store.dispatch('author/putAuthor', author.items[0])
+						}),
+						this.$root.context.app.contentful.getEntries({
+							content_type: 'navigation',
+							locale: this.$store.state.locale.locale,
+						}).then((nav) => {
+							return this.$store.dispatch('navigation/putNavigation', nav.items[0])
+						})
 					]).then(() => {
-						console.log('i\'m here')
 						this.loading = false
 						this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.params.id]
 					}).catch(err => {
@@ -232,6 +237,7 @@ no-ssr
 									 "leftNav picture rightNav"
 									 "leftDesc picture rightBotSpace"
 									 "bottomSpace bottomSpace bottomSpace";
+		grid-template-columns: repeat(3, 1fr);
 		grid-row-gap: 0;
 	}
 	&__meta {
@@ -337,7 +343,7 @@ no-ssr
 .right-nav {
 	padding-right: 20px;
 }
-.right-nav img {
+.left-nav img {
 	transform: rotate(180deg);
 }
 .nav-text {
@@ -362,8 +368,9 @@ no-ssr
 									 "leftNav . rightNav"
 									 "leftName leftName leftName"
 									 "leftDesc leftDesc leftDesc"
-									 "rightBotSpace rightBotSpace rightBotSpace" 50px
-									 "bottomSpace bottomSpace bottomSpace" 0 / 1fr 1fr 1fr;
+									 "rightBotSpace rightBotSpace rightBotSpace"
+									 "bottomSpace bottomSpace bottomSpace" auto / 1fr 1fr 1fr;
+		max-width: 100vw;
 	}
 
 	.left-name, .left-decr {
