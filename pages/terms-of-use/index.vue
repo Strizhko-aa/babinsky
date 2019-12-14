@@ -78,7 +78,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 #terms-of-use {
-    padding: vw(190) vw(422) vw(500);
+    padding: vw(190) vw(422) vw(200);
 
     @include mobile {
       padding: vmin(106) vmin(20) vmin(130);
