@@ -343,8 +343,8 @@ export default {
       }
 
       &:hover::before{
-        transition: 0.03s;
-        transition-delay: 0.04s;
+        transition: 0.04s;
+        transition-delay: 0.03s;
         content: '';
         width: vw(200);
         height: vw(200);
