@@ -15,6 +15,8 @@
       .header__menu-top(:class='{"header__menu-top--active": menuShow}')
         .header__menu-items
           a.header__menu-item(v-for='(item, index) in menu.items' :key='index' v-html='item.title' :href='item.href' @click='toggleMenu()')
+          #mobile-langs.header__langs
+            .header__lang(v-for='(lang, index) in locales' :key='index' v-html='lang.slice(0, 2)' @click='changeLang(lang)' :class='{"header__lang--active": lang === locale}')
       .header__menu-bottom(:class='{"header__menu-bottom--active": menuShow}')
 </template>
 
@@ -37,13 +39,14 @@ export default {
         if (this.darkTheme) {
           this.backDark = true
         }
-
         this.$store.commit('navigation/REMOVE_DARK_THEME')
         this.menuWrapper = true
+        this.$store.commit('navigation/SHOW_FOOTER')
       } else {
         if (this.backDark) {
           this.$store.commit('navigation/SET_DARK_THEME')
           this.backDark = false
+          this.$store.commit('navigation/HIDE_FOOTER')
         }
 
         let self = this
@@ -299,6 +302,10 @@ export default {
       align-items: center;
       justify-content: flex-end;
       padding: 0 0 vh(156);
+
+      @include mobile {
+        padding: 0 0 vh(106);
+      }
     }
     &-item {
       font-family: $oswald;
@@ -368,5 +375,17 @@ export default {
       }
     }
   }
+}
+#mobile-langs {
+  display: none;
+  .header__lang {
+    font-size: 24pt;
+  }
+  @include mobile {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
 }
 </style>

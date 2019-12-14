@@ -92,20 +92,13 @@ export default {
         // fadingEffect: true,
         licenseKey: '00122C31-74D341B7-81D0999A-E51563F7',
         onLeave: function(origin, destination, direction) {
-          if(origin.index == 0 && direction =='down'){
-            self.$store.commit('navigation/SET_DARK_THEME')
-            self.$store.commit('navigation/HIDE_FOOTER')
-          } else if(origin.index == 1 && direction == 'up'){
+          if (destination.index == 0) {
             self.$store.commit('navigation/REMOVE_DARK_THEME')
             self.$store.commit('navigation/SHOW_FOOTER')
-          }
-
-          if (origin.index == 1 && direction == 'down') {
-            // self.$store.commit('navigation/SHOW_FOOTER')
-          } else if (origin.index == 2 && direction == 'up') {
+          } else {
+            self.$store.commit('navigation/SET_DARK_THEME')
             self.$store.commit('navigation/HIDE_FOOTER')
           }
-
         },
         afterRender: function(origin, destination, direction){
           self.$store.commit('navigation/REMOVE_DARK_THEME')
