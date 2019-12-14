@@ -1,22 +1,25 @@
 
 export const state = {
   title: 'Contacts',
-  lead: 'I help but mention one of the greatest artists, a visionary of the evolution of painting - William Turner.',
+  lead: '',
   contacts: [
     {
       type: 'phone',
-      title: 'phone:',
-      value: '+7 892 758 34 32'
+      titleEn: 'phone:',
+      titleRus: 'телефон:',
+      value: ''
     },
     {
       type: 'email',
-      title: 'email:',
-      value: 'babinskiy@mail.com'
+      titleEn: 'email:',
+      titleRus: 'почта:',
+      value: ''
     },
     {
       type: 'instagram',
-      title: 'instagram',
-      value: 'babinskiy_art'
+      titleEn: 'instagram',
+      titleRus: 'инстаграм',
+      value: ''
     },
   ]
 };

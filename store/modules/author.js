@@ -1,8 +1,8 @@
 
 export const state = {
-  firstName: 'Alexander',
-  lastName: 'Babinskiy',
-  lead: 'abstract expressionism artist <br>working with acryl & oil',
+  firstName: '',
+  lastName: '',
+  lead: '',
 };
 
 export const getters = {

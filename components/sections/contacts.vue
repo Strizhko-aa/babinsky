@@ -7,7 +7,7 @@
 				p.contacts__lead(v-html='lead')
 			.contacts__items
 				.contacts__item(v-for='(item, index) in contacts' :key='index')
-					.contacts__item-title(v-html='item.title')
+					.contacts__item-title(v-html="localeComp === 'ru-RU' ? item.titleRus : item.titleEn")
 					.contacts__item-value
 						a.contacts__link(:data-type='item.type' :href='`tel:${item.value}`' v-if='item.type === "phone"') {{item.value}}
 						a.contacts__link(:data-type='item.type' :href='`mailto:${item.value}`' v-if='item.type === "email"') {{item.value}}
@@ -18,7 +18,10 @@
 import { mapState } from 'vuex';
 	export default {
 		computed: {
-      ...mapState('contacts', ['title', 'lead', 'contacts'])
+			...mapState('contacts', ['title', 'lead', 'contacts']),
+			localeComp () {
+				return this.$store.state.locale.locale
+			}
     }
 	}
 </script>

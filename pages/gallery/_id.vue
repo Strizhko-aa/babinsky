@@ -1,32 +1,33 @@
 <template lang='pug'>
-.work
-	.container
-		.work__inner
-			.top-space
-			.left-name
-				h1.work__title {{ picture.fields.name }}
-			.pic
-				.pic-content
-					.work__zoom
-						img.work__small(:src='picture.fields.image_medium.fields.file.url')
-						img.work__origin(:src='picture.fields.image_large.fields.file.url')
-			.right-top-space
-			.left-nav(@click="linkTo('prev')")
-				img(src='~assets/img/arrow-left.svg')
-				.nav-text {{ localeComp === 'ru-RU' ? 'Предыдущая' : 'previous work'}}
-			.right-nav(@click="linkTo('next')")
-				.nav-text {{ localeComp === 'ru-RU' ? 'Следующая' : 'next work'}}
-				img(src='~assets/img/arrow-left.svg')
-			.left-decr
-				.work__meta-item
-					.work__meta-title(v-if='picture.fields.size') {{ $t('size') }}:
-					.work__meta-value(v-html='picture.fields.size')
-					.work__meta-title(v-if='picture.fields.description')
-					.work__meta-value(v-html='picture.fields.description')
-					.work__meta-title(v-if='picture.fields.date') {{ $t('year') }}:
-					.work__meta-value(v-html='picture.fields.date')
-			.right-bottom-space
-			.bottom-space
+no-ssr
+	.work
+		.container
+			.work__inner(v-if="!loading")
+				.top-space
+				.left-name
+					h1.work__title {{ pictureLocal.fields.name }}
+				.pic
+					.pic-content
+						.work__zoom
+							img.work__small(:src='pictureLocal.fields.image_medium.fields.file.url')
+							img.work__origin(:src='pictureLocal.fields.image_large.fields.file.url')
+				.right-top-space
+				.left-nav(@click="linkTo('prev')")
+					img(src='~assets/img/arrow-left.svg')
+					.nav-text {{ localeComp === 'ru-RU' ? 'Предыдущая' : 'previous work'}}
+				.right-nav(@click="linkTo('next')")
+					.nav-text {{ localeComp === 'ru-RU' ? 'Следующая' : 'next work'}}
+					img(src='~assets/img/arrow-left.svg')
+				.left-decr
+					.work__meta-item
+						.work__meta-title(v-if='pictureLocal.fields.size') {{ localeComp === 'ru-RU' ? 'размер' : 'size' }}:
+						.work__meta-value(v-html='pictureLocal.fields.size')
+						.work__meta-title(v-if='pictureLocal.fields.description')
+						.work__meta-value(v-html='pictureLocal.fields.description')
+						.work__meta-title(v-if='pictureLocal.fields.date') {{ localeComp === 'ru-RU' ? 'год' : 'year' }}:
+						.work__meta-value(v-html='pictureLocal.fields.date')
+				.right-bottom-space
+				.bottom-space
 </template>
 
 <script>
@@ -37,14 +38,32 @@
 		data () {
 			return {
 				picturesUrls: [],
-				pictureIndex: null
+				pictureIndex: null,
+				pictureLocal: {},
+				loading: true
 			}
 		},
+
 		computed: {
 			localeComp () {
 				return this.$store.state.locale.locale
 			}
 		},
+		
+		watch: {
+			localeComp (newVal) {
+				this.$root.context.app.contentful.getEntries({
+					content_type: 'picture',
+					locale: this.$store.state.locale.locale,
+					// locale: 'ru-RU',
+					order: 'fields.rating'
+				}).then((pictures) => {
+					this.$store.dispatch('gallery/putGallery', pictures)
+					this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.params.id]
+				})
+			}
+		},
+
 		methods: {
 			workHover() {
 				$('.work__zoom').on( "mousemove", function( event ) {
@@ -53,7 +72,7 @@
 
 					var top = 	( ( $(this).offset().top - event.pageY ) * ( zoomHeight / $(this).outerHeight() ) ) - $(this).outerHeight();
 					var left =  ( ( $(this).offset().left - event.pageX ) * ( zoomWidth / $(this).outerWidth() ) ) - $(this).outerWidth();
-					console.log(left);
+					// console.log(left);
 
 					var translate = left+"px,"+top+"px";
 
@@ -130,15 +149,59 @@
 					}
 				}
 				window.location.href = this.picturesUrls[this.pictureIndex]
-			}
-    },
-    beforeMount() {
-			let _locale = localStorage.getItem('locale')
+			},
 
-			if (_locale !== null) {
-				this.$store.commit('locale/SET_LANG', _locale)
-			}
+			async asyncDATA () {
+				this.loading = true
+				this.$root.context.app.contentful.getLocales()
+					.then(({items}) => {
+						this.$store.dispatch('locale/putLocales', items)
 
+						let _locale = localStorage.getItem('locale')
+
+						if (_locale !== null) {
+							this.$store.commit('locale/SET_LANG', _locale)
+						}
+					}).catch((err) => {
+						console.log("error", err);
+					})
+
+				const picture = this.$store.state.gallery.gallery_obj[this.$route.params.id]
+				// console.log(picture)
+
+				if (!picture) {
+					const store = this.$store
+					let _locale = localStorage.getItem('locale')
+
+					return Promise.all([
+						this.$root.context.app.contentful.getEntries({
+							content_type: 'picture',
+							locale: _locale,
+							order: 'fields.rating'
+						}).then((pictures) => {
+							return this.$store.dispatch('gallery/putGallery', pictures)
+						}),
+						// this.$root.context.app.contentful.getEntries(process.env.CTF_NAVIGATION_ID, {
+						// 	content_type: 'navigation',
+						// 	locale: this.$store.state.locale.locale,
+						// }).then((nav) => {
+						// 	return this.$store.dispatch('navigation/putNavigation', nav)
+						// })
+					]).then(() => {
+						console.log('i\'m here')
+						this.loading = false
+						this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.params.id]
+					}).catch(err => {
+						console.log(err)
+						this.loading = false
+					})
+				}
+
+				this.pictureLocal = picture
+			}
+		},
+
+    async beforeMount() {
       this.$store.commit('navigation/SET_DARK_THEME')
 			this.$store.commit('navigation/SHOW_FOOTER')
 
@@ -146,70 +209,13 @@
 				this.picturesUrls = picUrlsFromRequest
 				this.pictureIndex = this.getPictureIndex(picUrlsFromRequest)
 			})
-		},
-		created() {
-			// console.log('before create')
-			// console.log(this.localeComp)
-			// if (this.localeComp === 'ru-RU') {
-			// 	this.$root.context.app.contentful.getEntries({
-			// 		content_type: 'picture',
-      //       locale: 'ru-RU',
-      //       order: 'fields.rating'
-			// 	}).then((pictures) => {
-			// 		this.$store.dispatch('gallery/putGallery', pictures)
-			// 	})
-			// }
+
 		},
 
-    async asyncData(context) {
-			// console.log(context.req)
-
-      await context.app.contentful.getLocales()
-        .then(({items}) => {
-					context.store.dispatch('locale/putLocales', items)
-        }).catch((err) => {
-          console.log("error", err);
-        })
-
-			const picture = context.store.state.gallery.gallery_obj[context.route.params.id]
-			console.log(context.route.params)
-
-      if (!picture) {
-				const store = context.store
-				// console.log(context.store.state.locale.locale)
-
-        return Promise.all([
-          context.app.contentful.getEntries({
-            content_type: 'picture',
-            locale: context.store.state.locale.locale,
-            // locale: 'ru-RU',
-            order: 'fields.rating'
-          }).then((pictures) => {
-            return context.store.dispatch('gallery/putGallery', pictures)
-					}),
-          context.app.contentful.getEntry(process.env.CTF_NAVIGATION_ID, {
-            content_type: 'navigation',
-						locale: context.store.state.locale.locale,
-          }).then((nav) => {
-            return context.store.dispatch('navigation/putNavigation', nav)
-          })
-        ]).then(() => {
-					// console.log(context.store.state.gallery.gallery_obj[context.route.params.id])
-          return {
-            picture: context.store.state.gallery.gallery_obj[context.route.params.id]
-          }
-        }).catch(err => {
-          context.error(err)
-        })
-      }
-
-      return {
-        picture: picture
-      }
-		},
-		mounted () {
+		async mounted () {
+			await this.asyncDATA()
 			this.workHover();
-    },
+    }
 	}
 </script>
 
