@@ -41,10 +41,12 @@ export default {
         }
         this.$store.commit('navigation/REMOVE_DARK_THEME')
         this.menuWrapper = true
+        this.$store.commit('navigation/SHOW_FOOTER')
       } else {
         if (this.backDark) {
           this.$store.commit('navigation/SET_DARK_THEME')
           this.backDark = false
+          this.$store.commit('navigation/HIDE_FOOTER')
         }
 
         let self = this
