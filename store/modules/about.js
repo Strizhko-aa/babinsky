@@ -1,7 +1,7 @@
 
 export const state = {
-  title: 'Alexander Babinskiy',
-  lead: 'Alexander Babinskiy was born in 1964 in Moscow. He enjoyed art history in his younger years but chose a different path professionally. <br><br>After more than 25 years in journalism, communications, and PR, Babinskiy held the courage to return to his youth’s passion – painting. After spending several years’ hard work under the guidance of prominent Moscow masters, Babinskiy amassed outstanding success.',
+  title: '',
+  lead: '',
   photo: ''
 };
 

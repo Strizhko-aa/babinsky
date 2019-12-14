@@ -39,7 +39,7 @@ export const state = () => ({
 export const getters = {
   galleryName: state => {
     for (let item of state.menu.items) {
-      if (item.href == '#gallery') {
+      if (item.href == '/#gallery') {
         return item.title[0].toUpperCase() + item.title.slice(1)
       }
     }
