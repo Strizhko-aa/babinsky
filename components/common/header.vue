@@ -315,14 +315,49 @@ export default {
       line-height: vh(110);
       text-align: center;
       color: #FFFFFF;
-      transition: all 150ms ease;
+      transition: all 70ms ease;
       cursor: pointer;
       text-decoration: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
 
       &:hover {
-        letter-spacing: vw(12.8);
-        transform: translateX(vw(6.4));
+        letter-spacing: vw(50.8);
+        transform: translateX(vw(25.4));
         text-decoration: none;
+      }
+
+      &::before{
+        content: '';
+        width: vw(0);
+        height: vw(0);
+        opacity: 0;
+        left: 50%;
+        top: 50%;
+        background-image: url('~assets/img/hero.jpg');
+        background-size: cover;
+        position: absolute;
+        z-index: -1;
+        pointer-events: none;
+      }
+
+      &:hover::before{
+        transition: 0.03s;
+        transition-delay: 0.04s;
+        content: '';
+        width: vw(200);
+        height: vw(200);
+        opacity: 1;
+        left: 50%;
+        top: 50%;
+        margin-left: vw(-125.4);
+        margin-top: vw(-95);
+        background-image: url('~assets/img/hero.jpg');
+        background-size: cover;
+        position: absolute;
+        z-index: -1;
+        pointer-events: none;
       }
     }
   }
