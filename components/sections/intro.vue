@@ -3,7 +3,7 @@
   .intro__inner
     .intro__top.container
       .intro__top-inner
-        .intro__bg(v-bind:style="background")
+        .intro__bg(v-bind:style="{'background-image': `url(${backgroundUrl})`}")
         h1.intro__title {{ fullName }}
         p.intro__lead(v-html='lead')
     .intro__bottom
@@ -16,13 +16,7 @@ export default {
   computed: {
     ...mapGetters('author', ['fullName']),
     ...mapState('author', ['lead']),
-    ...mapState('navigation', {
-      background: state => ({
-        'background-image': `url(${state.background})`,
-        'background-size': 'cover',
-        'background-position': 'center',
-      })
-    }),
+    ...mapState('intro', ['backgroundUrl'])
   }
 }
 </script>

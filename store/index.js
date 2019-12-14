@@ -6,6 +6,7 @@ import navigation from './modules/navigation';
 import about from './modules/about';
 import contacts from './modules/contacts';
 import gallery from './modules/gallery';
+import intro from './modules/intro';
 
 import langChangerPlugin from '../plugins/langChanger'
 
@@ -18,6 +19,7 @@ const createStore = () => {
       about: { ...about, namespaced: true },
       contacts: { ...contacts, namespaced: true },
       gallery: { ...gallery, namespaced: true },
+      intro: { ...intro, namespaced: true}
     },
     strict: false,
     plugins: [langChangerPlugin()]

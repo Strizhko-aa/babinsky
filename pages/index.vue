@@ -27,6 +27,7 @@ export default {
       // 'section-news': news,
       'section-contacts': contacts,
   },
+
   async asyncData(context) {
     const contentful = context.app.contentful
 
@@ -60,6 +61,15 @@ export default {
           locale: context.store.state.locale.locale
         }).then((contacts) => {
           return context.store.dispatch('contacts/putContacts', contacts)
+        }),
+        contentful.getEntries({
+          content_type: 'picture',
+          locale: context.store.state.locale.locale,
+          order: 'fields.rating',
+          limit: 3
+        }).then((pictures) => {
+            let index = Math.floor(Math.random() * Math.floor(3))
+            return context.store.dispatch('intro/putBackground', pictures.items[index].fields.image_medium.fields.file.url)
         })
       ]).then((results) => {
         return {}
