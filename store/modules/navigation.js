@@ -30,7 +30,6 @@ export const state = () => ({
       }
     ]
   },
-  background: require("~/assets/img/hero.jpg"),
   darkTheme: false,
   showFooter: true,
   // pageToLink: -999
@@ -61,9 +60,6 @@ export const mutations = {
   // PAGE_TO (state, link) {
   //   state.pageToLink = link
   // },
-  CHANGE_BACKGOUND (state, data) {
-    state.background = data
-  },
   SET_DARK_THEME (state) {
     state.darkTheme = true
   },
@@ -80,7 +76,6 @@ export const mutations = {
 
 export const actions = {
   async putNavigation({commit}, nav) {
-    console.log(nav)
     commit('SET_MENU', nav['fields'])
     // const randomBackground = getRandom(nav['backgrounds'])()['fields']['file']['url']
     // commit('CHANGE_BACKGOUND', randomBackground)

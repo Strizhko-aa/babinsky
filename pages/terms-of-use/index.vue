@@ -4,6 +4,27 @@
 </template>
 <script>
 export default {
+    async asyncData(context) {
+        const contentful = context.app.contentful
+
+        await contentful.getLocales()
+        .then(({items}) => {
+            context.store.dispatch('locale/putLocales', items)
+        })
+
+        return Promise.all([
+            contentful.getEntry(process.env.CTF_NAVIGATION_ID, {
+                content_type: 'navigation',
+                locale: context.store.state.locale.locale,
+            }).then((nav) => {
+                let indexImages = Math.floor(Math.random() * Math.floor(nav.fields.images.length))
+                context.store.dispatch('intro/putMenuBackground', nav.fields.images[indexImages].fields.file.url)
+                return context.store.dispatch('navigation/putNavigation', nav)
+            })
+        ]).then((results) => {
+            return {}
+        })
+    },
     data() {
         return {
             contentTermOfPrivacy: ''
@@ -23,6 +44,8 @@ export default {
         this.$store.commit('navigation/SET_DARK_THEME')
         this.$store.commit('navigation/HIDE_FOOTER')
         this.asyncDATA()
+    },
+    mounted () {
     },
     methods: {
         getText() {
@@ -58,8 +81,8 @@ export default {
                         content_type: 'navigation',
                         locale: this.$store.state.locale.locale,
                     }).then((nav) => {
-                        let index = Math.floor(Math.random() * Math.floor(3))
-        			    this.$store.dispatch('intro/putBackground', nav.items[0].fields.backgrounds[index].fields.file.url)
+                        // let indexImages = Math.floor(Math.random() * Math.floor(nav.items[0].fields.images.length))
+                        // context.store.dispatch('intro/putMenuBackground', nav.items[0].fields.images[indexImages].fields.file.url)
                         return this.$store.dispatch('navigation/putNavigation', nav.items[0])
                     }),
                     this.$root.context.app.contentful.getEntries({

@@ -191,8 +191,8 @@ no-ssr
 							content_type: 'navigation',
 							locale: this.$store.state.locale.locale,
 						}).then((nav) => {
-							let index = Math.floor(Math.random() * Math.floor(3))
-        			this.$store.dispatch('intro/putBackground', nav.items[0].fields.backgrounds[index].fields.file.url)
+							let index = Math.floor(Math.random() * Math.floor(nav.items[0].fields.images.length))
+        			this.$store.dispatch('intro/putMenuBackground', nav.items[0].fields.images[index].fields.file.url)
 							return this.$store.dispatch('navigation/putNavigation', nav.items[0])
 						})
 					]).then(() => {
