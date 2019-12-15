@@ -17,7 +17,7 @@ export default {
                 content_type: 'navigation',
                 locale: context.store.state.locale.locale,
             }).then((nav) => {
-                context.store.dispatch('intro/putMenuBackground', nav.fields.images)
+                context.store.dispatch('intro/putMenuBackground', nav.fields.images.sort(function() { return 0.5 - Math.random() }))
                 return context.store.dispatch('navigation/putNavigation', nav)
             })
         ]).then((results) => {

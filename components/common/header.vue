@@ -14,7 +14,7 @@
     .header__menu-wrapper(:class='{"header__menu-wrapper--active": menuWrapper}')
       .header__menu-top(:class='{"header__menu-top--active": menuShow}')
         .header__menu-items
-          a.header__menu-item(v-for='(item, index) in menu.items' :key='index' v-html='item.title' :href='item.href' @click='toggleMenu()' v-bind:style="{'background-image': `url(${getRandomBackImg(backgroundMenuUrls)})`}")
+          a.header__menu-item(v-for='(item, index) in menu.items' :key='index' v-html='item.title' :href='item.href' @click='toggleMenu()' v-bind:style="{'background-image': `url(${getRandomBackImg(index)})`}")
           #mobile-langs.header__langs
             .header__lang(v-for='(lang, index) in locales' :key='index' v-html='lang.slice(0, 2)' @click='changeLang(lang)' :class='{"header__lang--active": lang === locale}')
       .header__menu-bottom(:class='{"header__menu-bottom--active": menuShow}')
@@ -28,15 +28,15 @@ export default {
     return {
       menuShow: false,
       menuWrapper: false,
-      backDark: false
+      backDark: false,
     }
   },
   methods: {
-    getRandomBackImg(list) {
-      if (list) {
-        let index = Math.floor(Math.random() * Math.floor(list.length))
-        if (list[index]) {
-          return list[index].fields.file.url 
+    getRandomBackImg(index) {
+      if (this.backgroundMenuUrls) {
+        if (this.backgroundMenuUrls[index]) {
+          let elem = this.backgroundMenuUrls[index].fields.file.url
+          return elem
         }
       }
     },
