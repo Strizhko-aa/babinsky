@@ -317,14 +317,15 @@ export default {
       line-height: vh(110);
       text-align: center;
       color: #FFFFFF;
-      transition: all 100ms ease;
+      transition: all 150ms ease;
       cursor: pointer;
       text-decoration: none;
       display: flex;
       justify-content: center;
       align-items: center;
       background-size: 0px 0px;
-      // background-position: center;
+      background-repeat: no-repeat;
+      background-position: center;
       background-color: #E3572E;
 
       &:hover {
@@ -351,8 +352,8 @@ export default {
       }
 
       &:hover::before{
-        transition: 0.05s;
-        transition-delay: 0.05s;
+        transition: 0.14s;
+        transition-delay: 0.01s;
         content: '';
         background-image: inherit;
         width: vw(200);
