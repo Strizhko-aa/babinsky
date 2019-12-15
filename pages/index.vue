@@ -48,8 +48,7 @@ export default {
           locale: context.store.state.locale.locale,
         }).then((nav) => {
           let indexBackground = Math.floor(Math.random() * Math.floor(nav.fields.backgrounds.length))
-          let indexImages = Math.floor(Math.random() * Math.floor(nav.fields.images.length))
-          context.store.dispatch('intro/putMenuBackground', nav.fields.images[indexImages].fields.file.url)
+          context.store.dispatch('intro/putMenuBackground', nav.fields.images)
           context.store.dispatch('intro/putBackground', nav.fields.backgrounds[indexBackground].fields.file.url)
           return context.store.dispatch('navigation/putNavigation', nav)
         }),

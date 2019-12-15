@@ -17,8 +17,7 @@ export default {
                 content_type: 'navigation',
                 locale: context.store.state.locale.locale,
             }).then((nav) => {
-                let indexImages = Math.floor(Math.random() * Math.floor(nav.fields.images.length))
-                context.store.dispatch('intro/putMenuBackground', nav.fields.images[indexImages].fields.file.url)
+                context.store.dispatch('intro/putMenuBackground', nav.fields.images)
                 return context.store.dispatch('navigation/putNavigation', nav)
             })
         ]).then((results) => {
@@ -81,8 +80,6 @@ export default {
                         content_type: 'navigation',
                         locale: this.$store.state.locale.locale,
                     }).then((nav) => {
-                        // let indexImages = Math.floor(Math.random() * Math.floor(nav.items[0].fields.images.length))
-                        // context.store.dispatch('intro/putMenuBackground', nav.items[0].fields.images[indexImages].fields.file.url)
                         return this.$store.dispatch('navigation/putNavigation', nav.items[0])
                     }),
                     this.$root.context.app.contentful.getEntries({

@@ -35,6 +35,26 @@ no-ssr
   import { mapState } from 'vuex';
 
 	export default {
+		async asyncData(context) {
+        const contentful = context.app.contentful
+
+        await contentful.getLocales()
+        .then(({items}) => {
+            context.store.dispatch('locale/putLocales', items)
+        })
+
+        return Promise.all([
+            contentful.getEntry(process.env.CTF_NAVIGATION_ID, {
+                content_type: 'navigation',
+                locale: context.store.state.locale.locale,
+            }).then((nav) => {
+                context.store.dispatch('intro/putMenuBackground', nav.fields.images)
+                return context.store.dispatch('navigation/putNavigation', nav)
+            })
+        ]).then((results) => {
+            return {}
+        })
+    },
 		data () {
 			return {
 				picturesUrls: [],
@@ -191,8 +211,7 @@ no-ssr
 							content_type: 'navigation',
 							locale: this.$store.state.locale.locale,
 						}).then((nav) => {
-							let index = Math.floor(Math.random() * Math.floor(nav.items[0].fields.images.length))
-        			this.$store.dispatch('intro/putMenuBackground', nav.items[0].fields.images[index].fields.file.url)
+        			this.$store.dispatch('intro/putMenuBackground', nav.items[0].fields.images)
 							return this.$store.dispatch('navigation/putNavigation', nav.items[0])
 						})
 					]).then(() => {
