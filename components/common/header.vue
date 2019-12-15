@@ -32,7 +32,6 @@ export default {
     }
   },
   methods: {
-
     toggleMenu() {
       this.menuShow = !this.menuShow;
       if (this.menuShow) {
@@ -364,6 +363,8 @@ export default {
         margin-left: vw(-125.4);
         margin-top: vw(-95);
         background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
         position: absolute;
         z-index: -1;
         pointer-events: none;

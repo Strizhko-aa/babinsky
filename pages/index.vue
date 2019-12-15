@@ -48,6 +48,8 @@ export default {
           locale: context.store.state.locale.locale,
         }).then((nav) => {
           console.log(nav)
+          let index = Math.floor(Math.random() * Math.floor(3))
+          context.store.dispatch('intro/putBackground', nav.fields.backgrounds[index].fields.file.url)
           return context.store.dispatch('navigation/putNavigation', nav)
         }),
         contentful.getEntry(process.env.CTF_ABOUT_ID, {
@@ -61,15 +63,6 @@ export default {
           locale: context.store.state.locale.locale
         }).then((contacts) => {
           return context.store.dispatch('contacts/putContacts', contacts)
-        }),
-        contentful.getEntries({
-          content_type: 'picture',
-          locale: context.store.state.locale.locale,
-          order: 'fields.rating',
-          limit: 3
-        }).then((pictures) => {
-            let index = Math.floor(Math.random() * Math.floor(3))
-            return context.store.dispatch('intro/putBackground', pictures.items[index].fields.image_medium.fields.file.url)
         })
       ]).then((results) => {
         return {}
