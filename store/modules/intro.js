@@ -1,13 +1,13 @@
 
 export const state = {
-    backgroundUrl: '',
+    backgroundUrls: '',
     backgroundMenuUrls: []
   };
   
   export const mutations = {
     SET_BACKGROUND(state, data) {
       // console.log('BACK', data)
-      state.backgroundUrl = data;
+      state.backgroundUrls = data;
     },
     SET_MENU_BACKGROUND(state, data) {
       // console.log('MENU', data)

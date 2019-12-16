@@ -29,13 +29,23 @@ export default {
       menuShow: false,
       menuWrapper: false,
       backDark: false,
+      backImgList: []
     }
   },
+  mounted () {
+    this.getBackImgList()
+  },
   methods: {
-    getRandomBackImg(index) {
+    getBackImgList () {
       if (this.backgroundMenuUrls) {
-        if (this.backgroundMenuUrls[index]) {
-          let elem = this.backgroundMenuUrls[index].fields.file.url
+        this.backImgList = this.backgroundMenuUrls
+        this.backImgList.sort(function() { return 0.5 - Math.random() })
+      }
+    },
+    getRandomBackImg(index) {
+      if (this.backImgList) {
+        if (this.backImgList[index]) {
+          let elem = this.backImgList[index].fields.file.url
           return elem
         }
       }

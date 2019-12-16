@@ -47,9 +47,8 @@ export default {
           content_type: 'navigation',
           locale: context.store.state.locale.locale,
         }).then((nav) => {
-          let indexBackground = Math.floor(Math.random() * Math.floor(nav.fields.backgrounds.length))
-          context.store.dispatch('intro/putMenuBackground', nav.fields.images.sort(function() { return 0.5 - Math.random() }))
-          context.store.dispatch('intro/putBackground', nav.fields.backgrounds[indexBackground].fields.file.url)
+          context.store.dispatch('intro/putMenuBackground', nav.fields.images)
+          context.store.dispatch('intro/putBackground', nav.fields.backgrounds)
           return context.store.dispatch('navigation/putNavigation', nav)
         }),
         contentful.getEntry(process.env.CTF_ABOUT_ID, {
