@@ -45,7 +45,7 @@ no-ssr
 
 <script>
   import $ from 'jquery';
-  import { mapState } from 'vuex';
+	import { mapState } from 'vuex';
 
 	export default {
 		async asyncData(context) {
@@ -87,6 +87,7 @@ no-ssr
 			localeComp (newVal) {
 				this.$root.context.app.contentful.getEntries({
 					content_type: 'picture',
+					limit: '999',
 					locale: this.$store.state.locale.locale,
 					// locale: 'ru-RU',
 					order: 'fields.rating'
@@ -128,6 +129,7 @@ no-ssr
 	
 						this.$root.context.app.contentful.getEntries({
 							content_type: 'picture',
+							limit: '999',
 							locale: store.state.locale.locale,
 							order: 'fields.rating',
 						}).then((pictures) => {
@@ -209,6 +211,7 @@ no-ssr
 					return Promise.all([
 						this.$root.context.app.contentful.getEntries({
 							content_type: 'picture',
+							limit: '999',
 							locale: _locale,
 							order: 'fields.rating'
 						}).then((pictures) => {
@@ -547,6 +550,9 @@ body {
 		transition: opacity .5s linear;
 		cursor: pointer;
 		z-index: 1;
+		@include mobile {
+			display: none;
+		}
 	}
 	// .container {
 	// 	height: 100%;

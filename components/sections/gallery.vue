@@ -156,6 +156,7 @@ export default {
 
     this.$root.context.app.contentful.getEntries({
       content_type: 'picture',
+      limit: '999',
       locale: store.state.locale.locale,
       order: 'fields.rating',
     }).then((pictures) => {
