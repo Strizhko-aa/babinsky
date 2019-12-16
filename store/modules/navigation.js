@@ -48,7 +48,6 @@ export const getters = {
 
 export const mutations = {
   SET_MENU (state, nav) {
-    console.log(nav)
     state.menu = {
       openText: nav['open'],
       closeText: nav['close'],

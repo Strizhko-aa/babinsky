@@ -6,11 +6,11 @@ export const state = {
   
   export const mutations = {
     SET_BACKGROUND(state, data) {
-      console.log('BACK', data)
+      // console.log('BACK', data)
       state.backgroundUrl = data;
     },
     SET_MENU_BACKGROUND(state, data) {
-      console.log('MENU', data)
+      // console.log('MENU', data)
       state.backgroundMenuUrls = data;
     }
   };

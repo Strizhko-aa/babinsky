@@ -16,7 +16,7 @@ import about from '~/components/sections/about.vue'
 import contacts from '~/components/sections/contacts.vue'
 
 if (process.browser) {
-	require('fullpage.js/vendors/scrolloverflow')
+  require('fullpage.js/vendors/scrolloverflow')
 }
 
 export default {

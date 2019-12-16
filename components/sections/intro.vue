@@ -32,14 +32,14 @@ export default {
     grid-row-gap: 0px;
 
     @include mobile {
-      grid-template-rows: 1fr vmin(168);
+      // grid-template-rows: 1fr vmin(168);
     }
   }
   &__top {
     position: relative;
     background-color: #0D0D0D;
     &-inner {
-      position: relative;
+      // position: relative;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;

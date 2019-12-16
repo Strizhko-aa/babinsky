@@ -15,7 +15,9 @@
     "@nuxtjs/netlify-files": "^1.0.0",
     "@nuxtjs/style-resources": "^1.0.0",
     "contentful": "^7.10.0",
-    "core-js": "^2.5.7",
+    "core-js": "^2.6.11",
+    "event-source-polyfill": "^1.0.11",
+    "eventsource-polyfill": "^0.9.6",
     "fullpage-nuxt": "^0.0.3",
     "imagesloaded": "^4.1.4",
     "infinite-scroll": "^3.0.6",
@@ -28,7 +30,8 @@
     "unique-random-array": "^2.0.0",
     "vue-infinite-loading": "^2.4.4",
     "vue-markdown": "^2.2.4",
-    "vue-observe-visibility": "^0.4.6"
+    "vue-observe-visibility": "^0.4.6",
+    "whatwg-fetch": "^3.0.0"
   },
   "browserslist": [
     "> 5%"

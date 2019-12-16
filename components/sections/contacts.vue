@@ -11,7 +11,7 @@
 					.contacts__item-value
 						a.contacts__link(:data-type='item.type' :href='`tel:${item.value}`' v-if='item.type === "phone"') {{item.value}}
 						a.contacts__link(:data-type='item.type' :href='`mailto:${item.value}`' v-if='item.type === "email"') {{item.value}}
-						a.contacts__link(:data-type='item.type' :href='`https://www.instagram.com/${item.value}/`' v-if='item.type === "instagram"') {{item.value}}
+						a.contacts__link(:data-type='item.type' :href='`https://www.instagram.com/${item.value}/`' v-if='item.type === "instagram"') {{'@' + item.value}}
 </template>
 
 <script>

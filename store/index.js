@@ -8,6 +8,8 @@ import contacts from './modules/contacts';
 import gallery from './modules/gallery';
 import intro from './modules/intro';
 
+// import 'eventsource-polyfill'
+
 import langChangerPlugin from '../plugins/langChanger'
 
 const createStore = () => {
