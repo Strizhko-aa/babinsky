@@ -1,7 +1,7 @@
 <template lang='pug'>
 .header(:class='{"header--dark": darkTheme}')
   .header__border
-    nuxt-link.header__logo(to="/" v-html='lastName')
+    a.header__logo(href="/#main" v-html='lastName')
     .header__langs
       .header__lang(v-for='(lang, index) in locales' :key='index' v-html='lang.slice(0, 2)' @click='changeLang(lang)' :class='{"header__lang--active": lang === locale}')
     .header__menu(@click='toggleMenu()')
