@@ -1,23 +1,24 @@
 <template lang='pug'>
-.header(:class='{"header--dark": darkTheme}')
-  .header__border
-    a.header__logo(href="/#main" v-html='lastName')
-    .header__langs
-      .header__lang(v-for='(lang, index) in locales' :key='index' v-html='lang.slice(0, 2)' @click='changeLang(lang)' :class='{"header__lang--active": lang === locale}')
-    .header__menu(@click='toggleMenu()')
-      .header__menu-button(v-if='!menuShow')
-        span {{ menu.openText }}
-      .header__menu-button(v-else)
-        span {{ menu.closeText }}
-      .header__menu-icon
-        .header__menu-icon-item(:class='{"header__menu-icon-item--active": menuShow}')
-    .header__menu-wrapper(:class='{"header__menu-wrapper--active": menuWrapper}')
-      .header__menu-top(:class='{"header__menu-top--active": menuShow}')
-        .header__menu-items
-          a.header__menu-item(v-for='(item, index) in menu.items' :key='index' v-html='item.title' :href='item.href' @click='toggleMenu()' v-bind:style="{'background-image': `url(${getRandomBackImg(index)})`}")
-          #mobile-langs.header__langs
-            .header__lang(v-for='(lang, index) in locales' :key='index' v-html='lang.slice(0, 2)' @click='changeLang(lang)' :class='{"header__lang--active": lang === locale}')
-      .header__menu-bottom(:class='{"header__menu-bottom--active": menuShow}')
+no-ssr
+  .header(:class='{"header--dark": darkTheme}')
+    .header__border
+      a.header__logo(href="/#main" v-html='lastName')
+      .header__langs
+        .header__lang(v-for='(lang, index) in locales' :key='index' v-html='lang.slice(0, 2)' @click='changeLang(lang)' :class='{"header__lang--active": lang === locale}')
+      .header__menu(@click='toggleMenu()')
+        .header__menu-button(v-if='!menuShow')
+          span {{ menu.openText }}
+        .header__menu-button(v-else)
+          span {{ menu.closeText }}
+        .header__menu-icon
+          .header__menu-icon-item(:class='{"header__menu-icon-item--active": menuShow}')
+      .header__menu-wrapper(:class='{"header__menu-wrapper--active": menuWrapper}')
+        .header__menu-top(:class='{"header__menu-top--active": menuShow}')
+          .header__menu-items
+            a.header__menu-item(v-for='(item, index) in menu.items' :key='index' v-html='item.title' :href='item.href' @click='toggleMenu()' v-bind:style="{'background-image': 'url(' + backImgList[index] + ')'}")
+            #mobile-langs.header__langs
+              .header__lang(v-for='(lang, index) in locales' :key='index' v-html='lang.slice(0, 2)' @click='changeLang(lang)' :class='{"header__lang--active": lang === locale}')
+        .header__menu-bottom(:class='{"header__menu-bottom--active": menuShow}')
 </template>
 
 <script>
@@ -32,24 +33,49 @@ export default {
       backImgList: []
     }
   },
-  mounted () {
-    this.getBackImgList()
-  },
-  methods: {
-    getBackImgList () {
-      if (this.backgroundMenuUrls) {
-        this.backImgList = this.backgroundMenuUrls
-        this.backImgList.sort(function() { return 0.5 - Math.random() })
-      }
-    },
-    getRandomBackImg(index) {
-      if (this.backImgList) {
-        if (this.backImgList[index]) {
-          let elem = this.backImgList[index].fields.file.url
-          return elem
+  watch: {
+    backgroundMenuUrls (newVal) {
+      if (newVal) {
+        this.backImgList.splice(0, this.backImgList.length)
+        for (let i = 0; i < newVal.length; i++) {
+          this.backImgList.push(newVal[i].fields.file.url)
+          this.backImgList.sort(function() { return 0.5 - Math.random() })
         }
       }
-    },
+    }
+  },
+  methods: {
+    async asyncDATA () {
+      this.loading = true
+      this.$root.context.app.contentful.getLocales()
+          .then(({items}) => {
+              this.$store.dispatch('locale/putLocales', items)
+
+              let _locale = localStorage.getItem('locale')
+
+              if (_locale !== null) {
+                  this.$store.commit('locale/SET_LANG', _locale)
+              }
+          }).catch((err) => {
+              console.log("error", err)
+          })
+          return Promise.all([
+              this.$root.context.app.contentful.getEntries({
+                  content_type: 'navigation',
+                  locale: this.$store.state.locale.locale,
+              }).then((nav) => {
+                  console.log(nav.items[0].fields.images)
+
+                  this.$store.dispatch('intro/putBackground', nav.items[0].fields.backgrounds)
+                  this.$store.dispatch('intro/putMenuBackground', nav.items[0].fields.images)
+                  // return this.$store.dispatch('navigation/putNavigation', nav.items[0])
+              })
+          ]).then(() => {
+              this.loading = false
+          }).catch(err => {
+              this.loading = false
+          })
+  },
     toggleMenu() {
       this.menuShow = !this.menuShow;
       if (this.menuShow) {
@@ -75,6 +101,9 @@ export default {
       this.$store.commit('locale/SET_LANG', locale)
       localStorage.setItem('locale', locale)
     }
+  },
+  beforeMount () {
+    this.asyncDATA()
   },
   computed: {
     ...mapState('locale', ['locales', 'locale']),

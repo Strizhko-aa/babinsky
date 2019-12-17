@@ -227,7 +227,6 @@ no-ssr
 							content_type: 'navigation',
 							locale: this.$store.state.locale.locale,
 						}).then((nav) => {
-        			this.$store.dispatch('intro/putMenuBackground', nav.items[0].fields.images)
 							return this.$store.dispatch('navigation/putNavigation', nav.items[0])
 						})
 					]).then(() => {

@@ -17,7 +17,7 @@ export default {
                 content_type: 'navigation',
                 locale: context.store.state.locale.locale,
             }).then((nav) => {
-                context.store.dispatch('intro/putMenuBackground', nav.fields.images)
+                // context.store.dispatch('intro/putMenuBackground', nav.fields.images)
                 return context.store.dispatch('navigation/putNavigation', nav)
             })
         ]).then((results) => {
@@ -80,6 +80,8 @@ export default {
                         content_type: 'navigation',
                         locale: this.$store.state.locale.locale,
                     }).then((nav) => {
+                        console.log(nav.items[0].fields.images)
+                        // this.$store.dispatch('intro/putMenuBackground', nav.items[0].fields.images)
                         return this.$store.dispatch('navigation/putNavigation', nav.items[0])
                     }),
                     this.$root.context.app.contentful.getEntries({

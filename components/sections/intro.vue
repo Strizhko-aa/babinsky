@@ -3,7 +3,7 @@
   .intro__inner
     .intro__top.container
       .intro__top-inner
-        .intro__bg(v-bind:style="{'background-image': `url(${getRandomBackGround()})`}")
+        .intro__bg(v-bind:style="{'background-image': 'url(' + backImgList[0] + ')'}")
         h1.intro__title {{ fullName }}
         p.intro__lead(v-html='lead')
     .intro__bottom
@@ -13,11 +13,19 @@
 import { mapGetters, mapState } from 'vuex'
 
 export default {
-  methods: {
-    getRandomBackGround () {
-      if (this.backgroundUrls) {
-        let index = Math.floor(Math.random() * Math.floor(this.backgroundUrls.length));
-        return this.backgroundUrls[index].fields.file.url
+  data () {
+    return {
+      backImgList: []
+    }
+  },
+  watch: {
+    backgroundUrls (newVal) {
+      if (newVal) {
+        this.backImgList.splice(0, this.backImgList.length)
+        for (let i = 0; i < newVal.length; i++) {
+          this.backImgList.push(newVal[i].fields.file.url)
+          this.backImgList.sort(function() { return 0.5 - Math.random() })
+        }
       }
     }
   },

@@ -47,8 +47,6 @@ export default {
           content_type: 'navigation',
           locale: context.store.state.locale.locale,
         }).then((nav) => {
-          context.store.dispatch('intro/putMenuBackground', nav.fields.images)
-          context.store.dispatch('intro/putBackground', nav.fields.backgrounds)
           return context.store.dispatch('navigation/putNavigation', nav)
         }),
         contentful.getEntry(process.env.CTF_ABOUT_ID, {
