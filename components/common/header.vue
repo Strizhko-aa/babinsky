@@ -395,6 +395,10 @@ export default {
         pointer-events: none;
         background-size: 0px 0px;
         background-color: #E3572E;
+        @include mobile {
+          background-size: 0px 0px;
+          background-color: transparent;
+        }
       }
 
       &:hover::before{
@@ -416,6 +420,10 @@ export default {
         z-index: -1;
         pointer-events: none;
         background-color: #E3572E;
+        @include mobile {
+          background-size: 0px 0px;
+          background-color: transparent;
+        }
       }
     }
   }
