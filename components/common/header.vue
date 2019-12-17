@@ -387,6 +387,9 @@ export default {
         z-index: -1;
         pointer-events: none;
         background-color: #E3572E;
+        @include mobile {
+          background-size: 0px 0px;
+        }
       }
     }
   }
