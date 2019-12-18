@@ -15,7 +15,6 @@ export default function langChangerPlugin () {
               content_type: 'navigation',
               locale: store.state.locale.locale,
             }).then((nav) => {
-              // console.log(nav)
               return store.dispatch('navigation/putNavigation', nav)
             }),
             store.contentful.getEntry(process.env.CTF_ABOUT_ID, {
