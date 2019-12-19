@@ -529,6 +529,7 @@ body {
 	padding: vw(190) 0 vw(160);
 
 	&__inner {
+		display: -ms-grid;
 		display: grid;
 		grid-template: "topSpace topSpace topSpace"
 									 "leftName picture rightTopSpace"
