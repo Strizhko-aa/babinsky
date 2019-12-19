@@ -111,10 +111,21 @@ export default {
 
     // parser: [require('postcss-scss')],
     postcss: {
-      'postcss-cssnext': {
-        browsers: ['last 2 versions', 'ie >= 9']
+      plugins: {
+        // Disable `postcss-url`
+        // 'postcss-url': false,
+        // Add some plugins
+        // 'postcss-nested': {},
+        // 'postcss-responsive-type': {},
+        // 'postcss-hexrgba': {}
+        'postcss-node-sass': {}
+      },
+      preset: {
+        autoprefixer: {
+          grid: true
+        }
       }
-    },
+    }
 
   },
   generate: {

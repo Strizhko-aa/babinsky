@@ -529,15 +529,12 @@ body {
 	padding: vw(190) 0 vw(160);
 
 	&__inner {
-		display: -ms-grid;
 		display: grid;
-		-ms-grid-rows: auto 0 auto 0 auto 0 auto;
 		grid-template: "topSpace topSpace topSpace"
 									 "leftName picture rightTopSpace"
 									 "leftNav picture rightNav"
 									 "leftDesc picture rightBotSpace"
 									 "bottomSpace bottomSpace bottomSpace";
-		-ms-grid-columns: 1fr 5fr 1fr;
 		grid-template-columns: 1fr 5fr 1fr;
 		grid-row-gap: 0;
 	}
