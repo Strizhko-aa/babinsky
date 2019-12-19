@@ -494,14 +494,22 @@ body {
 	padding: vw(190) 0 vw(160);
 
 	&__inner {
+		display: -ms-grid;
 		display: grid;
+		-ms-grid-template: "topSpace topSpace topSpace"
+									 "leftName picture rightTopSpace"
+									 "leftNav picture rightNav"
+									 "leftDesc picture rightBotSpace"
+									 "bottomSpace bottomSpace bottomSpace";
 		grid-template: "topSpace topSpace topSpace"
 									 "leftName picture rightTopSpace"
 									 "leftNav picture rightNav"
 									 "leftDesc picture rightBotSpace"
 									 "bottomSpace bottomSpace bottomSpace";
 		// grid-template-columns: repeat(3, 1fr);
+		-ms-grid-template-columns: 1fr 5fr 1fr;
 		grid-template-columns: 1fr 5fr 1fr;
+		-ms-grid-row-gap: 0;
 		grid-row-gap: 0;
 	}
 	&__meta {
