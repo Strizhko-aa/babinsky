@@ -42,10 +42,15 @@ html {
 }
 
 .container {
+	display: -ms-grid;
 	display: grid;
+	-ms-grid-template-columns: auto vw(1676) auto;
 	grid-template-columns: auto vw(1676) auto;
+	-ms-grid-template-rows: 1fr;
 	grid-template-rows: 1fr;
+	-ms-grid-column-gap: 0px;
 	grid-column-gap: 0px;
+	-ms-grid-row-gap: 0px;
 	grid-row-gap: 0px;
 
 	@include mobile {
