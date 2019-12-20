@@ -56,7 +56,7 @@
             context.store.dispatch('locale/putLocales', items)
         })
 
-        return await Promise.all([
+        return Promise.all([
 						contentful.getEntries({
 							content_type: 'picture',
 							limit: '999',
@@ -80,12 +80,12 @@
 								console.log('set default descr')
 								return
 							} else {
-								console.log(_myPic.fields.image_small.fields.file.url)
+								// console.log(_myPic.fields.image_small.fields.file.url)
 								const picDescr = {
 									name: _myPic.fields.name,
 									year: _myPic.fields.date,
 									description: _myPic.fields.description,
-									link: 'https:' + _myPic.fields.image_small.fields.file.url,
+									picLink: 'https:' + _myPic.fields.image_small.fields.file.url,
 									url: 'https://babinskiy.com/gallery/' + _picId
 								}
 								return picDescr
@@ -105,7 +105,7 @@
         })
 		},
 		head () {
-			// console.log(this.picDescr)
+			console.log('pic descrip', this.picDescr)
 			return {
 				title: 'Babinskiy ' + this.picDescr.name,
 				meta: [
@@ -260,7 +260,7 @@
 				window.location.href = this.picturesUrls[this.pictureIndex]
 			},
 
-			async asyncDATA () {
+			async myNotasyncDATA () {
 				this.loading = true
 				this.$root.context.app.contentful.getLocales()
 					.then(({items}) => {
@@ -328,7 +328,7 @@
 		},
 
 		async mounted () {
-			await this.asyncDATA()
+			await this.myNotasyncDATA()
 			this.workHover();
     }
 	}
