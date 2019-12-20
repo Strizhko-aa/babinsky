@@ -120,11 +120,11 @@ export default {
         // 'postcss-hexrgba': {}
         'postcss-node-sass': {}
       },
-      preset: {
-        autoprefixer: {
-          grid: true
-        }
-      }
+      // preset: {
+      //   autoprefixer: {
+      //     grid: true
+      //   }
+      // }
     }
 
   },

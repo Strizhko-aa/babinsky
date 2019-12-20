@@ -529,14 +529,13 @@ body {
 	padding: vw(190) 0 vw(160);
 
 	&__inner {
-		display: -ms-grid;
 		display: grid;
 		grid-template: "topSpace topSpace topSpace"
 									 "leftName picture rightTopSpace"
 									 "leftNav picture rightNav"
 									 "leftDesc picture rightBotSpace"
-									 "bottomSpace bottomSpace bottomSpace";
-		grid-template-columns: 1fr 5fr 1fr;
+									 "bottomSpace bottomSpace bottomSpace" auto / 1fr 5fr 1fr;
+		// grid-template-columns: 1fr 5fr 1fr;
 		grid-row-gap: 0;
 	}
 	&__meta {
@@ -664,14 +663,18 @@ body {
 		grid-area: 1 / 1 / 3 / 2;
 	}
 	.work__inner {
-		display: grid;
+		display: -ms-grid;
+		width: 100%;
+		height: 100%;
+		-ms-grid-rows: auto auto;
 		grid-template: "topSpace topSpace topSpace"
 									 "picture picture picture"
-									 "leftNav . rightNav"
+									 "leftNav someEmpty rightNav"
 									 "leftName leftName leftName"
 									 "leftDesc leftDesc leftDesc"
 									 "rightBotSpace rightBotSpace rightBotSpace"
-									 "bottomSpace bottomSpace bottomSpace" auto / 1fr 1fr 1fr;
+									 "bottomSpace bottomSpace bottomSpace" auto / 1fr 5fr 1fr;
+		-ms-grid-columns: 1fr 5fr 1fr;
 		max-width: 100vw;
 	}
 
