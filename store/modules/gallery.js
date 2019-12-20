@@ -1,7 +1,8 @@
 
 export const state = {
   gallery: [],
-  gallery_obj: {}
+  gallery_obj: {},
+  pictureDescription: {}
 };
 
 export const mutations = {

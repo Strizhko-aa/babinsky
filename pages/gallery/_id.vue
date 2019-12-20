@@ -48,29 +48,85 @@ no-ssr
 	import { mapState } from 'vuex';
 
 	export default {
+		async asyncData(context) {
+        const contentful = context.app.contentful
+
+        await contentful.getLocales()
+        .then(({items}) => {
+            context.store.dispatch('locale/putLocales', items)
+        })
+
+        return Promise.all([
+						contentful.getEntries({
+							content_type: 'picture',
+							limit: '999',
+							// locale: _locale,
+							order: 'fields.rating'
+						}).then((pictures) => {
+							let _picId = context.route.params.id
+							let _myPic = null
+
+							for (let i = 0; i < pictures.items.length && _myPic === null; i++) {
+								if (pictures.items[i].sys.id === _picId) {
+									for (let key in pictures.items[i]) {
+										_myPic = {}
+										_myPic[key] = pictures.items[i][key]
+									}
+									break
+								}
+							}
+
+							if (_myPic === null) {
+								console.log('set default descr')
+								return
+							} else {
+								const picDescr = {
+									name: _myPic.fields.name,
+									year: _myPic.fields.date,
+									description: _myPic.fields.description,
+									link: 'https:' + _myPic.fields.image_small.fields.file.url,
+									url: 'https://babinskiy.com/gallery/' + _picId
+								}
+								return picDescr
+							}
+						}),
+            contentful.getEntry(process.env.CTF_NAVIGATION_ID, {
+                content_type: 'navigation',
+                locale: context.store.state.locale.locale,
+            }).then((nav) => {
+                context.store.dispatch('intro/putMenuBackground', nav.fields.images)
+                return context.store.dispatch('navigation/putNavigation', nav)
+            })
+        ]).then((results) => {
+						// console.log(results)
+						let picDescr = results[0]
+            return { picDescr }
+        })
+		},
 		head () {
+			// console.log(this.picDescr)
 			return {
-				title: 'Babinskiy',
+				title: 'Babinskiy ' + this.picDescr.name,
 				meta: [
 					{ charset: 'utf-8' },
 					{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
-					{ name: 'apple-mobile-web-app-title', content: 'Babinskiy' },
-					{ name: 'application-name', content: 'Babinskiy' },
+					{ name: 'apple-mobile-web-app-title', content: 'Babinskiy' + this.picDescr.name },
+					{ name: 'application-name', content: 'Babinskiy' + this.picDescr.name },
 					{ name: 'msapplication-TileColor', content: '#ffffff' },
 					{ name: 'theme-color', content: '#ffffff' },
-					{ hid: 'description', name: 'description', content: 'Artist abstract expressionism' },
+					{ hid: 'description', name: 'description', content: this.picDescr.year + ' ' + this.picDescr.description },
 					// Open Graph / Facebook
 					{ property: 'og:type', content: 'website'},
-					{ property: 'og:url', content: 'https://babinskiy.com/'},
-					{ property: 'og:title', content: 'Alexander Babinskiy'},
-					{ property: 'og:description', content: 'Artist abstract expressionism'},
-					{ property: 'og:image', content: 'http://images.ctfassets.net/iqefgd30u0a2/2zjVYYLFpierD58gY8xGA4/80b5b8b10fb23e1f570112019a4274c7/M_-_Capture_One_Catalog7214.jpg'},
+					{ property: 'og:url', content: this.picDescr.url},
+					{ property: 'og:title', content: 'Babinskiy' + this.picDescr.name},
+					{ property: 'og:description', content: this.picDescr.year + ' ' + this.picDescr.description},
+					{ property: 'og:image', content: this.picDescr.picLink},
 					// Twitter
-					{ property: 'twitter:card', content: 'http://images.ctfassets.net/iqefgd30u0a2/2zjVYYLFpierD58gY8xGA4/80b5b8b10fb23e1f570112019a4274c7/M_-_Capture_One_Catalog7214.jpg'},
-					{ property: 'twitter:url', content: 'https://babinskiy.com/'},
-					{ property: 'twitter:title', content: 'Alexander Babinskiy'},
-					{ property: 'twitter:description', content: 'Artist abstract expressionism'},
-					{ property: 'twitter:image', content: 'http://images.ctfassets.net/iqefgd30u0a2/2zjVYYLFpierD58gY8xGA4/80b5b8b10fb23e1f570112019a4274c7/M_-_Capture_One_Catalog7214.jpg'},
+					{ property: 'twitter:card', content: this.picDescr.picLink},
+					{ property: 'twitter:url', content: this.picDescr.url},
+					{ property: 'twitter:title', content: 'Babinskiy' + this.picDescr.name},
+					{ property: 'twitter:description', content: this.picDescr.year + ' ' + this.picDescr.description},
+					{ property: 'twitter:image', content: this.picDescr.picLink},
 				],
 				link: [
 					{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -83,26 +139,6 @@ no-ssr
 				]
 			}
 		},
-		async asyncData(context) {
-        const contentful = context.app.contentful
-
-        await contentful.getLocales()
-        .then(({items}) => {
-            context.store.dispatch('locale/putLocales', items)
-        })
-
-        return Promise.all([
-            contentful.getEntry(process.env.CTF_NAVIGATION_ID, {
-                content_type: 'navigation',
-                locale: context.store.state.locale.locale,
-            }).then((nav) => {
-                context.store.dispatch('intro/putMenuBackground', nav.fields.images)
-                return context.store.dispatch('navigation/putNavigation', nav)
-            })
-        ]).then((results) => {
-            return {}
-        })
-    },
 		data () {
 			return {
 				picturesUrls: [],
