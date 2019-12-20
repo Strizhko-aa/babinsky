@@ -121,6 +121,8 @@ no-ssr
 					{ property: 'og:title', content: 'Babinskiy' + this.picDescr.name},
 					{ property: 'og:description', content: this.picDescr.year + ' ' + this.picDescr.description},
 					{ property: 'og:image', content: this.picDescr.picLink},
+					{ property: 'og:image:width', content: '1500'},
+					{ property: 'og:image:height', content: '564'},
 					// Twitter
 					{ property: 'twitter:card', content: this.picDescr.picLink},
 					{ property: 'twitter:url', content: this.picDescr.url},
