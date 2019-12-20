@@ -58,40 +58,40 @@
 
         return Promise.all([
 						// get picture date for preview
-						// contentful.getEntries({
-						// 	content_type: 'picture',
-						// 	limit: '999',
-						// 	// locale: _locale,
-						// 	order: 'fields.rating'
-						// }).then((pictures) => {
-						// 	let _picId = context.route.params.id
-						// 	let _myPic = null
+						contentful.getEntries({
+							content_type: 'picture',
+							limit: '999',
+							// locale: _locale,
+							order: 'fields.rating'
+						}).then((pictures) => {
+							let _picId = context.route.params.id
+							let _myPic = null
 
-						// 	for (let i = 0; i < pictures.items.length && _myPic === null; i++) {
-						// 		if (pictures.items[i].sys.id === _picId) {
-						// 			for (let key in pictures.items[i]) {
-						// 				_myPic = {}
-						// 				_myPic[key] = pictures.items[i][key]
-						// 			}
-						// 			break
-						// 		}
-						// 	}
+							for (let i = 0; i < pictures.items.length && _myPic === null; i++) {
+								if (pictures.items[i].sys.id === _picId) {
+									for (let key in pictures.items[i]) {
+										_myPic = {}
+										_myPic[key] = pictures.items[i][key]
+									}
+									break
+								}
+							}
 
-						// 	if (_myPic === null) {
-						// 		console.log('set default descr')
-						// 		return
-						// 	} else {
-						// 		// console.log(_myPic.fields.image_small.fields.file.url)
-						// 		const picDescr = {
-						// 			name: _myPic.fields.name,
-						// 			year: _myPic.fields.date,
-						// 			description: _myPic.fields.description,
-						// 			picLink: 'https:' + _myPic.fields.image_small.fields.file.url,
-						// 			url: 'https://babinskiy.com/gallery/' + _picId
-						// 		}
-						// 		return picDescr
-						// 	}
-						// }),
+							if (_myPic === null) {
+								console.log('set default descr')
+								return
+							} else {
+								// console.log(_myPic.fields.image_small.fields.file.url)
+								const picDescr = {
+									name: _myPic.fields.name,
+									year: _myPic.fields.date,
+									description: _myPic.fields.description,
+									picLink: 'https:' + _myPic.fields.image_small.fields.file.url,
+									url: 'https://babinskiy.com/gallery/' + _picId
+								}
+								return picDescr
+							}
+						}),
             contentful.getEntry(process.env.CTF_NAVIGATION_ID, {
                 content_type: 'navigation',
                 locale: context.store.state.locale.locale,
@@ -105,44 +105,44 @@
             return { picDescr }
         })
 		},
-		// head () {
-		// 	console.log('pic descrip', this.picDescr)
-		// 	return {
-		// 		title: 'Babinskiy ' + this.picDescr.name,
-		// 		meta: [
-		// 			{ charset: 'utf-8' },
-		// 			{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
-		// 			{ name: 'apple-mobile-web-app-title', content: 'Babinskiy' + this.picDescr.name },
-		// 			{ name: 'application-name', content: 'Babinskiy' + this.picDescr.name },
-		// 			{ name: 'msapplication-TileColor', content: '#ffffff' },
-		// 			{ name: 'theme-color', content: '#ffffff' },
-		// 			{ hid: 'description', name: 'description', content: this.picDescr.year + ' ' + this.picDescr.description },
-		// 			// Open Graph / Facebook
-		// 			{ property: 'og:type', content: 'website'},
-		// 			{ property: 'og:url', content: this.picDescr.url},
-		// 			{ property: 'og:title', content: 'Babinskiy' + this.picDescr.name},
-		// 			{ property: 'og:description', content: this.picDescr.year + ' ' + this.picDescr.description},
-		// 			{ property: 'og:image', content: this.picDescr.picLink},
-		// 			{ property: 'og:image:width', content: '1500'},
-		// 			{ property: 'og:image:height', content: '564'},
-		// 			// Twitter
-		// 			{ property: 'twitter:card', content: this.picDescr.picLink},
-		// 			{ property: 'twitter:url', content: this.picDescr.url},
-		// 			{ property: 'twitter:title', content: 'Babinskiy' + this.picDescr.name},
-		// 			{ property: 'twitter:description', content: this.picDescr.year + ' ' + this.picDescr.description},
-		// 			{ property: 'twitter:image', content: this.picDescr.picLink},
-		// 		],
-		// 		link: [
-		// 			{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-		// 			{ rel: 'icon', type: 'image/png', href: '/favicon-32x32.png' },
-		// 			{ rel: 'icon', type: 'image/png', href: '/favicon-16x16.png' },
-		// 			{ rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
-		// 			{ rel: 'manifest', href: '/site.webmanifest' },
-		// 			{ rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#e3572e' },
-		// 			{ rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700|Oswald:300,400,500,600&display=swap&subset=cyrillic' }
-		// 		]
-		// 	}
-		// },
+		head () {
+			console.log('pic descrip', this.picDescr)
+			return {
+				title: 'Babinskiy ' + this.picDescr.name,
+				meta: [
+					{ charset: 'utf-8' },
+					{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
+					{ name: 'apple-mobile-web-app-title', content: 'Babinskiy' + this.picDescr.name },
+					{ name: 'application-name', content: 'Babinskiy' + this.picDescr.name },
+					{ name: 'msapplication-TileColor', content: '#ffffff' },
+					{ name: 'theme-color', content: '#ffffff' },
+					{ hid: 'description', name: 'description', content: this.picDescr.year + ' ' + this.picDescr.description },
+					// Open Graph / Facebook
+					{ property: 'og:type', content: 'website'},
+					{ property: 'og:url', content: this.picDescr.url},
+					{ property: 'og:title', content: 'Babinskiy' + this.picDescr.name},
+					{ property: 'og:description', content: this.picDescr.year + ' ' + this.picDescr.description},
+					{ property: 'og:image', content: this.picDescr.picLink},
+					{ property: 'og:image:width', content: '1500'},
+					{ property: 'og:image:height', content: '564'},
+					// Twitter
+					{ property: 'twitter:card', content: this.picDescr.picLink},
+					{ property: 'twitter:url', content: this.picDescr.url},
+					{ property: 'twitter:title', content: 'Babinskiy' + this.picDescr.name},
+					{ property: 'twitter:description', content: this.picDescr.year + ' ' + this.picDescr.description},
+					{ property: 'twitter:image', content: this.picDescr.picLink},
+				],
+				link: [
+					{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+					{ rel: 'icon', type: 'image/png', href: '/favicon-32x32.png' },
+					{ rel: 'icon', type: 'image/png', href: '/favicon-16x16.png' },
+					{ rel: 'apple-touch-icon', sizes: '180x180', href: '/apple-touch-icon.png' },
+					{ rel: 'manifest', href: '/site.webmanifest' },
+					{ rel: 'mask-icon', href: '/safari-pinned-tab.svg', color: '#e3572e' },
+					{ rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700|Oswald:300,400,500,600&display=swap&subset=cyrillic' }
+				]
+			}
+		},
 		data () {
 			return {
 				picturesUrls: [],
