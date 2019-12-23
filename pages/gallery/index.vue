@@ -71,6 +71,8 @@
 							// let _picId = context.route.params.id
 							let _picId = context.route.query.id
 							// console.log(context.route.query.id)
+							console.log(context.route)
+							console.log(_picId)
 							let _myPic = null
 
 							for (let i = 0; i < pictures.items.length && _myPic === null; i++) {
