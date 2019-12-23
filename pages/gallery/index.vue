@@ -281,7 +281,7 @@
 
 				// временный фикс на переделку id как параметра query, а не отдельной страницы
 				if (_href.indexOf('?id=') === -1) {
-					_href = _href.replace('/gallery/', '/gallery?id=')
+					_href = _href.replace('/gallery/', '/gallery/?id=')
 				}
 
 				window.location.href = _href
