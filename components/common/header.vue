@@ -30,17 +30,20 @@ export default {
       menuShow: false,
       menuWrapper: false,
       backDark: false,
-      backImgList: []
+      backImgList: ['', '', '', ''],
+      loadingBackground: false
     }
   },
   watch: {
     backgroundMenuUrls (newVal) {
       if (newVal) {
+        this.loadingBackground = true
         this.backImgList.splice(0, this.backImgList.length)
         for (let i = 0; i < newVal.length; i++) {
           this.backImgList.push(newVal[i].fields.file.url)
           this.backImgList.sort(function() { return 0.5 - Math.random() })
         }
+        this.loadingBackground = false
       }
     }
   },

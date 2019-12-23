@@ -15,7 +15,7 @@ import { mapGetters, mapState } from 'vuex'
 export default {
   data () {
     return {
-      backImgList: []
+      backImgList: ['']
     }
   },
   watch: {
