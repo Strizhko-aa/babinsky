@@ -67,7 +67,8 @@ export default {
         for (let i = this.loadCount; i < this.gallery.length && i < this.loadCount + 5; i++) { // 5 изображений
 
           let _picture = document.createElement('div') // внешний блок
-          let _pictureUrl = '/gallery/' + this.gallery[i].sys.id // чтобы значение стало строкой и при клике не зависило от this.gallery[i]
+          // let _pictureUrl = '/gallery/' + this.gallery[i].sys.id // чтобы значение стало строкой и при клике не зависило от this.gallery[i]
+          let _pictureUrl = '/gallery?id=' + this.gallery[i].sys.id // чтобы значение стало строкой и при клике не зависило от this.gallery[i]
           let _index = i
           _picture.onclick = function () {
             localStorage.setItem('currentPicture', _index)
