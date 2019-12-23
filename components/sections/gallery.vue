@@ -68,7 +68,7 @@ export default {
 
           let _picture = document.createElement('div') // внешний блок
           // let _pictureUrl = '/gallery/' + this.gallery[i].sys.id // чтобы значение стало строкой и при клике не зависило от this.gallery[i]
-          let _pictureUrl = '/gallery/?id=' + this.gallery[i].sys.id // чтобы значение стало строкой и при клике не зависило от this.gallery[i]
+          let _pictureUrl = '/gallery?id=' + this.gallery[i].sys.id // чтобы значение стало строкой и при клике не зависило от this.gallery[i]
           // let _picId = this.gallery[i].sys.id
           let _index = i
 
