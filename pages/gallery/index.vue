@@ -70,10 +70,11 @@
 						}).then((pictures) => {
 							// let _picId = context.route.params.id
 							let _picId = context.route.query.id
-							// console.log(_picId)
+							// console.log(context.route.query.id)
 							let _myPic = null
 
 							for (let i = 0; i < pictures.items.length && _myPic === null; i++) {
+								// console.log(pictures.items[i].sys.id + ' ' + _picId)
 								if (pictures.items[i].sys.id === _picId) {
 									for (let key in pictures.items[i]) {
 										_myPic = {}
@@ -118,7 +119,7 @@
 				})
 		},
 		head () {
-			// console.log('pic descrip', this.picDescr)
+			console.log('pic descrip', this.picDescr)
 			try {
 				return {
 					title: 'Babinskiy ' + this.picDescr.name,
@@ -280,7 +281,7 @@
 
 				// временный фикс на переделку id как параметра query, а не отдельной страницы
 				if (_href.indexOf('?id=') === -1) {
-					_href = _href.replace('/gallery/', '/gallery?id=')
+					_href = _href.replace('/gallery/', '/gallery/?id=')
 				}
 
 				window.location.href = _href
