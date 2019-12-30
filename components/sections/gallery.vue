@@ -1,18 +1,17 @@
 <template lang='pug'>
-client-side
-  .gallery.section
-    .container(ref='gallery')
-      .gallery__inner
-        .gallery__top
-          h2.gallery__title(v-html='galleryName')
-          .gallery__photographer <span>{{ PhotoBy.desctiption }}:</span> {{ PhotoBy.name }}
-        .grid-wrap
-          .grid-sizer
-          .gutter-sizer
-          //- nuxt-link.grid-elem(:to='`/gallery/${item.sys.id}`' v-for='(item, index) in items' :key='index' :data-index='index' :class='`box-${index}`')
-          //-   img.load-image-trigger(:src='item.fields.image_small.fields.file.url')
-          //- .skeleton-block.shine.grid-elem(v-for="index in 5" :key="'skeleton' + index" v-show="loading")
-        .scroll-trigger(v-observe-visibility="visibilityChanged")
+.gallery.section
+  .container(ref='gallery')
+    .gallery__inner
+      .gallery__top
+        h2.gallery__title(v-html='galleryName')
+        .gallery__photographer <span>{{ PhotoBy.desctiption }}:</span> {{ PhotoBy.name }}
+      .grid-wrap
+        .grid-sizer
+        .gutter-sizer
+        //- nuxt-link.grid-elem(:to='`/gallery/${item.sys.id}`' v-for='(item, index) in items' :key='index' :data-index='index' :class='`box-${index}`')
+        //-   img.load-image-trigger(:src='item.fields.image_small.fields.file.url')
+        //- .skeleton-block.shine.grid-elem(v-for="index in 5" :key="'skeleton' + index" v-show="loading")
+      .scroll-trigger(v-observe-visibility="visibilityChanged")
 
 </template>
 
