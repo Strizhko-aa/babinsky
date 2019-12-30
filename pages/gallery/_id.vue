@@ -316,7 +316,7 @@
 
 				const picture = this.$store.state.gallery.gallery_obj[this.$route.params.id]
 				// const picture = this.$store.state.gallery.gallery_obj[this.$route.query.id]
-				// console.log(picture)
+				console.log(picture)
 
 				if (!picture) {
 					const store = this.$store
