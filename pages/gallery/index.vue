@@ -62,10 +62,10 @@
 
         return Promise.all([
 						// get picture data for preview
-						contentful.getEntries({
+						await contentful.getEntries({
 							content_type: 'picture',
 							limit: '999',
-							// locale: _locale,
+							locale: 'en-US',
 							order: 'fields.rating'
 						}).then((pictures) => {
 							// let _picId = context.route.params.id

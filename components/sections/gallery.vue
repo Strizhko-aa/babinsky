@@ -71,6 +71,7 @@ export default {
           let _pictureUrl = '/gallery/?id=' + this.gallery[i].sys.id // чтобы значение стало строкой и при клике не зависило от this.gallery[i]
           // let _picId = this.gallery[i].sys.id
           let _index = i
+          console.log(_index)
 
           _picture.onclick = function () {
             localStorage.setItem('currentPicture', _index)
@@ -141,13 +142,13 @@ export default {
     },
 
     pushPicturesUrlsToLocalStore (pictures) {
-      if (pictures.items.length > 0 && localStorage.getItem('picturesUrls') === null) { // и хранилище не заполнено
-        let _picturesUrls = []
-        for (let i = 0; i < pictures.items.length; i++) {
-          _picturesUrls.push('/gallery/' + pictures.items[i].sys.id)
-        }
-        localStorage.setItem('picturesUrls', _picturesUrls)
+      // if (pictures.items.length > 0 && localStorage.getItem('picturesUrls') === null) { // и хранилище не заполнено
+      let _picturesUrls = []
+      for (let i = 0; i < pictures.items.length; i++) {
+        _picturesUrls.push('/gallery/' + pictures.items[i].sys.id)
       }
+      localStorage.setItem('picturesUrls', _picturesUrls)
+      // }
     }
   },
 
