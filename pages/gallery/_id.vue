@@ -345,7 +345,13 @@
 						})
 					]).then(() => {
 						this.loading = false
-						this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.params.id]
+						console.log('route param', this.$route.params.id)
+						let _id = this.$route.params.id
+						if (_id[_id.length - 1] === '/') {
+							_id = _id.substring(0, _id.length - 2)
+						}
+						console.log('_id', _id)
+						this.pictureLocal = this.$store.state.gallery.gallery_obj[_id]
 						// this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.query.id]
 					}).catch(err => {
 						console.log(err)
