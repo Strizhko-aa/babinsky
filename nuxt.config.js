@@ -129,7 +129,10 @@ export default {
 
   },
   generate: {
-    fallback: true
+    fallback: true,
+    routes: function () {
+      return ['/gallery/7Aga76NoAn0c5Ef6z9i6pJ']
+    }
   },
 
   /*
