@@ -68,8 +68,8 @@
 							locale: 'en-US',
 							order: 'fields.rating'
 						}).then((pictures) => {
-							// let _picId = context.route.params.id
-							let _picId = context.route.query.id
+							let _picId = context.route.params.id
+							// let _picId = context.route.query.id
 							// console.log(context.route.query.id)
 							console.log(context.route)
 							console.log(_picId)
@@ -197,8 +197,8 @@
 					order: 'fields.rating'
 				}).then((pictures) => {
 					this.$store.dispatch('gallery/putGallery', pictures)
-					// this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.params.id]
-					this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.query.id]
+					this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.params.id]
+					// this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.query.id]
 				})
 			}
 		},
@@ -292,9 +292,9 @@
 				let _href = this.picturesUrls[this.pictureIndex]
 
 				// временный фикс на переделку id как параметра query, а не отдельной страницы
-				if (_href.indexOf('?id=') === -1) {
-					_href = _href.replace('/gallery/', '/gallery/?id=')
-				}
+				// if (_href.indexOf('?id=') === -1) {
+				// 	_href = _href.replace('/gallery/', '/gallery/?id=')
+				// }
 
 				window.location.href = _href
 			},
@@ -314,8 +314,8 @@
 						console.log("error", err);
 					})
 
-				// const picture = this.$store.state.gallery.gallery_obj[this.$route.params.id]
-				const picture = this.$store.state.gallery.gallery_obj[this.$route.query.id]
+				const picture = this.$store.state.gallery.gallery_obj[this.$route.params.id]
+				// const picture = this.$store.state.gallery.gallery_obj[this.$route.query.id]
 				// console.log(picture)
 
 				if (!picture) {
@@ -345,8 +345,8 @@
 						})
 					]).then(() => {
 						this.loading = false
-						// this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.params.id]
-						this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.query.id]
+						this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.params.id]
+						// this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.query.id]
 					}).catch(err => {
 						console.log(err)
 						this.loading = false
