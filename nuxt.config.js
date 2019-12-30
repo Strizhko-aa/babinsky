@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const {getConfigForKeys} = require('./lib/config.js')
 const ctfConfig = getConfigForKeys([
   'CTF_SPACE_ID',
@@ -129,7 +131,25 @@ export default {
 
   },
   generate: {
-    fallback: true
+    fallback: true,
+    routes: function () {
+      // let axios = require('@nuxtjs/axios')
+      return axios.get('https://cdn.contentful.com/spaces/iqefgd30u0a2/environments/master/entries?content_type=picture&limit=999&locale=&order=fields.rating',
+      {headers: {
+        'Authorization': 'Bearer HgrYn_QMzmY3Uf8dp_BbV8b1qoXwYUuQDTeHvDqaCTk'
+      }})
+      .then(response => {
+        let _routes = []
+        // console.log(response)
+        for (let i in response.data.items) {
+          _routes.push('/gallery/' + response.data.items[i].sys.id)
+        }
+        // console.log(_routes)
+        return _routes
+      }).catch(err => {
+        console.log(err)
+      })
+    }
   },
 
   /*
