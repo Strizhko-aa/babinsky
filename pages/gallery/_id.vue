@@ -356,6 +356,7 @@ client-only
 						this.pictureLocal = this.$store.state.gallery.gallery_obj[_id]
 						// this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.query.id]
 						this.loading = false
+						console.log(this)
 					}).catch(err => {
 						console.log(err)
 						this.loading = false
