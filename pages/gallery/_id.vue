@@ -352,6 +352,7 @@ client-only
 						}
 						// console.log('_id', _id)
 						this.pictureLocal = this.$store.state.gallery.gallery_obj[_id]
+						console.log('this.$store.state.gallery.gallery_obj[_id]', this.$store.state.gallery.gallery_obj[_id])
 						console.log('this.$store.state.gallery.gallery_obj', this.$store.state.gallery.gallery_obj)
 						console.log('_id', _id)
 						console.log('this.pictureLocal', this.pictureLocal)
