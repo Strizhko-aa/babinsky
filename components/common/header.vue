@@ -1,5 +1,5 @@
 <template lang='pug'>
-no-ssr
+client-only
   .header(:class='{"header--dark": darkTheme}')
     .header__border
       a.header__logo(href="/#main" v-html='lastName')

@@ -1,46 +1,46 @@
 <template lang='pug'>
-
-.work
-  .container
-    .work__inner(v-if="!loading")
-      .top-space
-      .left-name
-        h1.work__title {{ pictureLocal.fields.name }}
-      .pic
-        .pic-content
-          .work__zoom
-            img.work__small(:src='pictureLocal.fields.image_medium.fields.file.url')
-            img.work__origin(:src='pictureLocal.fields.image_large.fields.file.url')
-      .right-top-space
-      .left-nav(@click="linkTo('prev')")
-        .reverse-arrow
-          .arrow-wrapper
-            a.animated-arrow
-              span.the-arrow.-left
-                span.shaft
-              span.main
-                span.text-reverse {{ localeComp === 'ru-RU' ? 'Предыдущая' : 'previous work'}}
-                span.the-arrow.-right
-                  span.shaft
-      .right-nav(@click="linkTo('next')")
-        .arrow-wrapper
-          a.animated-arrow
-            span.the-arrow.-left
-              span.shaft
-            span.main
-              span.text {{ localeComp === 'ru-RU' ? 'Следующая' : 'next work'}}
-              span.the-arrow.-right
-                span.shaft
-      .left-decr
-        .work__meta-item
-          .work__meta-title(v-if='pictureLocal.fields.size') {{ localeComp === 'ru-RU' ? 'размер' : 'size' }}:
-          .work__meta-value(v-html='pictureLocal.fields.size')
-          .work__meta-title(v-if='pictureLocal.fields.description')
-          .work__meta-value(v-html='pictureLocal.fields.description')
-          .work__meta-title(v-if='pictureLocal.fields.date') {{ localeComp === 'ru-RU' ? 'год' : 'year' }}:
-          .work__meta-value(v-html='pictureLocal.fields.date')
-      .right-bottom-space
-      .bottom-space
+client-only(placeholder=" ")
+	.work
+		.container
+			.work__inner(v-if="!loading")
+				.top-space
+				.left-name
+					h1.work__title {{ pictureLocal.fields.name }}
+				.pic
+					.pic-content
+						.work__zoom
+							img.work__small(:src='pictureLocal.fields.image_medium.fields.file.url')
+							img.work__origin(:src='pictureLocal.fields.image_large.fields.file.url')
+				.right-top-space
+				.left-nav(@click="linkTo('prev')")
+					.reverse-arrow
+						.arrow-wrapper
+							a.animated-arrow
+								span.the-arrow.-left
+									span.shaft
+								span.main
+									span.text-reverse {{ localeComp === 'ru-RU' ? 'Предыдущая' : 'previous work'}}
+									span.the-arrow.-right
+										span.shaft
+				.right-nav(@click="linkTo('next')")
+					.arrow-wrapper
+						a.animated-arrow
+							span.the-arrow.-left
+								span.shaft
+							span.main
+								span.text {{ localeComp === 'ru-RU' ? 'Следующая' : 'next work'}}
+								span.the-arrow.-right
+									span.shaft
+				.left-decr
+					.work__meta-item
+						.work__meta-title(v-if='pictureLocal.fields.size') {{ localeComp === 'ru-RU' ? 'размер' : 'size' }}:
+						.work__meta-value(v-html='pictureLocal.fields.size')
+						.work__meta-title(v-if='pictureLocal.fields.description')
+						.work__meta-value(v-html='pictureLocal.fields.description')
+						.work__meta-title(v-if='pictureLocal.fields.date') {{ localeComp === 'ru-RU' ? 'год' : 'year' }}:
+						.work__meta-value(v-html='pictureLocal.fields.date')
+				.right-bottom-space
+				.bottom-space
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 <template lang='pug'>
 .fullpage-container
-  no-ssr
+  client-only
     full-page(:options="options" ref="fullpage")
       section-intro.section(data-anchor="main")
       section-gallery.section(data-anchor="gallery")
