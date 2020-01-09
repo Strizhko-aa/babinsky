@@ -345,28 +345,15 @@ client-only
 							return this.$store.dispatch('navigation/putNavigation', nav.items[0])
 						})
 					]).then(() => {
-						// console.log('route param', this.$route.params.id)
-						let _id = this.$route.params.id.toLowerCase
-
-						// if (_id[_id.length - 1] === '/') {
-						// 	_id = _id.substring(0, _id.length - 2)
-						// }
+						let _id = this.$route.params.id.toLowerCase()
 
 						for (let picId in this.$store.state.gallery.gallery_obj) {
-							console.log(picId)
-							if (picId.toLowerCase === _id) {
+							// console.log(picId)
+							if (picId.toLowerCase() === _id) {
 								this.pictureLocal = this.$store.state.gallery.gallery_obj[picId]
 								break
 							}
 						}
-
-						// console.log(typeof _id)
-						// console.log('this.$store.state.gallery.gallery_obj._id', this.$store.state.gallery.gallery_obj[_id])
-						// console.log('this.$store.state.gallery.gallery_obj[0]', this.$store.state.gallery.gallery_obj['2QE2ZRymELCuoxJFrVS70P'])
-						// console.log('this.$store.state.gallery.gallery_obj', this.$store.state.gallery.gallery_obj)
-						// console.log('_id', _id)
-						// console.log('this.pictureLocal', this.pictureLocal)
-						// this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.query.id]
 
 						this.loading = false
 					}).catch(err => {
