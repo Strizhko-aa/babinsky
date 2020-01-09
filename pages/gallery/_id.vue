@@ -50,8 +50,6 @@ client-only
 	export default {
 		async asyncData(context) {
 				const contentful = context.app.contentful
-				
-				// console.log(context.route)
 
         await contentful.getLocales()
         .then(({items}) => {
@@ -347,16 +345,19 @@ client-only
 							return this.$store.dispatch('navigation/putNavigation', nav.items[0])
 						})
 					]).then(() => {
-						console.log('route param', this.$route.params.id)
+						// console.log('route param', this.$route.params.id)
 						let _id = this.$route.params.id
 						if (_id[_id.length - 1] === '/') {
 							_id = _id.substring(0, _id.length - 2)
 						}
 						// console.log('_id', _id)
 						this.pictureLocal = this.$store.state.gallery.gallery_obj[_id]
+						console.log('this.$store.state.gallery.gallery_obj', this.$store.state.gallery.gallery_obj)
+						console.log('_id', _id)
+						console.log('this.pictureLocal', this.pictureLocal)
 						// this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.query.id]
+
 						this.loading = false
-						console.log(this)
 					}).catch(err => {
 						console.log(err)
 						this.loading = false
@@ -379,7 +380,6 @@ client-only
 		},
 
 		async mounted () {
-			console.log('mounted')
 			await this.myNotasyncDATA()
 			this.workHover();
 			this.loading = false
