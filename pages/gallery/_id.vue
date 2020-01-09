@@ -1,5 +1,5 @@
 <template lang='pug'>
-client-only(placeholder=" ")
+client-only
 	.work
 		.container
 			.work__inner(v-if="!loading")
@@ -71,8 +71,8 @@ client-only(placeholder=" ")
 							let _picId = context.route.params.id
 							// let _picId = context.route.query.id
 							// console.log(context.route.query.id)
-							console.log(context.route)
-							console.log(_picId)
+							// console.log(context.route)
+							// console.log(_picId)
 							let _myPic = null
 
 							if (_picId !== undefined) {
@@ -164,7 +164,6 @@ client-only(placeholder=" ")
 						]
 					}
 				} catch (error) {
-					console.log('set default description')
 					console.log('head err', error)
 					return
 				}
@@ -188,6 +187,10 @@ client-only(placeholder=" ")
 		},
 		
 		watch: {
+			loading (newVal) {
+				console.log('loading new val ' + newVal)
+			},
+
 			localeComp (newVal) {
 				this.$root.context.app.contentful.getEntries({
 					content_type: 'picture',
@@ -344,15 +347,15 @@ client-only(placeholder=" ")
 							return this.$store.dispatch('navigation/putNavigation', nav.items[0])
 						})
 					]).then(() => {
-						this.loading = false
 						console.log('route param', this.$route.params.id)
 						let _id = this.$route.params.id
 						if (_id[_id.length - 1] === '/') {
 							_id = _id.substring(0, _id.length - 2)
 						}
-						console.log('_id', _id)
+						// console.log('_id', _id)
 						this.pictureLocal = this.$store.state.gallery.gallery_obj[_id]
 						// this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.query.id]
+						this.loading = false
 					}).catch(err => {
 						console.log(err)
 						this.loading = false
@@ -375,8 +378,10 @@ client-only(placeholder=" ")
 		},
 
 		async mounted () {
+			console.log('mounted')
 			await this.myNotasyncDATA()
 			this.workHover();
+			this.loading = false
     }
 	}
 </script>
