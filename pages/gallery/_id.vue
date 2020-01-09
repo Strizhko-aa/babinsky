@@ -139,7 +139,7 @@ client-only
 							// Open Graph / Facebook
 							{ property: 'og:type', content: 'website'},
 							{ hid: 'og:url', property: 'og:url', content: this.picDescr.url},
-							{ hid: 'og:title', property: 'og:title', content: 'Babinskiy' + this.picDescr.name},
+							{ hid: 'og:title', property: 'og:title', content: 'Babinskiy ' + this.picDescr.name},
 							{ hid: 'og:description', property: 'og:description', content: this.picDescr.year + ' ' + this.picDescr.description},
 							{ hid: 'og:image', property: 'og:image', content: this.picDescr.picLink},
 							{ property: 'og:image:width', content: '1500'},
@@ -147,7 +147,7 @@ client-only
 							// Twitter
 							{ hid: 'twitter:card', property: 'twitter:card', content: this.picDescr.picLink},
 							{ hid: 'twitter:url', property: 'twitter:url', content: this.picDescr.url},
-							{ hid: 'twitter:title', property: 'twitter:title', content: 'Babinskiy' + this.picDescr.name},
+							{ hid: 'twitter:title', property: 'twitter:title', content: 'Babinskiy ' + this.picDescr.name},
 							{ hid: 'twitter:description', property: 'twitter:description', content: this.picDescr.year + ' ' + this.picDescr.description},
 							{ hid: 'twitter:image', property: 'twitter:image', content: this.picDescr.picLink},
 						],
