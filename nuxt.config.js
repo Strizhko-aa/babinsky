@@ -23,6 +23,7 @@ export default {
     title: 'Alexander Babinskiy',
     meta: [
       { charset: 'utf-8' },
+      { hid: 'keywords', name: 'Keywords', content: 'Александр Бабинский,Alexander Babinskiy,art,творчество,искусство,abstract expressionism,абстрактный экспрессионизм,картины,художник,artist,gallery,галлерея,Матвей Сысоев,Matvey Sysoev'},
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'apple-mobile-web-app-title', name: 'apple-mobile-web-app-title', content: 'Babinskiy' },
       { hid: 'application-name', name: 'application-name', content: 'Babinskiy' },

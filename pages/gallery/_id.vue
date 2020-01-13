@@ -89,13 +89,18 @@ client-only
 									console.log('set default descr')
 									return
 								} else {
-									// console.log(_myPic.fields.image_small.fields.file.url)
+									// делаем ключевые слова из описания картины
+									let _keyWords = _myPic.fields.description.split('&')
+									_keyWords.push(_myPic.fields.name)
+									_keyWords = String(_keyWords)
+
 									const picDescr = {
 										name: _myPic.fields.name,
 										year: _myPic.fields.date,
 										description: _myPic.fields.description,
 										picLink: 'https:' + _myPic.fields.image_small.fields.file.url,
-										url: 'https://babinskiy.com/gallery/' + _picId
+										url: 'https://babinskiy.com/gallery/' + _picId,
+										keyWords: _keyWords
 									}
 									return picDescr
 								}
@@ -130,6 +135,7 @@ client-only
 						title: 'Babinskiy ' + this.picDescr.name,
 						meta: [
 							{ charset: 'utf-8' },
+							{ hid: 'keywords', name: 'Keywords', content: 'Александр Бабинский,Alexander Babinskiy,art,творчество,искусство,abstract expressionism,абстрактный экспрессионизм,картины,художник,artist,gallery,галлерея,Матвей Сысоев,Matvey Sysoev,' + this.picDescr.keyWords},
 							{ name: 'viewport', content: 'width=device-width, initial-scale=1' },
 							{ hid: 'apple-mobile-web-app-title', name: 'apple-mobile-web-app-title', content: 'Babinskiy ' + this.picDescr.name },
 							{ hid: 'application-name', name: 'application-name', content: 'Babinskiy ' + this.picDescr.name },
