@@ -257,6 +257,8 @@ client-only
 			pushPicturesUrlsToLocalStore (pictures) {
 				if (pictures.items.length > 0) {
 					let _picturesUrls = []
+
+					// let _sitemap
 					for (let i = 0; i < pictures.items.length; i++) {
 						_picturesUrls.push('/gallery/' + pictures.items[i].sys.id)
 					}

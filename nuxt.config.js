@@ -98,7 +98,12 @@ export default {
     // 'fullpage-nuxt',
     // 'nuxt-fullpage.js',
     '@nuxtjs/netlify-files',
+    '@nuxtjs/sitemap',
   ],
+
+  sitemap: {
+    hostname: 'https://babinskiy.com',
+  },
 
   styleResources: {
     scss: [
