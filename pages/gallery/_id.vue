@@ -204,8 +204,19 @@ client-only
 					order: 'fields.rating'
 				}).then((pictures) => {
 					this.$store.dispatch('gallery/putGallery', pictures)
-					this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.params.id]
+					// this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.params.id]
 					// this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.query.id]
+					let _id = this.$route.params.id.toLowerCase()
+
+						for (let picId in this.$store.state.gallery.gallery_obj) {
+							// console.log(picId)
+							if (picId.toLowerCase() === _id) {
+								this.pictureLocal = this.$store.state.gallery.gallery_obj[picId]
+								break
+							}
+						}
+				}, err => {
+					console.log('change locale error', err)
 				})
 			}
 		},
