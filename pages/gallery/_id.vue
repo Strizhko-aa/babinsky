@@ -208,13 +208,13 @@ client-only
 					// this.pictureLocal = this.$store.state.gallery.gallery_obj[this.$route.query.id]
 					let _id = this.$route.params.id.toLowerCase()
 
-						for (let picId in this.$store.state.gallery.gallery_obj) {
-							// console.log(picId)
-							if (picId.toLowerCase() === _id) {
-								this.pictureLocal = this.$store.state.gallery.gallery_obj[picId]
-								break
-							}
+					for (let picId in this.$store.state.gallery.gallery_obj) {
+						// console.log(picId)
+						if (picId.toLowerCase() === _id) {
+							this.pictureLocal = this.$store.state.gallery.gallery_obj[picId]
+							break
 						}
+					}
 				}, err => {
 					console.log('change locale error', err)
 				})
@@ -284,7 +284,7 @@ client-only
 				} else {
 					// let picId = context.store.state.gallery.gallery_obj[context.route.params.id]
 					let _picId = window.location.pathname
-					let _picIndex = picUrlsFromRequest.indexOf(_picId)
+					let _picIndex = picUrlsFromRequest.indexOf(_picId) // фиксануть ловеркейс
 					localStorage.setItem('currentPicture', _picIndex)
 					return _picIndex
 				}
