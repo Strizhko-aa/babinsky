@@ -279,6 +279,9 @@ client-only
 
 			getPictureIndex (picUrlsFromRequest) {
 				let _picId = window.location.pathname.toLowerCase()
+				if (_picId[_picId.length - 1] === '/') {
+					_picId = _picId.slice(0, -1)
+				}
 				console.log('_picId', _picId)
 				let _picIndex = picUrlsFromRequest.indexOf(_picId)
 				localStorage.setItem('currentPicture', _picIndex)
