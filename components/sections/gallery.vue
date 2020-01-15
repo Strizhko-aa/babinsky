@@ -145,7 +145,7 @@ export default {
       // if (pictures.items.length > 0 && localStorage.getItem('picturesUrls') === null) { // и хранилище не заполнено
       let _picturesUrls = []
       for (let i = 0; i < pictures.items.length; i++) {
-        _picturesUrls.push('/gallery/' + pictures.items[i].sys.id)
+        _picturesUrls.push('/gallery/' + pictures.items[i].sys.id.toLowerCase())
       }
       localStorage.setItem('picturesUrls', _picturesUrls)
       // }

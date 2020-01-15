@@ -66,7 +66,7 @@ client-only
 							locale: 'en-US',
 							order: 'fields.rating'
 						}).then((pictures) => {
-							let _picId = context.route.params.id
+							let _picId = context.route.params.id.toLowerCase()
 							// let _picId = context.route.query.id
 							// console.log(context.route.query.id)
 							// console.log(context.route)
@@ -76,7 +76,7 @@ client-only
 							if (_picId !== undefined) {
 								for (let i = 0; i < pictures.items.length && _myPic === null; i++) {
 									// console.log(pictures.items[i].sys.id + ' ' + _picId)
-									if (pictures.items[i].sys.id === _picId) {
+									if (pictures.items[i].sys.id.toLowerCase() === _picId) {
 										for (let key in pictures.items[i]) {
 											_myPic = {}
 											_myPic[key] = pictures.items[i][key]
@@ -271,7 +271,7 @@ client-only
 
 					// let _sitemap
 					for (let i = 0; i < pictures.items.length; i++) {
-						_picturesUrls.push('/gallery/' + pictures.items[i].sys.id)
+						_picturesUrls.push('/gallery/' + pictures.items[i].sys.id.toLowerCase())
 					}
 					localStorage.setItem('picturesUrls', _picturesUrls)
 				}
@@ -279,15 +279,15 @@ client-only
 
 			getPictureIndex (picUrlsFromRequest) {
 				let _index = localStorage.getItem('currentPicture')
-				if (_index !== null) {
-					return Number(_index)
-				} else {
+				// if (_index !== null) {
+				// 	return Number(_index)
+				// } else {
 					// let picId = context.store.state.gallery.gallery_obj[context.route.params.id]
-					let _picId = window.location.pathname
+					let _picId = window.location.pathname.toLowerCase()
 					let _picIndex = picUrlsFromRequest.indexOf(_picId) // фиксануть ловеркейс
 					localStorage.setItem('currentPicture', _picIndex)
 					return _picIndex
-				}
+				// }
 			},
 
 			linkTo (page) {
