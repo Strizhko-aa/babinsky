@@ -278,16 +278,12 @@ client-only
 			},
 
 			getPictureIndex (picUrlsFromRequest) {
-				let _index = localStorage.getItem('currentPicture')
-				// if (_index !== null) {
-				// 	return Number(_index)
-				// } else {
-					// let picId = context.store.state.gallery.gallery_obj[context.route.params.id]
-					let _picId = window.location.pathname.toLowerCase()
-					let _picIndex = picUrlsFromRequest.indexOf(_picId) // фиксануть ловеркейс
-					localStorage.setItem('currentPicture', _picIndex)
-					return _picIndex
-				// }
+				let _picId = window.location.pathname.toLowerCase()
+				console.log('_picId', _picId)
+				let _picIndex = picUrlsFromRequest.indexOf(_picId)
+				localStorage.setItem('currentPicture', _picIndex)
+				console.log('_picIndex', _picIndex)
+				return _picIndex
 			},
 
 			linkTo (page) {
