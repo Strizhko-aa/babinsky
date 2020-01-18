@@ -1,48 +1,55 @@
 {
-  "private": true,
-  "name": "babinskiy",
-  "version": "1.0.0",
-  "description": "Alexander Babinskiy. Official site",
-  "author": "it-thematic",
-  "scripts": {
-    "dev": "nuxt",
-    "build": "nuxt build",
-    "start": "nuxt start",
-    "generate": "nuxt generate"
-  },
-  "dependencies": {
-    "@nuxtjs/axios": "^5.8.0",
-    "@nuxtjs/netlify-files": "^1.0.0",
-    "@nuxtjs/style-resources": "^1.0.0",
-    "axios": "^0.19.0",
-    "contentful": "^7.10.0",
-    "core-js": "^2.6.11",
-    "event-source-polyfill": "^1.0.11",
-    "eventsource-polyfill": "^0.9.6",
-    "fullpage-nuxt": "^0.0.3",
-    "imagesloaded": "^4.1.4",
-    "infinite-scroll": "^3.0.6",
-    "jquery": "^3.4.1",
-    "masonry-layout": "^4.2.2",
-    "nuxt": "^2.10.2",
-    "nuxt-fullpage.js": "^0.0.3",
-    "nuxt-i18n": "^6.4.1",
-    "postcss-cssnext": "^3.1.0",
-    "postcss-node-sass": "^2.1.8",
-    "random-obj-prop": "^2.0.0",
-    "unique-random-array": "^2.0.0",
-    "vue-infinite-loading": "^2.4.4",
-    "vue-markdown": "^2.2.4",
-    "vue-observe-visibility": "^0.4.6",
-    "whatwg-fetch": "^3.0.0"
-  },
-  "browserslist": [
-    "> 5%"
-  ],
-  "devDependencies": {
-    "node-sass": "^4.13.0",
-    "pug": "2.0.3",
-    "pug-plain-loader": "^1.0.0",
-    "sass-loader": "^8.0.0"
-  }
+    "private": true,
+    "name": "babinskiy",
+    "version": "1.0.0",
+    "description": "Alexander Babinskiy. Official site",
+    "author": "it-thematic",
+    "scripts": {
+        "dev": "nuxt",
+        "build": "nuxt build",
+        "start": "nuxt start",
+        "generate": "nuxt generate"
+    },
+    "dependencies": {
+        "@nuxtjs/axios": "^5.8.0",
+        "@nuxtjs/babel-preset-app": "^0.8.0",
+        "@nuxtjs/netlify-files": "^1.0.0",
+        "@nuxtjs/style-resources": "^1.0.0",
+        "axios": "^0.19.0",
+        "contentful": "^7.10.0",
+        "core-js": "^2.6.11",
+        "event-source-polyfill": "^1.0.11",
+        "eventsource-polyfill": "^0.9.6",
+        "fullpage-nuxt": "^0.0.3",
+        "imagesloaded": "^4.1.4",
+        "infinite-scroll": "^3.0.6",
+        "intersection-observer": "^0.7.0",
+        "jquery": "^3.4.1",
+        "masonry-layout": "^4.2.2",
+        "nuxt": "^2.10.2",
+        "nuxt-fullpage.js": "^0.0.3",
+        "nuxt-i18n": "^6.4.1",
+        "nuxt-polyfill": "^1.0.3",
+        "postcss-cssnext": "^3.1.0",
+        "postcss-hexrgba": "^2.0.0",
+        "postcss-mixins-css-grid": "^5.0.4",
+        "postcss-nested": "^4.2.1",
+        "postcss-node-sass": "^2.1.8",
+        "postcss-responsive-type": "^1.0.0",
+        "random-obj-prop": "^2.0.0",
+        "vue-infinite-loading": "^2.4.4",
+        "vue-markdown": "^2.2.4",
+        "vue-observe-visibility": "^0.4.6",
+        "whatwg-fetch": "^3.0.0"
+    },
+    "browserslist": [
+        "> 5%",
+        "IE 11"
+    ],
+    "devDependencies": {
+        "node-sass": "^4.13.0",
+        "pug": "2.0.3",
+        "pug-plain-loader": "^1.0.0",
+        "sass-loader": "^8.0.0"
+    }
 }

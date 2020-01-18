@@ -4,7 +4,7 @@
     .gallery__inner
       .gallery__top
         h2.gallery__title(v-html='galleryName')
-        .gallery__photographer <span>{{ PhotoBy.desctiption }}:</span> {{ PhotoBy.name }}
+        .gallery__photographer <span>{{ PhotoBy.description }}:</span> {{ PhotoBy.name }}
       .grid-wrap
         .grid-sizer
         .gutter-sizer
@@ -18,10 +18,10 @@
 <script>
 import { mapState, mapGetters } from 'vuex';
 
-import Vue from 'vue'
-import { ObserveVisibility } from 'vue-observe-visibility'
+import Vue from 'vue';
+import { ObserveVisibility } from 'vue-observe-visibility';
 
-Vue.directive('observe-visibility', ObserveVisibility)
+Vue.directive('observe-visibility', ObserveVisibility);
 
 if (process.browser) {
   var Masonry = require('masonry-layout');
@@ -45,9 +45,9 @@ export default {
     ...mapState('gallery', ['gallery']),
     PhotoBy () {
       if (this.regExpRus.test(this.galleryName[0]) || this.regExpRus.test(this.galleryName[1])) {
-        return {desctiption: 'Фотограф', name: 'Матвей Сысоев'}
+        return {description: 'Фотограф', name: 'Матвей Сысоев'}
       } else {
-        return {desctiption: 'Photo By', name: 'Matvey Sysoev'}
+        return {description: 'Photo By', name: 'Matvey Sysoev'}
       }
     }
   },
@@ -71,7 +71,6 @@ export default {
           // let _pictureUrl = '/gallery/?id=' + this.gallery[i].sys.id // чтобы значение стало строкой и при клике не зависило от this.gallery[i]
           // let _picId = this.gallery[i].sys.id
           let _index = i
-          // console.log(_index)
 
           _picture.onclick = function () {
             localStorage.setItem('currentPicture', _index)
@@ -121,7 +120,6 @@ export default {
     },
 
     onProgress (e, image) {
-      // console.log(image.isLoaded)
       if (image.isLoaded) { // если изображение загрузилось(обычно onProgress вызывается, когда оно загрузилось, а не в его процессе)
         image.img.classList.remove('load-image-trigger') // убраем класс для отслеживания загрузки и стопроцентную прозрачность элемента
         image.img.parentElement.classList.remove('shine') // убираем скелетон
@@ -270,12 +268,11 @@ export default {
   // background-size: 800px 104px; 
   display: inline-block;
   position: relative; 
-  
-  -webkit-animation-duration: 1s;
-  -webkit-animation-fill-mode: forwards; 
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-name: placeholderShimmer;
-  -webkit-animation-timing-function: linear;
+  animation-duration: 1s;
+  animation-fill-mode: forwards; 
+  animation-iteration-count: infinite;
+  animation-name: placeholderShimmer;
+  animation-timing-function: linear;
 }
 @keyframes placeholderShimmer {
   0% {
@@ -285,5 +282,8 @@ export default {
   100% {
     background-position: 468px 0; 
   }
+}
+.container {
+  display: block;
 }
 </style>

@@ -67,10 +67,6 @@ client-only
 							order: 'fields.rating'
 						}).then((pictures) => {
 							let _picId = context.route.params.id
-							// let _picId = context.route.query.id
-							// console.log(context.route.query.id)
-							// console.log(context.route)
-							// console.log(_picId)
 							let _myPic = null
 
 							if (_picId !== undefined) {
@@ -348,7 +344,6 @@ client-only
 						let _id = this.$route.params.id.toLowerCase()
 
 						for (let picId in this.$store.state.gallery.gallery_obj) {
-							// console.log(picId)
 							if (picId.toLowerCase() === _id) {
 								this.pictureLocal = this.$store.state.gallery.gallery_obj[picId]
 								break
@@ -386,7 +381,6 @@ client-only
 </script>
 
 <style lang="scss" scoped>
-
 // arrow 
 // Variables
 
@@ -400,7 +394,6 @@ $newshaft-width: 64px;
 $shaft-thickness: 1px;
 $arrow-head-width: 8px;
 $arrow-head-thickness: $shaft-thickness;
-
 
 
 // Base
@@ -618,6 +611,10 @@ body {
 	// max-height: 100vh;
 	padding: vw(190) 0 vw(160);
 
+	&__title {
+		margin-left: 100px;
+	}
+
 	&__inner {
 		display: grid;
 		grid-template: "topSpace topSpace topSpace"
@@ -625,7 +622,6 @@ body {
 									 "leftNav picture rightNav"
 									 "leftDesc picture rightBotSpace"
 									 "bottomSpace bottomSpace bottomSpace" auto / 1fr 5fr 1fr;
-		// grid-template-columns: 1fr 5fr 1fr;
 		grid-row-gap: 0;
 	}
 	&__meta {
@@ -651,7 +647,6 @@ body {
 		position: relative;
 		display: inline-block;
 		overflow: hidden;
-		// max-width: 90%;
 
 		&:hover {
 			.work__origin {
@@ -677,9 +672,6 @@ body {
 			display: none;
 		}
 	}
-	// .container {
-	// 	height: 100%;
-	// }
 }
 .top-space {
 	grid-area: topSpace;
@@ -705,12 +697,14 @@ body {
 	grid-area: rightTopSpace;
 }
 .left-nav {
+    margin-left: 100px; 
 	grid-area: leftNav;
 	display: flex;
 	align-items: center;
 	cursor: pointer;
 }
 .right-nav {
+	margin-right: 100px; 
 	grid-area: rightNav;
 	display: flex;
 	justify-content: flex-end;
@@ -718,6 +712,7 @@ body {
 	cursor: pointer;
 }
 .left-decr {
+	margin-left: 100px;
 	grid-area: leftDesc;
 	display: flex;
 	align-items: flex-end;
@@ -747,10 +742,12 @@ body {
 	}
 	.container {
 		display: block;
-		// width: 90vw;
 	}
 	.container:first-child {
-		grid-area: 1 / 1 / 3 / 2;
+		grid-row-start: 1;
+		grid-column-start: 1;
+		grid-row-end: 3;
+		grid-column-end: 2;
 	}
 	.work__inner {
 		display: -ms-grid;
@@ -810,5 +807,8 @@ body {
 	to {
 		opacity: 1;
 	}
+}
+.container {
+	display: block;
 }
 </style>

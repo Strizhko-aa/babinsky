@@ -40,16 +40,16 @@ export default {
 		position: fixed;
 		left: vw(122);
 		bottom: vw(58);
-    z-index: 99999;
-    color: #C4C4C4;
+        z-index: 99999;
+        color: #C4C4C4;
 
 		@include mobile {
 			left: vmin(20);
 			bottom: vmin(30);
-    }
+		}
 
-    animation: text-in 2s both $bezier;
-    animation-delay: 400ms;
+        animation: text-in 2s both $bezier;
+        animation-delay: 400ms;
 	}
 
 	&__right {
@@ -57,14 +57,14 @@ export default {
 		right: vw(122);
 		bottom: vw(58);
 		z-index: 99999;
-    color: #0D0D0D;
+        color: #0D0D0D;
 
 		@include mobile {
 			display: none;
-    }
+		}
 
-    animation: text-in 2s both $bezier;
-    animation-delay: 400ms;
+         animation: text-in 2s both $bezier;
+         animation-delay: 400ms;
 	}
 
 	&__menu {

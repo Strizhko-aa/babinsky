@@ -9,6 +9,7 @@
 </template>
 
 <script>
+
 import intro from '~/components/sections/intro.vue'
 import gallery from '~/components/sections/gallery.vue'
 import about from '~/components/sections/about.vue'

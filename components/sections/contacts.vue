@@ -36,6 +36,7 @@ import { mapState } from 'vuex';
 		grid-row-gap: 33px;
 
 		@include mobile {
+			display: grid;
 			grid-template-columns: auto;
 			grid-column-gap: 0;
 			grid-row-gap: vmin(20);
@@ -117,6 +118,7 @@ import { mapState } from 'vuex';
 	}
 	.container {
 		min-height: 100vh;
+		display: block;
 	}
 }
 </style>

@@ -67,8 +67,6 @@ export default {
                   content_type: 'navigation',
                   locale: this.$store.state.locale.locale,
               }).then((nav) => {
-                  // console.log(nav.items[0].fields.images)
-
                   this.$store.dispatch('intro/putBackground', nav.items[0].fields.backgrounds)
                   this.$store.dispatch('intro/putMenuBackground', nav.items[0].fields.images)
                   // return this.$store.dispatch('navigation/putNavigation', nav.items[0])
