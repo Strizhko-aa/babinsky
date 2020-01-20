@@ -44,8 +44,8 @@ client-only
 </template>
 
 <script>
-  import $ from 'jquery';
-	import { mapState } from 'vuex';
+  import $ from 'jquery'
+	import { mapState } from 'vuex'
 
 	export default {
 		async asyncData(context) {

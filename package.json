@@ -43,8 +43,7 @@
         "whatwg-fetch": "^3.0.0"
     },
     "browserslist": [
-        "> 5%",
-        "IE 11"
+        "> 0.5%"
     ],
     "devDependencies": {
         "node-sass": "^4.13.0",

@@ -5,13 +5,13 @@
 			.contacts__top
 				h2.contacts__title(v-html='title')
 				p.contacts__lead(v-html='lead')
-			.contacts__items
-				.contacts__item(v-for='(item, index) in contacts' :key='index')
-					.contacts__item-title(v-html="localeComp === 'ru-RU' ? item.titleRus : item.titleEn")
-					.contacts__item-value
-						a.contacts__link(:data-type='item.type' :href='`tel:${item.value}`' v-if='item.type === "phone"') {{item.value}}
-						a.contacts__link(:data-type='item.type' :href='`mailto:${item.value}`' v-if='item.type === "email"') {{item.value}}
-						a.contacts__link(:data-type='item.type' :href='`https://www.instagram.com/${item.value}/`' v-if='item.type === "instagram"') {{'@' + item.value}}
+				.contacts__items
+					.contacts__item(v-for='(item, index) in contacts' :key='index')
+						.contacts__item-title(v-html="localeComp === 'ru-RU' ? item.titleRus : item.titleEn")
+						.contacts__item-value
+							a.contacts__link(:data-type='item.type' :href='`tel:${item.value}`' v-if='item.type === "phone"') {{item.value}}
+							a.contacts__link(:data-type='item.type' :href='`mailto:${item.value}`' v-if='item.type === "email"') {{item.value}}
+							a.contacts__link(:data-type='item.type' :href='`https://www.instagram.com/${item.value}/`' v-if='item.type === "instagram"') {{'@' + item.value}}
 </template>
 
 <script>
@@ -34,6 +34,10 @@ import { mapState } from 'vuex';
 		grid-template-rows: repeat(2, auto);
 		grid-column-gap: vw(40);
 		grid-row-gap: 33px;
+
+		@include target-ie {
+			display: inline;
+		}
 
 		@include mobile {
 			display: grid;
@@ -118,7 +122,11 @@ import { mapState } from 'vuex';
 	}
 	.container {
 		min-height: 100vh;
-		display: block;
+		display: grid;
+
+		@include target-ie {
+			display: inline;
+		}
 	}
 }
 </style>

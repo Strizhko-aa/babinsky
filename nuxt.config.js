@@ -103,8 +103,8 @@ export default {
         // Doc: https://axios.nuxtjs.org/usage
         '@nuxtjs/axios',
         '@nuxtjs/style-resources',
-        // 'fullpage-nuxt',
-        // 'nuxt-fullpage.js',
+        'fullpage-nuxt',
+        'nuxt-fullpage.js',
         '@nuxtjs/netlify-files'
     ],
 
