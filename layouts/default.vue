@@ -19,11 +19,7 @@
 </script>
 
 <style lang='scss'>
-body {
-	// overflow: hidden;
-}
 html {
-	// overflow: hidden;
   font-family: $montserrat;
   font-size: 16px;
   word-spacing: 1px;
@@ -53,7 +49,12 @@ html {
 	}
 
 	> div:first-child {
-		grid-area: 1 / 2 / 2 / 3;
+		grid-template-rows: 1fr;
+		grid-row-start: 1;
+		grid-column-start: 2;
+		grid-row-end: 2;
+		grid-column-end: 3;
+		margin: auto 10vmin auto;
 	}
 }
 

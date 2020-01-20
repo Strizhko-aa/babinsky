@@ -1,7 +1,7 @@
 <template lang='pug'>
 .intro.section
   .intro__inner
-    .intro__top.container
+    .intro__top.container(v-bind:style="{'display': 'flex'}")
       .intro__top-inner
         .intro__bg(v-bind:style="{'background-image': 'url(' + backImgList[0] + ')'}")
         h1.intro__title {{ fullName }}
@@ -55,12 +55,18 @@ export default {
     position: relative;
     background-color: #0D0D0D;
     &-inner {
-      // position: relative;
+      margin: 15%;
+      margin-top: 30%;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       z-index: 1;
     }
+
+    // @include mobile {
+    //   margin-left: 40%;
+    //   margin-top: 17%;
+    // }
   }
   &__bottom {
     background: #0D0D0D;
@@ -75,8 +81,6 @@ export default {
     width: 100%;
     height: 100%;
     opacity: 0.35;
-
-
     animation: image-in 4s both;
     animation-delay: 400ms;
   }
@@ -87,7 +91,8 @@ export default {
     font-size: vw(100);
     line-height: vw(110);
     color: #E3572E;
-    margin: 0 0 vw(45);
+    margin: 0 vw(30) vw(55);
+    margin-top: 45%;
 
     @include mobile {
       font-size: vmin(40);
@@ -104,7 +109,7 @@ export default {
     font-size: vw(24);
     line-height: vw(29);
     color: #C9C9C9;
-    margin: 0 0 vw(70);
+    margin: 0 vw(30) vw(70);
 
     @include mobile {
       font-size: vmin(16);

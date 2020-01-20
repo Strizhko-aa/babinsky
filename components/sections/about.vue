@@ -66,7 +66,8 @@ import { mapState } from 'vuex';
 		}
 	}
 	.container {
-		min-height: 100vh;
+        min-height: 100vh;
+        display: block;
 	}
 }
 </style>
