@@ -46,10 +46,6 @@ export default {
     grid-template-rows: 1fr vh(270);
     grid-column-gap: 0px;
     grid-row-gap: 0px;
-
-    @include mobile {
-      // grid-template-rows: 1fr vmin(168);
-    }
   }
   &__top {
     position: relative;
@@ -62,11 +58,6 @@ export default {
       justify-content: flex-end;
       z-index: 1;
     }
-
-    // @include mobile {
-    //   margin-left: 40%;
-    //   margin-top: 17%;
-    // }
   }
   &__bottom {
     background: #0D0D0D;
@@ -97,7 +88,7 @@ export default {
     @include mobile {
       font-size: vmin(40);
       line-height: vmin(48);
-      margin: 0 0 vmin(15);
+      margin: vmin(70) 0 vmin(15);
     }
 
     animation: text-in 2s both $bezier;

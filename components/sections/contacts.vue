@@ -34,6 +34,7 @@ import { mapState } from 'vuex';
 		grid-template-rows: repeat(2, auto);
 		grid-column-gap: vw(40);
 		grid-row-gap: 33px;
+		margin: 0;
 
 		@include target-ie {
 			display: inline;

@@ -94,7 +94,7 @@ export default {
         }
 
         let self = this
-        setTimeout(function() { self.menuWrapper = false }, 400)
+        setTimeout(function() { self.menuWrapper = false }, 200)
       }
     },
     changeLang(locale) {
@@ -132,12 +132,9 @@ export default {
     grid-template-rows: auto;
     grid-column-gap: vw(50);
     grid-row-gap: 0px;
-
     padding-bottom: 20px;
-
     border-bottom: 1px solid rgba(255, 255, 255, 0.4);
     transition: border-color 500ms ease;
-
     width: 100%;
 
     @include mobile {
@@ -176,7 +173,6 @@ export default {
   &__lang {
     position: relative;
     top: calc(((-1em / 1.5) + 0.7ex) / 2);
-
     display: block;
     font-family: $oswald;
     font-style: normal;
@@ -204,7 +200,6 @@ export default {
     cursor: pointer;
     &-button {
       position: relative;
-
       margin: 0 vw(15) 0 0;
       font-family: $oswald;
       font-style: normal;
@@ -324,17 +319,17 @@ export default {
 
     &-top {
       background: #E3572E;
-
       height: 0;
+      opacity: 0;
       transition: height 0.4s $bezier;
 
       &--active {
         height: 100%;
+        opacity: 1;
       }
     }
     &-bottom {
       background: #0D0D0D;
-
       align-self: flex-end;
       height: 0;
       transition: height 0.4s $bezier;
@@ -375,13 +370,19 @@ export default {
       background-position: center;
       background-color: #E3572E;
 
+      @include target-ie {
+        background-color: transparent !important;
+      }
+
       &:hover {
         letter-spacing: vw(50.8);
         transform: translateX(vw(25.4));
         text-decoration: none;
         background-size: 0px 0px;
-        // background-image: none;
-        background-color: #E3572E;
+
+        @include target-ie {
+          background-color: transparent !important;
+        }
       }
 
       &::before{

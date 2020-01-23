@@ -71,7 +71,6 @@ client-only
 
 							if (_picId !== undefined) {
 								for (let i = 0; i < pictures.items.length && _myPic === null; i++) {
-									// console.log(pictures.items[i].sys.id + ' ' + _picId)
 									if (pictures.items[i].sys.id === _picId) {
 										for (let key in pictures.items[i]) {
 											_myPic = {}
@@ -110,7 +109,6 @@ client-only
 							console.log(err)
 						})
         ]).then((results) => {
-						// console.log(results)
 						let picDescr = results[0]
             return { picDescr }
         }).catch(err => {
@@ -208,7 +206,6 @@ client-only
 
 					var top = 	( ( $(this).offset().top - event.pageY ) * ( zoomHeight / $(this).outerHeight() ) ) - $(this).outerHeight();
 					var left =  ( ( $(this).offset().left - event.pageX ) * ( zoomWidth / $(this).outerWidth() ) ) - $(this).outerWidth();
-					// console.log(left);
 
 					var translate = left+"px,"+top+"px";
 
@@ -312,8 +309,6 @@ client-only
 					})
 
 				const picture = this.$store.state.gallery.gallery_obj[this.$route.params.id]
-				// const picture = this.$store.state.gallery.gallery_obj[this.$route.query.id]
-				// console.log(picture)
 
 				if (!picture) {
 					const store = this.$store
@@ -611,10 +606,6 @@ body {
 	// max-height: 100vh;
 	padding: vw(190) 0 vw(160);
 
-	&__title {
-		margin-left: 100px;
-	}
-
 	&__inner {
 		display: grid;
 		grid-template: "topSpace topSpace topSpace"
@@ -697,14 +688,12 @@ body {
 	grid-area: rightTopSpace;
 }
 .left-nav {
-    margin-left: 100px; 
 	grid-area: leftNav;
 	display: flex;
 	align-items: center;
 	cursor: pointer;
 }
 .right-nav {
-	margin-right: 100px; 
 	grid-area: rightNav;
 	display: flex;
 	justify-content: flex-end;
@@ -712,7 +701,6 @@ body {
 	cursor: pointer;
 }
 .left-decr {
-	margin-left: 100px;
 	grid-area: leftDesc;
 	display: flex;
 	align-items: flex-end;
@@ -722,12 +710,6 @@ body {
 }
 .bottom-space {
 	grid-area: bottomSpace;
-}
-.left-nav {
-	// padding-left: 20px;
-}
-.right-nav {
-	padding-right: 20px;
 }
 .left-nav img {
 	transform: rotate(180deg);
@@ -750,7 +732,7 @@ body {
 		grid-column-end: 2;
 	}
 	.work__inner {
-		display: -ms-grid;
+		display: grid;
 		width: 100%;
 		height: 100%;
 		-ms-grid-rows: auto auto;
@@ -763,10 +745,6 @@ body {
 									 "bottomSpace bottomSpace bottomSpace" auto / 1fr 5fr 1fr;
 		-ms-grid-columns: 1fr 5fr 1fr;
 		max-width: 100vw;
-	}
-
-	.left-name, .left-decr {
-		padding-left: 20px;
 	}
 	.top-space {
 		height: vmin(64);
@@ -788,10 +766,7 @@ body {
 	}
 	.left-nav, .right-nav {
 		padding-top: 20px;
-		padding-bottom: 20px;
-	}
-	.left-nav {
-		padding-left: 20px;
+		padding-bottom: 10vmin;
 	}
 	.nav-text {
 		color: #C4C4C4;
@@ -809,6 +784,6 @@ body {
 	}
 }
 .container {
-	display: block;
+	display: flex;
 }
 </style>
