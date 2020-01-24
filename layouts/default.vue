@@ -35,6 +35,7 @@ html {
 *:after {
   box-sizing: border-box;
   margin: 0;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
 .container {
