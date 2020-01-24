@@ -39,7 +39,7 @@ export default {
 	&__left {
 		position: fixed;
 		left: vw(122);
-		bottom: vw(58);
+		bottom: vw(60);
         z-index: 99999;
         color: #C4C4C4;
 
